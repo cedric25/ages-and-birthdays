@@ -1,21 +1,21 @@
 <template>
   <section class="container">
-    <div>
-      <h1 class="title">
-        Ages and Birthdays
-      </h1>
 
-      <h2 class="subtitle">
-        Can't remember ages and birthdays? Me neither...
-      </h2>
+    <h1 class="app-title">
+      Ages and Birthdays
+    </h1>
 
-      <add-birth-date />
+    <h2 class="subtitle">
+      Can't remember ages and birthdays?<br>
+      Me neither...
+    </h2>
 
-      <hr>
+    <add-birth-date />
 
-      <important-persons />
+    <hr>
 
-    </div>
+    <important-persons />
+
   </section>
 </template>
 
@@ -35,30 +35,25 @@
   .container {
     min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
     text-align: center;
   }
 
-  .title {
+  .app-title {
     font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
     display: block;
+    font-size: 40px;
     font-weight: 300;
-    font-size: 100px;
     color: #35495e;
     letter-spacing: 1px;
   }
 
   .subtitle {
     font-weight: 300;
-    font-size: 42px;
+    font-size: 32px;
     color: #526488;
     word-spacing: 5px;
     padding-bottom: 15px;
-  }
-
-  .links {
-    padding-top: 15px;
   }
 
   hr {
