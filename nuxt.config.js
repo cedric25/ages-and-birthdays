@@ -58,6 +58,9 @@ module.exports = {
       ]
     }
   },
-  plugins: ['~/plugins/vuetify'],
+  plugins: [
+    '~/plugins/vuetify',
+    { src: '~/plugins/localStorage.js', ssr: false }
+  ],
   css: ['~/assets/style/app.styl']
 }

@@ -61,10 +61,15 @@
           ? currentYear - personYear : currentYear - personYear - 1
       },
       daysUntilBirthday(birthday) {
-        let nextBirthday = new Date(birthday.getTime())
+        let nextBirthday
+        if (typeof birthday === 'string') {
+          nextBirthday = new Date(birthday)
+        } else {
+          nextBirthday = new Date(birthday.getTime())
+        }
         nextBirthday.setFullYear(today.getFullYear())
         if (this.isDayMonthLater(
-          { day1: birthday.getDate(), month1: birthday.getMonth() },
+          { day1: nextBirthday.getDate(), month1: nextBirthday.getMonth() },
           { day2: today.getDate(), month2: today.getMonth() }
         )) {
           nextBirthday.setFullYear(today.getFullYear())

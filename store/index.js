@@ -14,7 +14,7 @@ const createStore = () => {
       importantPersons(state) {
         return state.importantPersons
       }
-    }
+    },
   })
 }
 
