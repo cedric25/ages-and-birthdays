@@ -58,8 +58,6 @@ module.exports = {
       ]
     }
   },
-  /**
-   * Load Vuetify into the app
-   */
   plugins: ['~/plugins/vuetify'],
+  css: ['~/assets/style/app.styl']
 }
