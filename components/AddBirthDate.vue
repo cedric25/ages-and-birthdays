@@ -1,12 +1,23 @@
 <template>
   <form class="add-person">
-    <div>
-      <input type="text" placeholder="Name" v-model="name" ref="name" />
+    <div class="md">
+      <v-text-field
+        name="name"
+        ref="name"
+        placeholder="Name"
+        v-model="name"
+      ></v-text-field>
     </div>
 
-    <div>
-      <input type="text" placeholder="DD" v-model="day" />
+    <div class="xs pt-0">
+      <v-text-field
+        name="day"
+        placeholder="DD"
+        v-model="day"
+        class="pt-0"
+      ></v-text-field>
     </div>
+
     <div class="month">
       <select-month
         v-for="(month, index) in months"
@@ -17,17 +28,39 @@
         @select="selectMonth($event)"
       ></select-month>
     </div>
-    <div>
-      19<input type="text" placeholder="YY" v-model="year1" ref="year1" maxlength="2" />
-    </div>
-    <div>
-      20<input type="text" placeholder="YY" v-model="year2" maxlength="2" />
+
+    <div class="years-wrap">
+      <div class="year">
+        <div class="year-prefix">
+          19
+        </div>
+        <v-text-field
+          name="year1"
+          ref="year1"
+          placeholder="YY"
+          v-model="year1"
+          maxlength="2"
+        ></v-text-field>
+      </div>
+
+      <div class="year">
+        <div class="year-prefix">
+          20
+        </div>
+        <v-text-field
+          name="year2"
+          ref="year2"
+          placeholder="YY"
+          v-model="year2"
+          maxlength="2"
+        ></v-text-field>
+      </div>
     </div>
 
     <div>
-      <button type="submit" @click.prevent="addBirthDate()">
+      <v-btn color="primary" type="submit" @click.prevent="addBirthDate()">
         Add
-      </button>
+      </v-btn>
     </div>
   </form>
 </template>
@@ -112,23 +145,62 @@
   .add-person {
     display: flex;
     flex-direction: column;
+    align-items: center;
+
+    .md {
+      max-width: 175px;
+    }
+
+    .xs {
+      /deep/ input {
+        letter-spacing: 2px;
+        max-width: 30px;
+        text-align: center;
+      }
+    }
+
+    .years-wrap {
+      display: flex;
+      align-content: space-around;
+
+      .year {
+        display: flex;
+        align-items: center;
+
+        &:first-child {
+          margin-right: 50px;
+        }
+
+        .year-prefix {
+          top: -4px;
+          position: relative;
+          margin-right: 3px;
+        }
+
+        /deep/ input {
+          letter-spacing: 2px;
+          max-width: 24px;
+          /*text-align: center;*/
+        }
+      }
+    }
 
     .month {
       justify-content: center;
       display: flex;
       flex-direction: row;
 
-      > div {
-        display: flex;
-        flex-direction: column;
+      > span /deep/ span {
+        cursor: pointer;
       }
 
       .chip--selected {
         box-shadow: none;
-        border-color: rgba(255, 0, 0, .13) !important;
+        border-color: rgb(25, 118, 210) !important;
 
         &::after {
-          background: red;
+          background: rgb(25, 118, 210);
+          opacity: 1;
         }
       }
     }
