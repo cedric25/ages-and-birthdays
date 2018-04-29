@@ -1,9 +1,20 @@
 <template>
   <div>
     <div v-for="person in importantPersons" :key="person.name" class="person">
-      <div>{{ person.name }}</div>
-      <div>Born on {{ birthDate(person) }}</div>
-      <div>{{ age(person) }} year{{ age(person) > 0 && 's' || '' }} old</div>
+
+      <div class="name">
+        {{ person.name }}
+      </div>
+
+      <div class="first-line">
+        <v-chip color="accent" text-color="white">
+          <span class="age">{{ age(person) }}</span>&nbsp;year{{ age(person) > 0 && 's' || '' }} old
+        </v-chip>
+        <v-chip color="green" text-color="white">
+          Born on {{ birthDate(person) }}
+        </v-chip>
+      </div>
+
       <div>
         Will turn {{ age(person) + 1 }} in
         <strong>{{ daysUntilBirthday(person.birthday) }}</strong> day{{ daysUntilBirthday(person.birthday) > 1 && 's' || '' }}
@@ -76,5 +87,24 @@
     border: 1px solid blue;
     padding: 5px;
     margin-bottom: 5px;
+
+    .name {
+      font-size: 1.2em;
+    }
+
+    .first-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      > * {
+        margin: 5px;
+      }
+
+      .age {
+        font-weight: bold;
+        font-size: 1.1em;
+      }
+    }
   }
 </style>
