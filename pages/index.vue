@@ -2,7 +2,7 @@
   <section class="container">
     <div>
       <h1 class="title">
-        ages-and-birthdays
+        Ages and Birthdays
       </h1>
 
       <h2 class="subtitle">
@@ -10,6 +10,8 @@
       </h2>
 
       <add-birth-date />
+
+      <hr>
 
       <important-persons />
 
@@ -57,5 +59,9 @@
 
   .links {
     padding-top: 15px;
+  }
+
+  hr {
+    margin: 20px 0;
   }
 </style>
