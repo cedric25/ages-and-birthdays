@@ -60,7 +60,8 @@ module.exports = {
   },
   plugins: [
     '~/plugins/vuetify',
-    { src: '~/plugins/localStorage.js', ssr: false }
+    { src: '~/plugins/localStorage.js', ssr: false },
+    { src: '~/plugins/click-outside-directive.js', ssr: false },
   ],
   css: ['~/assets/style/app.styl']
 }

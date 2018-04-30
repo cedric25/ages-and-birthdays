@@ -1,7 +1,7 @@
 <template>
   <div class="person">
 
-    <v-card>
+    <v-card v-click-outside="cancelEdit">
       <v-card-title>
         <div>
 
@@ -15,7 +15,7 @@
             @keyup.enter="updatePerson()"
             @keyup.esc="cancelEdit()"
           ></v-text-field>
-          <h3 v-if="!isEditMode" class="headline mb-0">
+          <h3 v-if="!isEditMode" class="headline mb-0" @mouseup="switchToEditMode()">
             {{ person.name }}
           </h3>
 
@@ -32,11 +32,14 @@
             <strong>{{ person.daysUntilBirthday }}</strong> day{{ person.daysUntilBirthday > 1 && 's' || '' }}
           </div>
 
-          <v-btn icon v-if="!isEditMode" @click="switchToEditMode()">
+          <v-btn icon v-if="!isEditMode" @click="switchToEditMode()" class="edit-btn">
             <v-icon>edit</v-icon>
           </v-btn>
           <v-btn icon v-if="isEditMode" @click="updatePerson()">
             <v-icon>check</v-icon>
+          </v-btn>
+          <v-btn icon v-if="isEditMode" @click="cancelEdit()" class="cancel-btn">
+            <v-icon>clear</v-icon>
           </v-btn>
 
         </div>
@@ -110,7 +113,7 @@
         }
       }
 
-      &:hover .btn {
+      &:hover .edit-btn {
         opacity: 1;
       }
     }
@@ -121,13 +124,18 @@
     }
 
     .btn {
-      opacity: 0;
       position: absolute;
       top: 0;
       right: 0;
       color: rgba(0, 0, 0, 0.6);
       margin: 4px;
       transition: opacity ease-in-out 200ms;
+    }
+    .cancel-btn {
+      top: 35px;
+    }
+    .edit-btn {
+      opacity: 0;
     }
   }
 </style>
