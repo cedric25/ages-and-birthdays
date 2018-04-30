@@ -1,22 +1,32 @@
 <template>
-  <section class="container">
+  <div>
 
-    <h1 class="app-title">
-      Ages and Birthdays
-    </h1>
+    <v-toolbar dark color="primary">
+      <v-toolbar-title class="white--text">
+        Ages and Birthdays
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn flat>About</v-btn>
+      </v-toolbar-items>
+    </v-toolbar>
 
-    <h2 class="subtitle">
-      Can't remember ages and birthdays?<br>
-      Me neither...
-    </h2>
+    <section class="container">
 
-    <add-birth-date />
+      <h2 class="subtitle">
+        Can't remember ages and birthdays?<br>
+        Me neither...
+      </h2>
 
-    <hr>
+      <add-birth-date/>
 
-    <important-persons />
+      <hr>
 
-  </section>
+      <important-persons/>
+
+    </section>
+
+  </div>
 </template>
 
 <script>
@@ -37,15 +47,6 @@
     display: flex;
     flex-direction: column;
     text-align: center;
-  }
-
-  .app-title {
-    font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* 1 */
-    display: block;
-    font-size: 40px;
-    font-weight: 300;
-    color: #35495e;
-    letter-spacing: 1px;
   }
 
   .subtitle {

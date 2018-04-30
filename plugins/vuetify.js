@@ -6,7 +6,9 @@ import {
   VBtn,
   VCard,
   VChip,
+  VGrid,
   VTextField,
+  VToolbar,
 
   transitions
 } from 'vuetify'
@@ -19,7 +21,9 @@ Vue.use(Vuetify, {
     VBtn,
     VCard,
     VChip,
+    VGrid,
     VTextField,
+    VToolbar,
 
     transitions,
   },
