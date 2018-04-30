@@ -31,25 +31,8 @@
     </v-chip>
 
     <transition-group name="flip-list">
-      <div v-for="person in persons" :key="person.name" class="person">
-
-        <div class="name">
-          {{ person.name }}
-        </div>
-
-        <div class="first-line">
-          <v-chip color="accent" text-color="white">
-            <span class="age">{{ person.age }}</span>&nbsp;year{{ person.age > 0 && 's' || '' }} old
-          </v-chip>
-          <v-chip color="green" text-color="white">
-            Born on {{ person.birthDate }}
-          </v-chip>
-        </div>
-
-        <div>
-          Will turn {{ person.age + 1 }} in
-          <strong>{{ person.daysUntilBirthday }}</strong> day{{ person.daysUntilBirthday > 1 && 's' || '' }}
-        </div>
+      <div v-for="person in persons" :key="person.name">
+        <one-person :person="person" />
       </div>
     </transition-group>
   </div>
@@ -57,12 +40,16 @@
 
 <script>
   import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
+  import OnePerson from './OnePerson.vue'
 
   import { mapGetters } from 'vuex'
 
   const today = new Date()
 
   export default {
+    components: {
+      OnePerson,
+    },
     data() {
       return {
         selectedOrder: '',
@@ -156,30 +143,21 @@
     transition: transform 1s;
   }
 
-  .person {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid blue;
-    padding: 5px;
-    margin-bottom: 5px;
+  .chip /deep/ span {
+    cursor: pointer;
+  }
 
-    .name {
-      font-size: 1.2em;
+  .chip--selected {
+    box-shadow: none;
+    border-color: rgb(25, 118, 210) !important;
+
+    &:focus /deep/ span {
+      background: rgb(25, 118, 210);
     }
 
-    .first-line {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      > * {
-        margin: 5px;
-      }
-
-      .age {
-        font-weight: bold;
-        font-size: 1.1em;
-      }
+    &::after {
+      background: rgb(25, 118, 210);
+      opacity: 1;
     }
   }
 </style>

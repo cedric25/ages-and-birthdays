@@ -20,8 +20,8 @@
 </template>
 
 <script>
-  import AddBirthDate from '~/components/AddBirthDate.vue'
-  import ImportantPersons from '~/components/ImportantPersons.vue'
+  import AddBirthDate from '~/components/add/AddBirthDate.vue'
+  import ImportantPersons from '~/components/list/ImportantPersons.vue'
 
   export default {
     components: {

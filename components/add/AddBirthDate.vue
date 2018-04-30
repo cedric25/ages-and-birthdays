@@ -66,7 +66,7 @@
 </template>
 
 <script>
-  import SelectMonth from '~/components/SelectMonth.vue'
+  import SelectMonth from './SelectMonth.vue'
 
   export default {
     components: {
@@ -82,9 +82,6 @@
         year1: '',
         year2: '',
       }
-    },
-    created() {
-      // this.injectTestData()
     },
     mounted() {
       this.focusNameInput()
@@ -121,15 +118,6 @@
         this.monthLabel = ''
         this.year1 = ''
         this.year2 = ''
-      },
-      injectTestData() {
-        this.$store.commit('addNewImportantPerson', {
-          name: 'Agathe',
-          day: '23',
-          monthNo: 2,
-          monthLabel: 'feb',
-          year: '2000',
-        })
       },
       focusNameInput() {
         this.$nextTick(() => this.$refs.name.focus())
@@ -180,7 +168,6 @@
         /deep/ input {
           letter-spacing: 2px;
           max-width: 24px;
-          /*text-align: center;*/
         }
       }
     }
