@@ -23,11 +23,21 @@
             {{ person.name }}
           </h3>
 
-          <div>
-            <v-chip color="green" text-color="white">
-              {{ person.birthDate }}
+          <div class="dob-age-wrap">
+            <v-chip v-if="!isEditMode" color="green" text-color="white" disabled>
+              {{ readableBirthday }}
             </v-chip>
-            <v-chip color="accent" text-color="white">
+            <v-text-field
+              v-if="isEditMode"
+              name="dob"
+              ref="dob"
+              placeholder="DD/MM/YYYY"
+              v-model="dob"
+              class="dob-input pt-0"
+              @keyup.enter="updatePerson()"
+              @keyup.esc="cancelEdit()"
+            ></v-text-field>
+            <v-chip color="accent" text-color="white" disabled>
               <span class="age">{{ person.age }}</span>y old
             </v-chip>
           </div>
@@ -58,6 +68,9 @@
 </template>
 
 <script>
+  import format from 'date-fns/format'
+  import parse from 'date-fns/parse'
+
   export default {
     props: {
       person: Object,
@@ -66,10 +79,17 @@
       return {
         isEditMode: false,
         name: '',
+        dob: '',
       }
+    },
+    computed: {
+      readableBirthday() {
+        return format(this.person.birthday, 'D MMM YYYY')
+      },
     },
     created() {
       this.name = this.person.name
+      this.dob = format(this.person.birthday, 'YYYY-MM-DD')
     },
     methods: {
       switchToEditMode() {
@@ -81,6 +101,7 @@
         this.$store.commit('updatePerson', {
           id: this.person.id,
           name: this.name,
+          birthday: parse(this.dob),
         })
       },
       deletePerson() {
@@ -123,6 +144,24 @@
         }
         /deep/ .input-group__details {
           min-height: 0;
+        }
+      }
+
+      .dob-age-wrap {
+        display: flex;
+        align-items: center;
+        padding: 0 30px;
+        justify-content: center;
+
+        .dob-input {
+          max-width: 98px;
+
+          /deep/ input {
+            text-align: center;
+          }
+          /deep/ .input-group__details {
+            min-height: 0;
+          }
         }
       }
 

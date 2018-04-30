@@ -78,15 +78,11 @@
           return {
             id: person.id,
             name: person.name,
-            birthDate: this.birthDate(person),
+            birthday: person.birthday,
             age: this.age(person),
             daysUntilBirthday: this.daysUntilBirthday(person.birthday),
           }
         })
-      },
-      birthDate(person) {
-        const day = person.day[0] === '0' ? person.day[1] : person.day
-        return `${day} ${person.monthLabel} ${person.year}`
       },
       age(person) {
 

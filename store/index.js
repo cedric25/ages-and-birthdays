@@ -23,6 +23,7 @@ const createStore = () => {
       },
       updatePerson(state, updatedPerson) {
         state.importantPersons[updatedPerson.id].name = updatedPerson.name
+        state.importantPersons[updatedPerson.id].birthday = updatedPerson.birthday
       },
       deletePerson(state, personToDelete) {
         state.importantPersons = state.importantPersons.filter(person => {
