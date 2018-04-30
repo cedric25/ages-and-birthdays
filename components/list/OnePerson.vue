@@ -15,7 +15,11 @@
             @keyup.enter="updatePerson()"
             @keyup.esc="cancelEdit()"
           ></v-text-field>
-          <h3 v-if="!isEditMode" class="headline mb-0" @mouseup="switchToEditMode()">
+          <h3
+            v-if="!isEditMode"
+            class="headline mb-0"
+            v-on:dblclick="switchToEditMode()"
+          >
             {{ person.name }}
           </h3>
 
