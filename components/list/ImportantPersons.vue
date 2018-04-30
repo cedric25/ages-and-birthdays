@@ -1,34 +1,43 @@
 <template>
   <div>
 
-    Order by:
-    <v-chip
-      color="secondary"
-      text-color="white"
-      :selected="selectedOrder === 'daysUntilBirthday'"
-      @click="selectOrder('daysUntilBirthday')"
-      @keyup.enter="selectOrder('daysUntilBirthday')"
-    >
-      upcoming birthdays
-    </v-chip>
-    <v-chip
-      color="secondary"
-      text-color="white"
-      :selected="selectedOrder === 'name'"
-      @click="selectOrder('name')"
-      @keyup.enter="selectOrder('name')"
-    >
-      name
-    </v-chip>
-    <v-chip
-      color="secondary"
-      text-color="white"
-      :selected="selectedOrder === 'age'"
-      @click="selectOrder('age')"
-      @keyup.enter="selectOrder('age')"
-    >
-      ages
-    </v-chip>
+    <div class="list-header">
+      <div>
+        Order by:
+        <v-chip
+          color="secondary"
+          text-color="white"
+          :selected="selectedOrder === 'daysUntilBirthday'"
+          @click="selectOrder('daysUntilBirthday')"
+          @keyup.enter="selectOrder('daysUntilBirthday')"
+        >
+          upcoming birthdays
+        </v-chip>
+        <v-chip
+          color="secondary"
+          text-color="white"
+          :selected="selectedOrder === 'name'"
+          @click="selectOrder('name')"
+          @keyup.enter="selectOrder('name')"
+        >
+          names
+        </v-chip>
+        <v-chip
+          color="secondary"
+          text-color="white"
+          :selected="selectedOrder === 'age'"
+          @click="selectOrder('age')"
+          @keyup.enter="selectOrder('age')"
+        >
+          ages
+        </v-chip>
+      </div>
+      <div>
+        <v-btn color="error" @click="clearList()">
+          Clear list?
+        </v-btn>
+      </div>
+    </div>
 
     <transition-group name="flip-list" tag="div" class="persons-grid">
       <div v-for="person in persons" :key="person.name">
@@ -66,7 +75,7 @@
     },
     methods: {
       buildPersons(serverPersons) {
-        return serverPersons && serverPersons.map(person => {
+        return serverPersons && Object.values(serverPersons).map(person => {
           return {
             name: person.name,
             birthDate: this.birthDate(person),
@@ -134,11 +143,20 @@
       selectOrder(order) {
         this.selectedOrder = order
       },
+      clearList() {
+        this.$store.commit('removeAllPersons')
+      },
     }
   }
 </script>
 
 <style scoped lang="scss">
+  .list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   .flip-list-move {
     transition: transform .8s;
   }
