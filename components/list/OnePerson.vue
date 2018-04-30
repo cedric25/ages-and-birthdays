@@ -35,6 +35,10 @@
           <v-btn icon v-if="!isEditMode" @click="switchToEditMode()" class="edit-btn">
             <v-icon>edit</v-icon>
           </v-btn>
+          <v-btn icon v-if="!isEditMode" @click="deletePerson()" class="delete-btn">
+            <v-icon>delete</v-icon>
+          </v-btn>
+
           <v-btn icon v-if="isEditMode" @click="updatePerson()">
             <v-icon>check</v-icon>
           </v-btn>
@@ -75,6 +79,11 @@
           name: this.name,
         })
       },
+      deletePerson() {
+        this.$store.commit('deletePerson', {
+          id: this.person.id,
+        })
+      },
       cancelEdit() {
         this.isEditMode = false
         this.name = this.person.name
@@ -113,7 +122,8 @@
         }
       }
 
-      &:hover .edit-btn {
+      &:hover .edit-btn,
+      &:hover .delete-btn {
         opacity: 1;
       }
     }
@@ -131,10 +141,12 @@
       margin: 4px;
       transition: opacity ease-in-out 200ms;
     }
+    .delete-btn,
     .cancel-btn {
       top: 35px;
     }
-    .edit-btn {
+    .edit-btn,
+    .delete-btn {
       opacity: 0;
     }
   }
