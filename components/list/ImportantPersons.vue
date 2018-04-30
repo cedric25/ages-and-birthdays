@@ -30,7 +30,7 @@
       ages
     </v-chip>
 
-    <transition-group name="flip-list">
+    <transition-group name="flip-list" tag="div" class="persons-grid">
       <div v-for="person in persons" :key="person.name">
         <one-person :person="person" />
       </div>
@@ -140,7 +140,7 @@
 
 <style scoped lang="scss">
   .flip-list-move {
-    transition: transform 1s;
+    transition: transform .8s;
   }
 
   .chip /deep/ span {
@@ -158,6 +158,23 @@
     &::after {
       background: rgb(25, 118, 210);
       opacity: 1;
+    }
+  }
+
+  .persons-grid {
+    display: grid;
+    grid-template-columns: auto;
+    justify-items: center;
+    grid-gap: 0 30px;
+  }
+  @media (min-width: 700px) {
+    .persons-grid {
+      grid-template-columns: auto auto;
+    }
+  }
+  @media (min-width: 1000px) {
+    .persons-grid {
+      grid-template-columns: auto auto auto;
     }
   }
 </style>
