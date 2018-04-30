@@ -1,25 +1,57 @@
 <template>
   <div>
-    <div v-for="person in importantPersons" :key="person.name" class="person">
 
-      <div class="name">
-        {{ person.name }}
-      </div>
+    Order by:
+    <v-chip
+      color="secondary"
+      text-color="white"
+      :selected="selectedOrder === 'daysUntilBirthday'"
+      @click="selectOrder('daysUntilBirthday')"
+      @keyup.enter="selectOrder('daysUntilBirthday')"
+    >
+      upcoming birthdays
+    </v-chip>
+    <v-chip
+      color="secondary"
+      text-color="white"
+      :selected="selectedOrder === 'name'"
+      @click="selectOrder('name')"
+      @keyup.enter="selectOrder('name')"
+    >
+      name
+    </v-chip>
+    <v-chip
+      color="secondary"
+      text-color="white"
+      :selected="selectedOrder === 'age'"
+      @click="selectOrder('age')"
+      @keyup.enter="selectOrder('age')"
+    >
+      ages
+    </v-chip>
 
-      <div class="first-line">
-        <v-chip color="accent" text-color="white">
-          <span class="age">{{ age(person) }}</span>&nbsp;year{{ age(person) > 0 && 's' || '' }} old
-        </v-chip>
-        <v-chip color="green" text-color="white">
-          Born on {{ birthDate(person) }}
-        </v-chip>
-      </div>
+    <transition-group name="flip-list">
+      <div v-for="person in persons" :key="person.name" class="person">
 
-      <div>
-        Will turn {{ age(person) + 1 }} in
-        <strong>{{ daysUntilBirthday(person.birthday) }}</strong> day{{ daysUntilBirthday(person.birthday) > 1 && 's' || '' }}
+        <div class="name">
+          {{ person.name }}
+        </div>
+
+        <div class="first-line">
+          <v-chip color="accent" text-color="white">
+            <span class="age">{{ person.age }}</span>&nbsp;year{{ person.age > 0 && 's' || '' }} old
+          </v-chip>
+          <v-chip color="green" text-color="white">
+            Born on {{ person.birthDate }}
+          </v-chip>
+        </div>
+
+        <div>
+          Will turn {{ person.age + 1 }} in
+          <strong>{{ person.daysUntilBirthday }}</strong> day{{ person.daysUntilBirthday > 1 && 's' || '' }}
+        </div>
       </div>
-    </div>
+    </transition-group>
   </div>
 </template>
 
@@ -31,10 +63,31 @@
   const today = new Date()
 
   export default {
-    computed: mapGetters([
-      'importantPersons',
-    ]),
+    data() {
+      return {
+        selectedOrder: '',
+      }
+    },
+    computed: {
+      persons() {
+        const personsList = this.buildPersons(this.importantPersons)
+        return this.sortPersons(personsList, this.selectedOrder)
+      },
+      ...mapGetters([
+        'importantPersons',
+      ])
+    },
     methods: {
+      buildPersons(serverPersons) {
+        return serverPersons && serverPersons.map(person => {
+          return {
+            name: person.name,
+            birthDate: this.birthDate(person),
+            age: this.age(person),
+            daysUntilBirthday: this.daysUntilBirthday(person.birthday),
+          }
+        })
+      },
       birthDate(person) {
         return `${person.day} ${person.monthLabel} ${person.year}`
       },
@@ -81,11 +134,27 @@
       isDayMonthLater({ day1, month1 }, { day2, month2 }) {
         return month1 > month2 || month1 === month2 && day1 >= day2
       },
+      sortPersons(personsList, selectedOrder) {
+        if (selectedOrder) {
+          return personsList.sort((p1, p2) => this.compare(p1, p2, selectedOrder))
+        }
+        return personsList
+      },
+      compare(p1, p2, prop) {
+        return p1[prop] > p2[prop]
+      },
+      selectOrder(order) {
+        this.selectedOrder = order
+      },
     }
   }
 </script>
 
 <style scoped lang="scss">
+  .flip-list-move {
+    transition: transform 1s;
+  }
+
   .person {
     display: flex;
     flex-direction: column;
