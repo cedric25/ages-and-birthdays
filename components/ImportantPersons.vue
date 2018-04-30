@@ -89,7 +89,8 @@
         })
       },
       birthDate(person) {
-        return `${person.day} ${person.monthLabel} ${person.year}`
+        const day = person.day[0] === '0' ? person.day[1] : person.day
+        return `${day} ${person.monthLabel} ${person.year}`
       },
       age(person) {
 
