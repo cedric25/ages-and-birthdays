@@ -24,22 +24,32 @@
           </h3>
 
           <div class="dob-age-wrap">
-            <v-chip v-if="!isEditMode" color="green" text-color="white" disabled>
-              {{ readableBirthday }}
-            </v-chip>
-            <v-text-field
-              v-if="isEditMode"
-              name="dob"
-              ref="dob"
-              placeholder="DD/MM/YYYY"
-              v-model="dob"
-              class="dob-input pt-0"
-              @keyup.enter="updatePerson()"
-              @keyup.esc="cancelEdit()"
-            ></v-text-field>
-            <v-chip color="accent" text-color="white" disabled>
-              <span class="age">{{ person.age }}</span>y old
-            </v-chip>
+            <div class="dob-wrap">
+              <v-chip
+                v-if="!isEditMode"
+                color="green"
+                text-color="white"
+                disabled
+                v-on:dblclick="switchToEditMode('dob')"
+              >
+                {{ readableBirthday }}
+              </v-chip>
+              <v-text-field
+                v-if="isEditMode"
+                name="dob"
+                ref="dob"
+                placeholder="DD/MM/YYYY"
+                v-model="dob"
+                class="dob-input pt-0"
+                @keyup.enter="updatePerson()"
+                @keyup.esc="cancelEdit()"
+              ></v-text-field>
+            </div>
+            <div class="age-wrap">
+              <v-chip color="accent" text-color="white" disabled>
+                <span class="age">{{ person.age }}</span>y old
+              </v-chip>
+            </div>
           </div>
           <div>
             Will turn {{ person.age + 1 }} in
@@ -92,9 +102,9 @@
       this.dob = format(this.person.birthday, 'YYYY-MM-DD')
     },
     methods: {
-      switchToEditMode() {
+      switchToEditMode(inputToFocusOn = 'name') {
         this.isEditMode = true
-        this.$nextTick(() => this.$refs.name.focus())
+        this.$nextTick(() => this.$refs[inputToFocusOn].focus())
       },
       updatePerson() {
         this.isEditMode = false
@@ -153,8 +163,20 @@
         padding: 0 30px;
         justify-content: center;
 
+        .dob-wrap,
+        .age-wrap {
+          flex: 1;
+        }
+        .dob-wrap {
+          text-align: right;
+        }
+        .age-wrap {
+          text-align: left;
+        }
+
         .dob-input {
-          max-width: 98px;
+          max-width: 100px;
+          float: right;
 
           /deep/ input {
             text-align: center;
