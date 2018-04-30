@@ -4,6 +4,7 @@ import {
   VApp, // required
 
   VBtn,
+  VCard,
   VChip,
   VTextField,
 
@@ -16,6 +17,7 @@ Vue.use(Vuetify, {
     VApp,
 
     VBtn,
+    VCard,
     VChip,
     VTextField,
 

@@ -1,23 +1,27 @@
 <template>
   <div class="person">
 
-    <div class="name">
-      {{ person.name }}
-    </div>
-
-    <div class="first-line">
-      <v-chip color="accent" text-color="white">
-        <span class="age">{{ person.age }}</span>&nbsp;year{{ person.age > 0 && 's' || '' }} old
-      </v-chip>
-      <v-chip color="green" text-color="white">
-        Born on {{ person.birthDate }}
-      </v-chip>
-    </div>
-
-    <div>
-      Will turn {{ person.age + 1 }} in
-      <strong>{{ person.daysUntilBirthday }}</strong> day{{ person.daysUntilBirthday > 1 && 's' || '' }}
-    </div>
+    <v-card>
+      <v-card-title>
+        <div>
+          <h3 class="headline mb-0">
+            {{ person.name }}
+          </h3>
+          <div>
+            <v-chip color="green" text-color="white">
+              {{ person.birthDate }}
+            </v-chip>
+            <v-chip color="accent" text-color="white">
+              <span class="age">{{ person.age }}</span>y old
+            </v-chip>
+          </div>
+          <div>
+            Will turn {{ person.age + 1 }} in
+            <strong>{{ person.daysUntilBirthday }}</strong> day{{ person.daysUntilBirthday > 1 && 's' || '' }}
+          </div>
+        </div>
+      </v-card-title>
+    </v-card>
 
   </div>
 </template>
@@ -32,29 +36,26 @@
 
 <style scoped lang="scss">
   .person {
+    width: 350px;
     display: flex;
     flex-direction: column;
-    border: 1px solid blue;
-    padding: 5px;
-    margin-bottom: 5px;
+    margin: 15px 0;
+
+    .card__title {
+      display: flex;
+
+      > div {
+        flex: 1;
+      }
+    }
 
     .name {
       font-size: 1.2em;
     }
 
-    .first-line {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      > * {
-        margin: 5px;
-      }
-
-      .age {
-        font-weight: bold;
-        font-size: 1.1em;
-      }
+    .age {
+      font-weight: bold;
+      font-size: 1.1em;
     }
   }
 </style>
