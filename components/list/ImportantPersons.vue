@@ -40,7 +40,7 @@
     </div>
 
     <transition-group name="flip-list" tag="div" class="persons-grid">
-      <div v-for="person in persons" :key="person.name">
+      <div v-for="person in persons" :key="person.id">
         <one-person :person="person" />
       </div>
     </transition-group>
@@ -60,7 +60,7 @@
     },
     data() {
       return {
-        selectedOrder: '',
+        selectedOrder: 'daysUntilBirthday',
       }
     },
     computed: {
