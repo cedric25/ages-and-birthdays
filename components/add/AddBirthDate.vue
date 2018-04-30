@@ -6,6 +6,7 @@
         ref="name"
         placeholder="Name"
         v-model="name"
+        class="name-input"
       ></v-text-field>
     </div>
 
@@ -145,6 +146,10 @@
         max-width: 30px;
         text-align: center;
       }
+    }
+
+    .name-input /deep/ input {
+      text-align: center;
     }
 
     .years-wrap {
