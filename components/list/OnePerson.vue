@@ -13,7 +13,7 @@
             v-model="name"
             class="name-input pt-0"
             @keyup.enter="updatePerson()"
-            @keyup.esc="isEditMode = false"
+            @keyup.esc="cancelEdit()"
           ></v-text-field>
           <h3 v-if="!isEditMode" class="headline mb-0">
             {{ person.name }}
@@ -72,6 +72,10 @@
           name: this.name,
         })
       },
+      cancelEdit() {
+        this.isEditMode = false
+        this.name = this.person.name
+      },
     },
   }
 </script>
@@ -105,6 +109,10 @@
           min-height: 0;
         }
       }
+
+      &:hover .btn {
+        opacity: 1;
+      }
     }
 
     .age {
@@ -113,11 +121,13 @@
     }
 
     .btn {
+      opacity: 0;
       position: absolute;
       top: 0;
       right: 0;
       color: rgba(0, 0, 0, 0.6);
       margin: 4px;
+      transition: opacity ease-in-out 200ms;
     }
   }
 </style>
