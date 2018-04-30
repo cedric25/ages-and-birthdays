@@ -155,6 +155,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    .chip:focus {
+      background-color: #555 !important;
+    }
   }
 
   .flip-list-move {

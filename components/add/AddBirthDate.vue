@@ -1,5 +1,6 @@
 <template>
   <form class="add-person">
+
     <div class="md">
       <v-text-field
         name="name"
@@ -181,6 +182,10 @@
       justify-content: center;
       display: flex;
       flex-direction: row;
+
+      .chip:focus {
+        background-color: #555 !important;
+      }
 
       > span /deep/ span {
         cursor: pointer;
