@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div class="list-header">
+    <div v-if="persons.length > 0" class="list-header">
       <div>
         Order by:
         <v-chip
@@ -48,10 +48,9 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
   import OnePerson from './OnePerson.vue'
-
-  import { mapGetters } from 'vuex'
 
   const today = new Date()
 
@@ -77,6 +76,7 @@
       buildPersons(serverPersons) {
         return serverPersons && Object.values(serverPersons).map(person => {
           return {
+            id: person.id,
             name: person.name,
             birthDate: this.birthDate(person),
             age: this.age(person),

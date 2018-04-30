@@ -4,9 +4,21 @@
     <v-card>
       <v-card-title>
         <div>
-          <h3 class="headline mb-0">
+
+          <v-text-field
+            v-if="isEditMode"
+            name="name"
+            ref="name"
+            placeholder="Name"
+            v-model="name"
+            class="name-input pt-0"
+            @keyup.enter="updatePerson()"
+            @keyup.esc="isEditMode = false"
+          ></v-text-field>
+          <h3 v-if="!isEditMode" class="headline mb-0">
             {{ person.name }}
           </h3>
+
           <div>
             <v-chip color="green" text-color="white">
               {{ person.birthDate }}
@@ -19,6 +31,14 @@
             Will turn {{ person.age + 1 }} in
             <strong>{{ person.daysUntilBirthday }}</strong> day{{ person.daysUntilBirthday > 1 && 's' || '' }}
           </div>
+
+          <v-btn icon v-if="!isEditMode" @click="switchToEditMode()">
+            <v-icon>edit</v-icon>
+          </v-btn>
+          <v-btn icon v-if="isEditMode" @click="updatePerson()">
+            <v-icon>check</v-icon>
+          </v-btn>
+
         </div>
       </v-card-title>
     </v-card>
@@ -30,6 +50,28 @@
   export default {
     props: {
       person: Object,
+    },
+    data() {
+      return {
+        isEditMode: false,
+        name: '',
+      }
+    },
+    created() {
+      this.name = this.person.name
+    },
+    methods: {
+      switchToEditMode() {
+        this.isEditMode = true
+        this.$nextTick(() => this.$refs.name.focus())
+      },
+      updatePerson() {
+        this.isEditMode = false
+        this.$store.commit('updatePerson', {
+          id: this.person.id,
+          name: this.name,
+        })
+      },
     },
   }
 </script>
@@ -47,15 +89,35 @@
       > div {
         flex: 1;
       }
-    }
 
-    .name {
-      font-size: 1.2em;
+      h3 {
+        padding: 0 30px 2px;
+      }
+
+      .name-input {
+        padding: 0 30px;
+
+        /deep/ input {
+          text-align: center;
+          font-size: 24px;
+        }
+        /deep/ .input-group__details {
+          min-height: 0;
+        }
+      }
     }
 
     .age {
       font-weight: bold;
       font-size: 1.1em;
+    }
+
+    .btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: rgba(0, 0, 0, 0.6);
+      margin: 4px;
     }
   }
 </style>

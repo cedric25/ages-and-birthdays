@@ -7,6 +7,7 @@ import {
   VCard,
   VChip,
   VGrid,
+  VIcon,
   VTextField,
   VToolbar,
 
@@ -22,6 +23,7 @@ Vue.use(Vuetify, {
     VCard,
     VChip,
     VGrid,
+    VIcon,
     VTextField,
     VToolbar,
 
