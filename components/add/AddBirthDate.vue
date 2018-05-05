@@ -1,102 +1,124 @@
 <template>
-  <form class="add-person">
 
-    <div class="md">
-      <v-text-field
-        name="name"
-        ref="name"
-        placeholder="Name"
-        v-model="name"
-        class="name-input"
-      ></v-text-field>
-    </div>
-
-    <div>
-      <v-chip
-        v-for="group in groups" :key="group"
-        color="secondary"
-        text-color="white"
-        class="blue-chip"
-        :selected="selectedGroup === group"
-        @click="selectGroup(group)"
-        @keyup.enter="selectGroup(group)"
+    <v-expansion-panel popout>
+      <v-expansion-panel-content
+        :value="importantPersons.length === 0"
+        @input="focusNameInputDelay()"
       >
-        {{ group }}
-      </v-chip>
-      <div class="add-group-form">
-        <v-text-field
-          name="group"
-          placeholder="Add new..."
-          v-model="newGroup"
-          class="pt-0"
-          @keyup.enter="addGroup()"
-        ></v-text-field>
-        <v-btn color="accent" @click.prevent="addGroup()" :disabled="!newGroup">
-          Add group
-        </v-btn>
-      </div>
-    </div>
-
-    <div class="xs pt-0">
-      <v-text-field
-        name="day"
-        ref="day"
-        placeholder="DD"
-        v-model="day"
-        class="pt-0"
-      ></v-text-field>
-    </div>
-
-    <div class="month">
-      <select-month
-        v-for="(month, index) in months"
-        :key="month"
-        :monthIndex="index"
-        :monthLabel="month"
-        :selected="monthNo === index"
-        @select="selectMonth($event)"
-      ></select-month>
-    </div>
-
-    <div class="years-wrap">
-      <div class="year">
-        <div class="year-prefix">
-          19
+        <div slot="header">
+          <span v-if="importantPersons.length > 0">
+            Add someone's birthday
+          </span>
+          <span v-else>
+            Add your first person's birthday to the list
+          </span>
         </div>
-        <v-text-field
-          name="year1"
-          ref="year1"
-          placeholder="YY"
-          v-model="year1"
-          maxlength="2"
-        ></v-text-field>
-      </div>
+        <v-card>
+          <v-card-text>
 
-      <div class="year">
-        <div class="year-prefix">
-          20
-        </div>
-        <v-text-field
-          name="year2"
-          ref="year2"
-          placeholder="YY"
-          v-model="year2"
-          maxlength="2"
-        ></v-text-field>
-      </div>
-    </div>
+            <form class="add-person">
+              <div class="md">
+                <v-text-field
+                  name="name"
+                  ref="name"
+                  placeholder="Name"
+                  v-model="name"
+                  class="name-input"
+                ></v-text-field>
+              </div>
 
-    <div>
-      <v-btn
-        type="submit"
-        color="primary"
-        @click.prevent="addBirthDate()"
-        :disabled="!isFormValid"
-      >
-        Add
-      </v-btn>
-    </div>
-  </form>
+              <div class="group-choice">
+                <v-chip
+                  v-for="group in groups" :key="group"
+                  color="secondary"
+                  text-color="white"
+                  class="blue-chip"
+                  :selected="selectedGroup === group"
+                  @click="selectGroup(group)"
+                  @keyup.enter="selectGroup(group)"
+                >
+                  {{ group }}
+                </v-chip>
+                <div class="add-group-form">
+                  <v-text-field
+                    name="group"
+                    placeholder="Add new..."
+                    v-model="newGroup"
+                    class="pt-0"
+                    @keyup.enter="addGroup()"
+                  ></v-text-field>
+                  <v-btn color="accent" @click.prevent="addGroup()" :disabled="!newGroup">
+                    Add group
+                  </v-btn>
+                </div>
+              </div>
+
+              <div class="xs pt-0">
+                <v-text-field
+                  name="day"
+                  ref="day"
+                  placeholder="DD"
+                  v-model="day"
+                  class="pt-0"
+                ></v-text-field>
+              </div>
+
+              <div class="month">
+                <select-month
+                  v-for="(month, index) in months"
+                  :key="month"
+                  :monthIndex="index"
+                  :monthLabel="month"
+                  :selected="monthNo === index"
+                  @select="selectMonth($event)"
+                ></select-month>
+              </div>
+
+              <div class="years-wrap">
+                <div class="year">
+                  <div class="year-prefix">
+                    19
+                  </div>
+                  <v-text-field
+                    name="year1"
+                    ref="year1"
+                    placeholder="YY"
+                    v-model="year1"
+                    maxlength="2"
+                  ></v-text-field>
+                </div>
+
+                <div class="year">
+                  <div class="year-prefix">
+                    20
+                  </div>
+                  <v-text-field
+                    name="year2"
+                    ref="year2"
+                    placeholder="YY"
+                    v-model="year2"
+                    maxlength="2"
+                  ></v-text-field>
+                </div>
+              </div>
+
+              <div>
+                <v-btn
+                  type="submit"
+                  color="primary"
+                  @click.prevent="addBirthDate()"
+                  :disabled="!isFormValid"
+                >
+                  Add
+                </v-btn>
+              </div>
+            </form>
+
+          </v-card-text>
+        </v-card>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+
 </template>
 
 <script>
@@ -122,6 +144,7 @@
     },
     computed: {
       ...mapGetters([
+        'importantPersons',
         'groups',
       ]),
       isFormValid() {
@@ -130,9 +153,6 @@
           this.monthNo !== -1 &&
           (this.year1.length === 2 || this.year2.length === 2)
       },
-    },
-    mounted() {
-      this.focusNameInput()
     },
     methods: {
       selectMonth(monthNo) {
@@ -162,6 +182,7 @@
       },
       resetForm() {
         this.name = ''
+        this.selectedGroup = ''
         this.day = ''
         this.monthNo = ''
         this.monthLabel = ''
@@ -170,6 +191,9 @@
       },
       focusNameInput() {
         this.$nextTick(() => this.$refs.name.focus())
+      },
+      focusNameInputDelay() {
+        setTimeout(() => this.$refs.name.focus(), 300)
       },
       focusYear1Input() {
         this.$nextTick(() => this.$refs.year1.focus())
@@ -216,9 +240,13 @@
       text-align: center;
     }
 
-    .add-group-form {
-      display: flex;
-      align-items: baseline;
+    .group-choice {
+      text-align: center;
+
+      .add-group-form {
+        display: flex;
+        align-items: baseline;
+      }
     }
 
     .years-wrap {
