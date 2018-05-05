@@ -18,9 +18,7 @@ const createStore = () => {
     },
     mutations: {
       addNewImportantPerson(state, newPerson) {
-        const newPersonIndex = state.importantPersons.length
-        const newPersonWithId = Object.assign({}, newPerson, { id: newPersonIndex })
-        state.importantPersons.push(newPersonWithId)
+        state.importantPersons.push(newPerson)
       },
       updatePerson(state, updatedPerson) {
         state.importantPersons[updatedPerson.id].name = updatedPerson.name

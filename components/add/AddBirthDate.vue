@@ -123,6 +123,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import uuid from 'uuid/v4'
   import SelectMonth from './SelectMonth.vue'
 
   export default {
@@ -165,6 +166,7 @@
         const day = parseInt(this.day, 10)
         const birthday = new Date(year, month, day)
         this.$store.commit('addNewImportantPerson', {
+          id: uuid(),
           name: this.name,
           day: this.day,
           monthNo: this.monthNo,
