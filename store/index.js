@@ -14,6 +14,7 @@ const createStore = () => {
   return new Vuex.Store({
     state: {
       importantPersons: [],
+      groups: ['Family', 'Friends'],
     },
     mutations: {
       addNewImportantPerson(state, newPerson) {
@@ -33,10 +34,16 @@ const createStore = () => {
       removeAllPersons(state) {
         state.importantPersons = []
       },
+      addGroup(state, newGroupLabel) {
+        state.groups.push(newGroupLabel)
+      },
     },
     getters: {
       importantPersons(state) {
         return state.importantPersons
+      },
+      groups(state) {
+        return state.groups
       },
     },
   })

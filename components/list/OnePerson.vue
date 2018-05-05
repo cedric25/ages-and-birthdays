@@ -5,6 +5,12 @@
       <v-card-title>
         <div>
 
+          <div class="group-label" v-if="person.group">
+            <v-chip label outline color="red">
+              {{ person.group }}
+            </v-chip>
+          </div>
+
           <v-text-field
             v-if="isEditMode"
             name="name"
@@ -139,6 +145,12 @@
 
       > div {
         flex: 1;
+      }
+
+      .group-label {
+        position: absolute;
+        top: 0;
+        left: 0;
       }
 
       h3 {

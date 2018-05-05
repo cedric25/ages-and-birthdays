@@ -11,9 +11,36 @@
       ></v-text-field>
     </div>
 
+    <div>
+      <v-chip
+        v-for="group in groups" :key="group"
+        color="secondary"
+        text-color="white"
+        class="blue-chip"
+        :selected="selectedGroup === group"
+        @click="selectGroup(group)"
+        @keyup.enter="selectGroup(group)"
+      >
+        {{ group }}
+      </v-chip>
+      <div class="add-group-form">
+        <v-text-field
+          name="group"
+          placeholder="Add new..."
+          v-model="newGroup"
+          class="pt-0"
+          @keyup.enter="addGroup()"
+        ></v-text-field>
+        <v-btn color="accent" @click.prevent="addGroup()" :disabled="!newGroup">
+          Add group
+        </v-btn>
+      </div>
+    </div>
+
     <div class="xs pt-0">
       <v-text-field
         name="day"
+        ref="day"
         placeholder="DD"
         v-model="day"
         class="pt-0"
@@ -60,7 +87,12 @@
     </div>
 
     <div>
-      <v-btn color="primary" type="submit" @click.prevent="addBirthDate()">
+      <v-btn
+        type="submit"
+        color="primary"
+        @click.prevent="addBirthDate()"
+        :disabled="!isFormValid"
+      >
         Add
       </v-btn>
     </div>
@@ -68,6 +100,7 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   import SelectMonth from './SelectMonth.vue'
 
   export default {
@@ -83,7 +116,20 @@
         monthLabel: '',
         year1: '',
         year2: '',
+        selectedGroup: null,
+        newGroup: '',
       }
+    },
+    computed: {
+      ...mapGetters([
+        'groups',
+      ]),
+      isFormValid() {
+        return this.name &&
+          this.day &&
+          this.monthNo !== -1 &&
+          (this.year1.length === 2 || this.year2.length === 2)
+      },
     },
     mounted() {
       this.focusNameInput()
@@ -105,6 +151,7 @@
           monthLabel: this.months[this.monthNo],
           year,
           birthday,
+          group: this.selectedGroup || undefined,
         })
         this.resetForm()
         this.focusNameInput()
@@ -126,6 +173,22 @@
       },
       focusYear1Input() {
         this.$nextTick(() => this.$refs.year1.focus())
+      },
+      selectGroup(groupLabel) {
+        if (groupLabel === this.selectedGroup) {
+          this.selectedGroup = null
+        } else {
+          this.selectedGroup = groupLabel
+          this.$nextTick(() => this.$refs.day.focus())
+        }
+      },
+      addGroup() {
+        if (this.groups.indexOf(this.newGroup) === -1) {
+          this.$store.commit('addGroup', this.newGroup)
+          this.selectedGroup = this.newGroup
+          this.newGroup = ''
+          this.$nextTick(() => this.$refs.day.focus())
+        }
       },
     }
   }
@@ -151,6 +214,11 @@
 
     .name-input /deep/ input {
       text-align: center;
+    }
+
+    .add-group-form {
+      display: flex;
+      align-items: baseline;
     }
 
     .years-wrap {
@@ -192,6 +260,26 @@
       }
 
       .chip--selected {
+        box-shadow: none;
+        border-color: rgb(25, 118, 210) !important;
+
+        &::after {
+          background: rgb(25, 118, 210);
+          opacity: 1;
+        }
+      }
+    }
+
+    .blue-chip {
+      /deep/ span {
+        cursor: pointer;
+      }
+
+      &:focus {
+        background-color: #555 !important;
+      }
+
+      &.chip--selected {
         box-shadow: none;
         border-color: rgb(25, 118, 210) !important;
 

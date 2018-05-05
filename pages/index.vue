@@ -14,8 +14,7 @@
     <section class="container">
 
       <h2 class="subtitle">
-        Can't remember ages and birthdays?<br>
-        Me neither...
+        Can't remember ages and birthdays? Me neither...
       </h2>
 
       <add-birth-date/>

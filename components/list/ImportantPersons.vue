@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div v-if="persons.length > 0" class="list-header">
+    <div v-if="importantPersons.length > 0" class="list-header">
       <div>
         Order by:
         <v-chip
@@ -32,6 +32,19 @@
           ages
         </v-chip>
       </div>
+
+      <div>
+        <v-chip
+          v-for="group in groups" :key="group"
+          color="secondary"
+          text-color="white"
+          :selected="isGroupSelected(group)"
+          @click="filterByGroup(group)"
+        >
+          {{ group }}
+        </v-chip>
+      </div>
+
       <div>
         <v-btn color="error" @click="clearList()">
           Clear list?
@@ -61,16 +74,23 @@
     data() {
       return {
         selectedOrder: 'daysUntilBirthday',
+        selectedGroups: [],
       }
     },
     computed: {
       persons() {
-        const personsList = this.buildPersons(this.importantPersons)
+        let personsList = this.buildPersons(this.importantPersons)
+        if (this.selectedGroups.length > 0) {
+          personsList = personsList.filter(person => {
+            return this.selectedGroups.indexOf(person.group) !== -1
+          })
+        }
         return this.sortPersons(personsList, this.selectedOrder)
       },
       ...mapGetters([
         'importantPersons',
-      ])
+        'groups',
+      ]),
     },
     methods: {
       buildPersons(serverPersons) {
@@ -81,6 +101,7 @@
             birthday: person.birthday,
             age: this.age(person),
             daysUntilBirthday: this.daysUntilBirthday(person.birthday),
+            group: person.group,
           }
         })
       },
@@ -142,6 +163,18 @@
       clearList() {
         this.$store.commit('removeAllPersons')
       },
+      isGroupSelected(groupLabel) {
+        return this.selectedGroups.indexOf(groupLabel) !== -1
+      },
+      filterByGroup(groupLabel) {
+        if (this.selectedGroups.indexOf(groupLabel) !== -1) {
+          this.selectedGroups = this.selectedGroups.filter(group => {
+            return group !== groupLabel
+          })
+        } else {
+          this.selectedGroups.push(groupLabel)
+        }
+      },
     }
   }
 </script>
@@ -153,7 +186,7 @@
     justify-content: space-between;
 
     .chip:focus {
-      background-color: #555 !important;
+      border-color: rgb(25, 118, 210) !important;
     }
   }
 
