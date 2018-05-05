@@ -26,7 +26,7 @@ module.exports = {
   build: {
     vendor: ['vuetify'],
     extractCSS: true,
-    analyze: true,
+    analyze: false,
     /**
      * Run ESLint on save
      */
