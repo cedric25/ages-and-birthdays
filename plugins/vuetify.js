@@ -2,34 +2,36 @@ import Vue from 'vue'
 import {
   Vuetify, // required
   VApp, // required
+  transitions,
 
   VBtn,
   VCard,
   VChip,
+  VDivider,
   VExpansionPanel,
   VGrid,
   VIcon,
+  VJumbotron,
   VTextField,
   VToolbar,
-
-  transitions
 } from 'vuetify'
 import { Ripple } from 'vuetify/es5/directives'
 
 Vue.use(Vuetify, {
   components: {
     VApp,
+    transitions,
 
     VBtn,
     VCard,
     VChip,
+    VDivider,
     VExpansionPanel,
     VGrid,
     VIcon,
+    VJumbotron,
     VTextField,
     VToolbar,
-
-    transitions,
   },
   directives: {
     Ripple,

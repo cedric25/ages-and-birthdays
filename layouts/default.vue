@@ -1,6 +1,19 @@
 <template>
   <v-app>
     <main>
+
+      <v-toolbar dark color="primary">
+        <router-link to="/">
+          <v-toolbar-title class="white--text">
+            Ages and Birthdays
+          </v-toolbar-title>
+        </router-link>
+        <v-spacer></v-spacer>
+        <v-toolbar-items>
+          <v-btn flat to="/about">About</v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
+
       <nuxt/>
     </main>
   </v-app>

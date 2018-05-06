@@ -1,29 +1,15 @@
 <template>
-  <div>
+  <div class="container">
 
-    <v-toolbar dark color="primary">
-      <v-toolbar-title class="white--text">
-        Ages and Birthdays
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-toolbar-items>
-        <v-btn flat>About</v-btn>
-      </v-toolbar-items>
-    </v-toolbar>
+    <h2 class="subtitle">
+      Can't remember ages and birthdays? Me neither...
+    </h2>
 
-    <section class="container">
+    <add-birth-date/>
 
-      <h2 class="subtitle">
-        Can't remember ages and birthdays? Me neither...
-      </h2>
+    <hr>
 
-      <add-birth-date/>
-
-      <hr>
-
-      <important-persons/>
-
-    </section>
+    <important-persons/>
 
   </div>
 </template>
