@@ -27,4 +27,16 @@ export default {
   addGroup(state, newGroupLabel) {
     state.groups.push(newGroupLabel)
   },
+
+  deleteGroup(state, groupToDelete) {
+
+    // Remove label from all persons having it
+    state.importantPersons.forEach(person => {
+      if (person.group === groupToDelete) {
+        person.group = ''
+      }
+    })
+
+    state.groups.splice(state.groups.indexOf(groupToDelete), 1)
+  },
 }
