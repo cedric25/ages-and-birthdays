@@ -64,6 +64,7 @@
   import { mapGetters } from 'vuex'
   import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
   import computeAge from '../../helpers/computeAge'
+  import comparePersons from '../../helpers/comparePersons'
   import OnePerson from './OnePerson.vue'
 
   const today = new Date()
@@ -129,12 +130,9 @@
       },
       sortPersons(personsList, selectedOrder) {
         if (selectedOrder) {
-          return personsList.sort((p1, p2) => this.compare(p1, p2, selectedOrder))
+          return personsList.sort((p1, p2) => comparePersons(p1, p2, selectedOrder))
         }
         return personsList
-      },
-      compare(p1, p2, prop) {
-        return p1[prop] > p2[prop]
       },
       selectOrder(order) {
         this.selectedOrder = order
