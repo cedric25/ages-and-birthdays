@@ -63,5 +63,8 @@ module.exports = {
     { src: '~/plugins/localStorage.js', ssr: false },
     { src: '~/plugins/click-outside-directive.js', ssr: false },
   ],
-  css: ['~/assets/style/app.styl']
+  css: [
+    'assets/main.css',
+    '~/assets/style/app.styl',
+  ]
 }
