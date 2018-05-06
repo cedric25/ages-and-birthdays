@@ -36,18 +36,9 @@
           >
             {{ group }}
           </v-chip>
-          <div class="add-group-form">
-            <v-text-field
-              name="group"
-              placeholder="Add new..."
-              v-model="newGroup"
-              class="pt-0"
-              @keyup.enter="addGroup()"
-            ></v-text-field>
-            <v-btn color="accent" @click.prevent="addGroup()" :disabled="!newGroup">
-              Add group
-            </v-btn>
-          </div>
+
+          <add-group></add-group>
+
         </div>
 
         <div class="xs pt-0">
@@ -128,11 +119,13 @@
 <script>
   import { mapGetters } from 'vuex'
   import uuid from 'uuid/v4'
+  import AddGroup from './AddGroup'
   import SelectMonth from './SelectMonth.vue'
   import ManageGroups from './ManageGroups.vue'
 
   export default {
     components: {
+      AddGroup,
       SelectMonth,
       ManageGroups,
     },
@@ -146,7 +139,6 @@
         year1: '',
         year2: '',
         selectedGroup: null,
-        newGroup: '',
         isFormOpen: null,
       }
     },
@@ -183,10 +175,6 @@
         this.$store.commit('addNewImportantPerson', {
           id: uuid(),
           name: this.name,
-          day: this.day,
-          monthNo: this.monthNo,
-          monthLabel: this.months[this.monthNo],
-          year,
           birthday,
           group: this.selectedGroup || undefined,
         })
@@ -223,14 +211,6 @@
           this.$nextTick(() => this.$refs.day.focus())
         }
       },
-      addGroup() {
-        if (this.groups.indexOf(this.newGroup) === -1) {
-          this.$store.commit('addGroup', this.newGroup)
-          this.selectedGroup = this.newGroup
-          this.newGroup = ''
-          this.$nextTick(() => this.$refs.day.focus())
-        }
-      },
     }
   }
 </script>
@@ -260,11 +240,6 @@
 
     .group-choice {
       text-align: center;
-
-      .add-group-form {
-        display: flex;
-        align-items: baseline;
-      }
     }
 
     .years-wrap {

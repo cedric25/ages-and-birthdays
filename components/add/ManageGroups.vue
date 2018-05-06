@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <v-chip
       v-for="group in groups" :key="group"
       color="secondary"
@@ -10,13 +11,20 @@
     >
       {{ group }}
     </v-chip>
+
+    <add-group></add-group>
+
   </div>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
+  import AddGroup from './AddGroup'
 
   export default {
+    components: {
+      AddGroup,
+    },
     computed: {
       ...mapGetters([
         'groups',
