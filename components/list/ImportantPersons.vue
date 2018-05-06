@@ -63,6 +63,7 @@
 <script>
   import { mapGetters } from 'vuex'
   import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
+  import computeAge from '../../helpers/computeAge'
   import OnePerson from './OnePerson.vue'
 
   const today = new Date()
@@ -99,33 +100,11 @@
             id: person.id,
             name: person.name,
             birthday: person.birthday,
-            age: this.age(person),
+            age: computeAge(new Date(), person.birthday),
             daysUntilBirthday: this.daysUntilBirthday(person.birthday),
             group: person.group,
           }
         })
-      },
-      age(person) {
-
-        const currentYear = today.getFullYear()
-        const currentMonth = today.getMonth() + 1
-        const currentDay = today.getDate()
-
-        const personYear = parseInt(person.year, 10)
-        const personMonth = person.monthNo
-        const personDay = parseInt(person.day)
-
-        return this.computePersonAge(
-          { currentYear, currentMonth, currentDay },
-          { personYear, personMonth, personDay }
-        )
-      },
-      computePersonAge(today, personBirthday) {
-        const { currentYear, currentMonth, currentDay } = today
-        const { personYear, personMonth, personDay } = personBirthday
-
-        return this.isDayMonthLater({ day1: currentDay, month1: currentMonth }, { day2: personDay, month2: personMonth })
-          ? currentYear - personYear : currentYear - personYear - 1
       },
       daysUntilBirthday(birthday) {
         let nextBirthday
