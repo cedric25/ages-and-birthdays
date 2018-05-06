@@ -4,6 +4,7 @@ import {
   VApp, // required
   transitions,
 
+  VAvatar,
   VBtn,
   VCard,
   VChip,
@@ -22,6 +23,7 @@ Vue.use(Vuetify, {
     VApp,
     transitions,
 
+    VAvatar,
     VBtn,
     VCard,
     VChip,

@@ -41,6 +41,9 @@
           :selected="isGroupSelected(group)"
           @click="filterByGroup(group)"
         >
+          <v-avatar class="secondary darken-4">
+            {{ nbPersonsWithinGroup(group) }}
+          </v-avatar>
           {{ group }}
         </v-chip>
       </div>
@@ -151,6 +154,11 @@
         } else {
           this.selectedGroups.push(groupLabel)
         }
+      },
+      nbPersonsWithinGroup(group) {
+        return this.importantPersons.filter(person => {
+          return person.group === group
+        }).length
       },
     }
   }
