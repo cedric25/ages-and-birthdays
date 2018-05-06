@@ -8,13 +8,13 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "heroku-postbuild": "npm run build",
     "generate": "nuxt generate",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "precommit": "npm run lint"
+    "test": "jest",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
   "dependencies": {
     "date-fns": "^1.29.0",
+    "jest-serializer-vue": "^1.0.0",
     "nuxt": "latest",
     "uuid": "^3.2.1",
     "vuetify": "^1.0.17",
@@ -22,15 +22,32 @@
     "vuex-persistedstate": "^2.5.2"
   },
   "devDependencies": {
+    "@vue/test-utils": "^1.0.0-beta.15",
+    "babel-cli": "^6.26.0",
     "babel-eslint": "^8.2.1",
+    "babel-jest": "^22.4.3",
     "babel-plugin-transform-imports": "^1.5.0",
+    "babel-preset-env": "^1.6.1",
     "eslint": "^4.15.0",
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-loader": "^1.7.1",
     "eslint-plugin-vue": "^4.0.0",
+    "jest": "^22.4.3",
     "node-sass": "^4.8.3",
     "sass-loader": "^7.0.1",
     "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.2"
+    "stylus-loader": "^3.0.2",
+    "vue-jest": "^2.5.0",
+    "vue-template-compiler": "^2.5.16"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "vue"
+    ],
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
+      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
+    }
   }
 }

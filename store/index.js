@@ -1,13 +1,18 @@
 import Vuex from 'vuex'
 
+import mutations from './mutations'
+
 /**
  * Example of 'importantPersons':
- * {
- *   [
- *     id: 1,
+ * [
+ *   {
+ *     id: '9e30969d-458f-4d29-8bb0-56fbe4d6d39d',
  *     name: 'Cedric',
- *   ]
- * }
+ *     ...
+ *   }, {
+ *     ...
+ *   }
+ * ]
  */
 
 const createStore = () => {
@@ -16,26 +21,7 @@ const createStore = () => {
       importantPersons: [],
       groups: ['Family', 'Friends'],
     },
-    mutations: {
-      addNewImportantPerson(state, newPerson) {
-        state.importantPersons.push(newPerson)
-      },
-      updatePerson(state, updatedPerson) {
-        state.importantPersons[updatedPerson.id].name = updatedPerson.name
-        state.importantPersons[updatedPerson.id].birthday = updatedPerson.birthday
-      },
-      deletePerson(state, personToDelete) {
-        state.importantPersons = state.importantPersons.filter(person => {
-          return person.id !== personToDelete.id
-        })
-      },
-      removeAllPersons(state) {
-        state.importantPersons = []
-      },
-      addGroup(state, newGroupLabel) {
-        state.groups.push(newGroupLabel)
-      },
-    },
+    mutations,
     getters: {
       importantPersons(state) {
         return state.importantPersons
