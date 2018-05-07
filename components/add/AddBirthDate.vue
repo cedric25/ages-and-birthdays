@@ -5,12 +5,7 @@
       v-model="isFormOpen"
     >
       <div slot="header">
-        <span v-if="importantPersons.length > 0">
-          Add someone's birthday
-        </span>
-        <span v-else>
-          Add your first person's birthday to the list
-        </span>
+        {{ addPersonLabel }}
       </div>
 
       <form class="add-person">
@@ -131,6 +126,7 @@
     },
     data() {
       return {
+        addPersonLabel: 'Add someone\'s birthday',
         months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         name: '',
         day: '',
@@ -139,7 +135,7 @@
         year1: '',
         year2: '',
         selectedGroup: null,
-        isFormOpen: null,
+        isFormOpen: false,
       }
     },
     computed: {
@@ -159,8 +155,11 @@
         value && this.focusNameInputDelay()
       },
     },
-    created() {
-      this.isFormOpen = this.importantPersons.length === 0
+    mounted() {
+      if (this.importantPersons.length === 0) {
+        this.isFormOpen = true
+        this.addPersonLabel = 'Add your first person\'s birthday to the list'
+      }
     },
     methods: {
       selectMonth(monthNo) {
