@@ -7,6 +7,8 @@ import ImportantPersons from './ImportantPersons.vue'
 // the function I want to test to another "non-vue" file
 // --> Not easy!
 // Use store, mock it with all attributes, whole component gets mounted... Not necessary here!
+// And still a warning in the console about unknown Vuetify components
+// Also needed 'stage-2 in .babelrc, otherwise ...mapGetters([...]) was making it fail
 
 Vue.use(Vuex)
 
