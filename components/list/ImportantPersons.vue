@@ -84,6 +84,7 @@
     },
     computed: {
       persons() {
+        // Apply filters and sort persons from state
         let personsList = this.buildPersons(this.importantPersons)
         if (this.selectedGroups.length > 0) {
           personsList = personsList.filter(person => {
