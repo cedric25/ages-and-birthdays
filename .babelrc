@@ -4,9 +4,7 @@
   ],
   "env": {
     "test": {
-      "presets": [
-        ["env", { "targets": { "node": 8 }}]
-      ]
+      "presets": ["env", "stage-2"]
     }
   }
 }
