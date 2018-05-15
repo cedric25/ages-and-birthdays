@@ -6,5 +6,13 @@
     "test": {
       "presets": ["env", "stage-2"]
     }
-  }
+  },
+  "plugins": [
+    ["transform-imports", {
+      "vuetify": {
+        "transform": "vuetify/es5/components/${member}",
+        "preventFullImport": true
+      }
+    }]
+  ]
 }
