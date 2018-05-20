@@ -27,6 +27,11 @@ export default {
     state.importantPersons = newPersonsList
   },
 
+  changeGroup(state, { personId, newGroup }) {
+    const personToUpdate = state.importantPersons.find(person => person.id === personId)
+    personToUpdate.group = newGroup
+  },
+
   deletePerson(state, personToDelete) {
     state.importantPersons = state.importantPersons.filter(person => {
       return person.id !== personToDelete.id

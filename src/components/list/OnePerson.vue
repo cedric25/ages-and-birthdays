@@ -62,6 +62,20 @@
             <strong>{{ person.daysUntilBirthday }}</strong> day{{ person.daysUntilBirthday > 1 && 's' || '' }}
           </div>
 
+          <div v-if="isEditMode">
+            <v-chip
+              v-for="group in groups"
+              :key="group"
+              :selected="isInGroup(group)"
+              color="secondary"
+              text-color="white"
+              class="blue-chip"
+              @click="changeGroup(group)"
+            >
+              {{ group }}
+            </v-chip>
+          </div>
+
           <v-btn v-if="!isEditMode" icon class="edit-btn" @click="switchToEditMode()">
             <v-icon>edit</v-icon>
           </v-btn>
@@ -86,6 +100,7 @@
 <script>
 import format from 'date-fns/format'
 import parse from 'date-fns/parse'
+import { mapGetters } from 'vuex'
 // eslint-disable-next-line no-unused-vars
 import ClickOutside from '../../directives/click-outside-directive'
 
@@ -101,6 +116,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      'groups',
+    ]),
     readableBirthday() {
       return format(this.person.birthday, 'D MMM YYYY')
     },
@@ -130,6 +148,22 @@ export default {
     cancelEdit() {
       this.isEditMode = false
       this.name = this.person.name
+    },
+    isInGroup(group) {
+      return this.person.group === group
+    },
+    changeGroup(group) {
+      if (this.isInGroup(group)) {
+        this.$store.commit('changeGroup', {
+          personId: this.person.id,
+          newGroup: '',
+        })
+      } else {
+        this.$store.commit('changeGroup', {
+          personId: this.person.id,
+          newGroup: group,
+        })
+      }
     },
   },
 }
@@ -204,6 +238,22 @@ export default {
       &:hover .edit-btn,
       &:hover .delete-btn {
         opacity: 1;
+      }
+
+      .blue-chip {
+        /deep/ span {
+          cursor: pointer;
+        }
+
+        &.chip--selected {
+          box-shadow: none;
+          border-color: rgb(25, 118, 210) !important;
+
+          &::after {
+            background: rgb(25, 118, 210);
+            opacity: 1;
+          }
+        }
       }
     }
 
