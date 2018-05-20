@@ -23,7 +23,7 @@
           <v-chip
             v-for="group in groups"
             :key="group"
-            :selected="selectedGroup === group"
+            :selected="isGroupSelected(group)"
             color="secondary"
             text-color="white"
             class="blue-chip"
@@ -135,7 +135,7 @@ export default {
       monthLabel: '',
       year1: '',
       year2: '',
-      selectedGroup: null,
+      selectedGroups: [],
       isFormOpen: false,
     }
   },
@@ -176,7 +176,7 @@ export default {
         id: uuid(),
         name: this.name,
         birthday,
-        group: this.selectedGroup || undefined,
+        groups: this.selectedGroups,
       })
       this.resetForm()
       this.focusNameInput()
@@ -187,7 +187,7 @@ export default {
     },
     resetForm() {
       this.name = ''
-      this.selectedGroup = ''
+      this.selectedGroups = []
       this.day = ''
       this.monthNo = ''
       this.monthLabel = ''
@@ -204,12 +204,14 @@ export default {
       this.$nextTick(() => this.$refs.year1.focus())
     },
     selectGroup(groupLabel) {
-      if (groupLabel === this.selectedGroup) {
-        this.selectedGroup = null
+      if (this.selectedGroups.includes(groupLabel)) {
+        this.selectedGroups = this.selectedGroups.filter(group => group !== groupLabel)
       } else {
-        this.selectedGroup = groupLabel
-        this.$nextTick(() => this.$refs.day.focus())
+        this.selectedGroups.push(groupLabel)
       }
+    },
+    isGroupSelected(groupLabel) {
+      return this.selectedGroups.includes(groupLabel)
     },
   }
 }

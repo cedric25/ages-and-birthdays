@@ -27,9 +27,27 @@ export default {
     state.importantPersons = newPersonsList
   },
 
-  changeGroup(state, { personId, newGroup }) {
+  addGroupToPerson(state, { personId, groupToAdd }) {
+
     const personToUpdate = state.importantPersons.find(person => person.id === personId)
-    personToUpdate.group = newGroup
+
+    let newGroupsList = (personToUpdate.groups || []).concat([groupToAdd])
+
+    const updatedPerson = Object.assign({}, personToUpdate,
+      { groups: newGroupsList },
+    )
+
+    let newPersonsList = state.importantPersons.filter(person => {
+      return person.id !== personId
+    })
+    newPersonsList.push(updatedPerson)
+
+    state.importantPersons = newPersonsList
+  },
+
+  removeGroupFromPerson(state, { personId, groupToRemove }) {
+    const personToUpdate = state.importantPersons.find(person => person.id === personId)
+    personToUpdate.groups = personToUpdate.groups.filter(group => group !== groupToRemove)
   },
 
   deletePerson(state, personToDelete) {
@@ -56,8 +74,8 @@ export default {
 
     // Remove label from all persons having it
     state.importantPersons.forEach(person => {
-      if (person.group === groupToDelete) {
-        person.group = ''
+      if (person.groups && person.groups.includes(groupToDelete)) {
+        person.groups = person.groups.filter(group => group !== groupToDelete)
       }
     })
 

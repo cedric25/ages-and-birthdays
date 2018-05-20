@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { shallowMount } from '@vue/test-utils'
+import { createLocalVue, shallowMount } from '@vue/test-utils'
 import ImportantPersons from '@/components/list/ImportantPersons.vue'
 
 // Try here to test a Vue component method, see how feasible it is instead of pulling out
@@ -12,28 +12,42 @@ import ImportantPersons from '@/components/list/ImportantPersons.vue'
 
 Vue.use(Vuex)
 
-import store from '@/store/'
-
 describe('ImportantPersons component', () => {
 
   describe('nbPersonsWithinGroup()', () => {
     test('nbPersonsWithinGroup()', () => {
 
-      const wrapper = shallowMount(ImportantPersons, {
-        store,
+      const localVue = createLocalVue()
+
+      const store = new Vuex.Store({
+        state: {
+          importantPersons: [{
+            id: '123',
+            name: 'Franck',
+            birthday: new Date('2000-05-01'),
+            groups: ['Friends'],
+          }, {
+            id: '456',
+            name: 'Sophie',
+            birthday: new Date('1998-03-15'),
+            groups: ['Friends']
+          }],
+          groups: ['Friends']
+        },
+        getters: {
+          importantPersons(state) {
+            return state.importantPersons
+          },
+          groups(state) {
+            return state.groups
+          },
+        }
       })
 
-      wrapper.vm.$store.state.importantPersons = [{
-        id: '123',
-        name: 'Franck',
-        birthday: new Date('2000-05-01'),
-        group: 'Friends',
-      }, {
-        id: '456',
-        name: 'Sophie',
-        birthday: new Date('1998-03-15'),
-        group: 'Friends'
-      }]
+      const wrapper = shallowMount(ImportantPersons, {
+        localVue,
+        store,
+      })
 
       const nbPersons = wrapper.vm.nbPersonsWithinGroup('Friends')
 

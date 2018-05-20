@@ -2,12 +2,17 @@
   <div class="person">
 
     <v-card v-click-outside="cancelEdit">
-      <v-card-title>
+      <v-card-title :class="{ 'mt-2': !hasGroups }">
         <div>
 
-          <div v-if="person.group" class="group-label">
-            <v-chip label outline color="red">
-              {{ person.group }}
+          <div v-if="hasGroups" class="group-label">
+            <v-chip
+              v-for="group in person.groups"
+              :key="group"
+              outline
+              color="red"
+            >
+              {{ group }}
             </v-chip>
           </div>
 
@@ -119,6 +124,9 @@ export default {
     ...mapGetters([
       'groups',
     ]),
+    hasGroups() {
+      return this.person.groups && this.person.groups.length > 0
+    },
     readableBirthday() {
       return format(this.person.birthday, 'D MMM YYYY')
     },
@@ -150,18 +158,18 @@ export default {
       this.name = this.person.name
     },
     isInGroup(group) {
-      return this.person.group === group
+      return this.person.groups && this.person.groups.includes(group)
     },
     changeGroup(group) {
       if (this.isInGroup(group)) {
-        this.$store.commit('changeGroup', {
+        this.$store.commit('removeGroupFromPerson', {
           personId: this.person.id,
-          newGroup: '',
+          groupToRemove: group,
         })
       } else {
-        this.$store.commit('changeGroup', {
+        this.$store.commit('addGroupToPerson', {
           personId: this.person.id,
-          newGroup: group,
+          groupToAdd: group,
         })
       }
     },
@@ -178,15 +186,14 @@ export default {
 
     .card__title {
       display: flex;
+      padding: 5px 5px 16px 5px;
 
       > div {
         flex: 1;
       }
 
       .group-label {
-        position: absolute;
-        top: 0;
-        left: 0;
+        text-align: left;
       }
 
       h3 {

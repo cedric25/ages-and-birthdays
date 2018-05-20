@@ -14,7 +14,7 @@ describe('OnePerson component', () => {
       birthday: new Date('1988-02-25'),
       age: 30,
       daysUntilBirthday: 295,
-      group: 'Family',
+      groups: ['Family'],
     }
     const wrapper = shallowMount(OnePerson, {
       propsData: { person }
@@ -29,7 +29,7 @@ describe('OnePerson component', () => {
       birthday: new Date('1988-02-25'),
       age: 30,
       daysUntilBirthday: 295,
-      group: 'Family',
+      groups: ['Family'],
     }
     const wrapper = shallowMount(OnePerson, {
       propsData: { person },

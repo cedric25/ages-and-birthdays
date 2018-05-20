@@ -89,7 +89,10 @@ export default {
       let personsList = this.buildPersons(this.importantPersons)
       if (this.selectedGroups.length > 0) {
         personsList = personsList.filter(person => {
-          return this.selectedGroups.indexOf(person.group) !== -1
+          const commonGroups = this.selectedGroups.filter(group => {
+            return person.groups && person.groups.includes(group)
+          })
+          return commonGroups.length > 0
         })
       }
       return this.sortPersons(personsList, this.selectedOrder)
@@ -108,7 +111,7 @@ export default {
           birthday: person.birthday,
           age: computeAge(new Date(), person.birthday),
           daysUntilBirthday: this.daysUntilBirthday(person.birthday),
-          group: person.group,
+          groups: person.groups && person.groups.sort(),
         }
       })
     },
@@ -158,8 +161,9 @@ export default {
       }
     },
     nbPersonsWithinGroup(group) {
+      console.log('nbPersonsWithinGroup', group)
       return this.importantPersons.filter(person => {
-        return person.group === group
+        return person.groups && person.groups.includes(group)
       }).length
     },
   }

@@ -3,6 +3,8 @@ import mutations from '@/store/mutations.js'
 const {
   addNewImportantPerson,
   updatePerson,
+  addGroupToPerson,
+  removeGroupFromPerson,
   deletePerson,
   removeAllPersons,
 } = mutations
@@ -39,6 +41,48 @@ describe('updatePerson()', () => {
     expect(state.importantPersons.length).toBe(1)
     expect(state.importantPersons[0].id).toBe('123')
     expect(state.importantPersons[0].name).toBe('Bobby')
+  })
+})
+
+describe('addGroupToPerson()', () => {
+  describe('When adding the \'Family\' group to the person', () => {
+    test('it should, well, add it to its list of groups', () => {
+      state.importantPersons = [{
+        id: '123',
+        name: 'Bob',
+        groups: []
+      }]
+      addGroupToPerson(state, {
+        personId: '123',
+        groupToAdd: 'Family'
+      })
+      expect(state.importantPersons).toEqual([{
+        id: '123',
+        name: 'Bob',
+        groups: ['Family']
+      }])
+    })
+  })
+})
+
+describe('removeGroupFromPerson()', () => {
+  describe('When removing the \'Family\' group from the person', () => {
+    test('it should, well, remove it from its list of groups', () => {
+      state.importantPersons = [{
+        id: '123',
+        name: 'Bob',
+        groups: ['Friends', 'Family']
+      }]
+      removeGroupFromPerson(state, {
+        personId: '123',
+        groupToRemove: 'Family'
+      })
+      expect(state.importantPersons).toEqual([{
+        id: '123',
+        name: 'Bob',
+        groups: ['Friends']
+      }])
+    })
   })
 })
 

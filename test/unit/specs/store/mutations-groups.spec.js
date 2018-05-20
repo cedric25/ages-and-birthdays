@@ -36,29 +36,29 @@ describe('deleteGroup()', () => {
       state.importantPersons = [{
         id: '123',
         name: 'Bob',
-        group: 'Friends',
+        groups: ['Friends'],
       }, {
         id: '456',
         name: 'Marie',
-        group: 'Family',
+        groups: ['Family'],
       }, {
         id: '789',
         name: 'Lucy',
-        group: 'Friends',
+        groups: ['Friends'],
       }]
       deleteGroup(state, 'Friends')
       expect(state.importantPersons).toEqual([{
         id: '123',
         name: 'Bob',
-        group: '',
+        groups: [],
       }, {
         id: '456',
         name: 'Marie',
-        group: 'Family',
+        groups: ['Family'],
       }, {
         id: '789',
         name: 'Lucy',
-        group: '',
+        groups: [],
       }])
     })
   })
