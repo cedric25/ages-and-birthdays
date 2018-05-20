@@ -84,6 +84,10 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      'importantPersons',
+      'groups',
+    ]),
     persons() {
       // Apply filters and sort persons from state
       let personsList = this.buildPersons(this.importantPersons)
@@ -97,10 +101,6 @@ export default {
       }
       return this.sortPersons(personsList, this.selectedOrder)
     },
-    ...mapGetters([
-      'importantPersons',
-      'groups',
-    ]),
   },
   methods: {
     buildPersons(serverPersons) {
@@ -161,7 +161,6 @@ export default {
       }
     },
     nbPersonsWithinGroup(group) {
-      console.log('nbPersonsWithinGroup', group)
       return this.importantPersons.filter(person => {
         return person.groups && person.groups.includes(group)
       }).length
