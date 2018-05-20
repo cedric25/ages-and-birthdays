@@ -1,4 +1,4 @@
-import comparePersons from './comparePersons'
+import comparePersons from '@/helpers/comparePersons'
 
 describe('comparePersons()', () => {
 

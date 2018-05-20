@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { shallowMount } from '@vue/test-utils'
-import store from '../../store/index'
-import ImportantPersons from './ImportantPersons.vue'
+import ImportantPersons from '@/components/list/ImportantPersons.vue'
 
 // Try here to test a Vue component method, see how feasible it is instead of pulling out
 // the function I want to test to another "non-vue" file
@@ -12,6 +11,8 @@ import ImportantPersons from './ImportantPersons.vue'
 // Also needed 'stage-2 in .babelrc, otherwise ...mapGetters([...]) was making it fail
 
 Vue.use(Vuex)
+
+import store from '@/store/'
 
 describe('ImportantPersons component', () => {
 

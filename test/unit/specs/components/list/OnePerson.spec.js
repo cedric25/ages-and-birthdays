@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { shallow } from '@vue/test-utils'
-import OnePerson from './OnePerson.vue'
+import { shallowMount } from '@vue/test-utils'
+import OnePerson from '@/components/list/OnePerson.vue'
 
 Vue.use(Vuex)
 
@@ -16,7 +16,7 @@ describe('OnePerson component', () => {
       daysUntilBirthday: 295,
       group: 'Family',
     }
-    const wrapper = shallow(OnePerson, {
+    const wrapper = shallowMount(OnePerson, {
       propsData: { person }
     })
     expect(wrapper.vm.$el.querySelector('h3').textContent.trim()).toBe('Cédric')
@@ -31,7 +31,7 @@ describe('OnePerson component', () => {
       daysUntilBirthday: 295,
       group: 'Family',
     }
-    const wrapper = shallow(OnePerson, {
+    const wrapper = shallowMount(OnePerson, {
       propsData: { person },
       store: new Vuex.Store({
         state: {

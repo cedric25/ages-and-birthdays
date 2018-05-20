@@ -86,6 +86,7 @@
 <script>
 import format from 'date-fns/format'
 import parse from 'date-fns/parse'
+// eslint-disable-next-line no-unused-vars
 import ClickOutside from '../../directives/click-outside-directive'
 
 export default {

@@ -1,4 +1,5 @@
 import Vue from 'vue'
+// import Vuetify from 'vuetify'
 import {
   Vuetify,
   VApp,
@@ -21,7 +22,9 @@ import router from './router'
 import store from './store'
 
 require('../node_modules/vuetify/src/stylus/app.styl')
+// import 'vuetify/dist/vuetify.min.css'
 
+// Vue.use(Vuetify)
 Vue.use(Vuetify, {
   components: {
     VApp,
@@ -50,6 +53,7 @@ Vue.use(Vuetify, {
   }
 })
 
+// eslint-disable-next-line no-new
 new Vue({
   el: '#app',
   router,

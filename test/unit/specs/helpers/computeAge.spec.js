@@ -1,4 +1,4 @@
-import computeAge from './computeAge'
+import computeAge from '@/helpers/computeAge'
 
 describe('computeAge()', () => {
 

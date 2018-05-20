@@ -1,4 +1,4 @@
-import mutations from './mutations.js'
+import mutations from '@/store/mutations.js'
 
 const {
   addNewImportantPerson,

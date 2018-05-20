@@ -4,7 +4,7 @@
       <v-jumbotron
         :gradient="gradient"
         height="100vh"
-        src="../../public/material2-bw.jpg"
+        src="../assets/material2-bw.jpg"
       >
         <v-container fill-height>
           <v-layout align-center>
@@ -31,7 +31,7 @@
               </p>
               <a href="https://github.com/cedric25/ages-and-birthdays" target="_blank">
                 <v-btn large color="primary" class="mx-0">
-                  <img src="../../public/github-icon.svg" class="github-icon">
+                  <img src="../assets/github-icon.svg" class="github-icon">
                   Github
                 </v-btn>
               </a>
