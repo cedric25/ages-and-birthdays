@@ -21,7 +21,7 @@ export default new Vuex.Store({
       return state.importantPersons
     },
     groups(state) {
-      return state.groups
+      return state.groups.sort()
     },
   },
   plugins,
