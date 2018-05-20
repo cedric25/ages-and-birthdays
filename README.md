@@ -2,6 +2,8 @@
 
 > Can't remember ages and birthdays? Me neither...
 
+![Alt text](screenshot-readme.png?raw=true "App screenshot")
+
 ## Boilerplate
 
 Project generated from vue-cli 2.9.3  
