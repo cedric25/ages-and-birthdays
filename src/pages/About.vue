@@ -50,7 +50,7 @@
 
 <script>
 import AbFullWidth from '../components/containers/ab-full-width'
-import { version } from '../../package.json';
+import { version } from '../../package.json'
 
 export default {
   components: {
