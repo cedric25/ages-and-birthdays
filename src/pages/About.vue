@@ -10,9 +10,9 @@
           <v-layout align-center>
             <v-flex text-xs-center>
 
-              <h3 class="display-3">
+              <h2 class="display-2">
                 Thanks for visiting!
-              </h3>
+              </h2>
 
               <v-divider class="my-3" />
 
@@ -27,7 +27,7 @@
               <v-divider class="my-3" />
 
               <p>
-                Source code is open source, check it out!
+                Code is open source, check it out!
               </p>
               <a href="https://github.com/cedric25/ages-and-birthdays" target="_blank">
                 <v-btn large color="primary" class="mx-0">
@@ -35,6 +35,10 @@
                   Github
                 </v-btn>
               </a>
+
+              <p class="mt-3">
+                v{{ appVersion }}
+              </p>
 
             </v-flex>
           </v-layout>
@@ -46,12 +50,14 @@
 
 <script>
 import AbFullWidth from '../components/containers/ab-full-width'
+import { version } from '../../package.json';
 
 export default {
   components: {
     AbFullWidth,
   },
   data: () => ({
+    appVersion: version,
     gradient: 'to top right, rgba(144,202,249, .7), rgba(144,202,249, .5)'
   })
 }
