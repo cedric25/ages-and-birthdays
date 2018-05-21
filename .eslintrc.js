@@ -41,5 +41,6 @@ module.exports = {
         "allowFirstLine": false
       }
     }],
+    "no-mixed-operators": 0,
   }
 }
