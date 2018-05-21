@@ -73,7 +73,7 @@
             </div>
             <div class="age-wrap">
               <v-chip color="accent" text-color="white" disabled>
-                <span class="age">{{ person.age }}</span>y old
+                <span class="age">{{ age.value }}</span><span v-html="age.unit"></span>
               </v-chip>
             </div>
           </div>
@@ -107,6 +107,7 @@
 import format from 'date-fns/format'
 import parse from 'date-fns/parse'
 import { mapGetters } from 'vuex'
+import { computeAgeMonths } from '../../helpers/computeAge'
 // eslint-disable-next-line no-unused-vars
 import ClickOutside from '../../directives/click-outside-directive'
 
@@ -136,6 +137,19 @@ export default {
     },
     isBaby() {
       return this.person.age <= 2
+    },
+    age() {
+      if (this.person.age === 0) {
+        const ageInMonths = computeAgeMonths(new Date(), this.person.birthday)
+        return {
+          value: ageInMonths,
+          unit: '&nbsp;months old',
+        }
+      }
+      return {
+        value: this.person.age,
+        unit: 'y old',
+      }
     },
   },
   created() {

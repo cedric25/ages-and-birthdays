@@ -67,7 +67,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
-import computeAge from '../../helpers/computeAge'
+import { computeAge } from '../../helpers/computeAge'
 import comparePersons from '../../helpers/comparePersons'
 import OnePerson from './OnePerson.vue'
 
