@@ -17,7 +17,7 @@ describe('comparePersons()', () => {
   })
 
   describe('when comparing days until birthday', () => {
-    test('should answer -1', () => {
+    test('should answer > 0', () => {
       const result = comparePersons(
         { daysUntilBirthday: 295 }, { daysUntilBirthday: 266 }, 'daysUntilBirthday'
       )
@@ -26,9 +26,65 @@ describe('comparePersons()', () => {
   })
 
   describe('when comparing ages', () => {
-    test('should answer -1', () => {
-      const result = comparePersons({ age: 30 }, { age: 28 }, 'age')
-      expect(result).toBeGreaterThan(0)
+    describe('When both persons are older than 1 year old, and first person is older', () => {
+      test('should answer > 0', () => {
+        const result = comparePersons(
+          { age: { value: 30, unit: 'years' } },
+          { age: { value: 28, unit: 'years' } },
+          'age'
+        )
+        expect(result).toBeGreaterThan(0)
+      })
+    })
+    describe('When both persons are older than 1 year old, and same age', () => {
+      test('should answer 0', () => {
+        const result = comparePersons(
+          { age: { value: 15, unit: 'years' } },
+          { age: { value: 15, unit: 'years' } },
+          'age'
+        )
+        expect(result).toBe(0)
+      })
+    })
+    describe('When both persons are younger than 1 year old, and same age', () => {
+      test('should answer 0', () => {
+        const result = comparePersons(
+          { age: { value: 3, unit: 'months' } },
+          { age: { value: 3, unit: 'months' } },
+          'age'
+        )
+        expect(result).toBe(0)
+      })
+    })
+    describe('When first person is 3 months old and 2nd person is 2y old', () => {
+      test('should answer < 0', () => {
+        const result = comparePersons(
+          { age: { value: 3, unit: 'months' } },
+          { age: { value: 2, unit: 'years' } },
+          'age'
+        )
+        expect(result).toBeLessThan(0)
+      })
+    })
+    describe('When first person is 10 years old and 2nd person is 10 months old', () => {
+      test('should answer > 0', () => {
+        const result = comparePersons(
+          { age: { value: 10, unit: 'years' } },
+          { age: { value: 10, unit: 'months' } },
+          'age'
+        )
+        expect(result).toBeGreaterThan(0)
+      })
+    })
+    describe('When one unit is unknown', () => {
+      test('should simply compare values', () => {
+        const result = comparePersons(
+          { age: { value: 15, unit: 'oops' } },
+          { age: { value: 10, unit: 'months' } },
+          'age'
+        )
+        expect(result).toBeGreaterThan(0)
+      })
     })
   })
 

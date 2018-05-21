@@ -73,12 +73,12 @@
             </div>
             <div class="age-wrap">
               <v-chip color="accent" text-color="white" disabled>
-                <span class="age">{{ age.value }}</span><span v-html="age.unit"></span>
+                <span class="age">{{ age.value }}</span><span v-html="age.unit"></span>&nbsp;old
               </v-chip>
             </div>
           </div>
           <div class="mt-1 text-md-center">
-            Will turn {{ person.age + 1 }} in
+            Will turn {{ nextAge }} in
             <strong>{{ person.daysUntilBirthday }}</strong> day{{ person.daysUntilBirthday > 1 && 's' || '' }}
           </div>
 
@@ -107,7 +107,6 @@
 import format from 'date-fns/format'
 import parse from 'date-fns/parse'
 import { mapGetters } from 'vuex'
-import { computeAgeMonths } from '../../helpers/computeAge'
 // eslint-disable-next-line no-unused-vars
 import ClickOutside from '../../directives/click-outside-directive'
 
@@ -136,20 +135,24 @@ export default {
       return this.groups.filter(group => !this.isInGroup(group))
     },
     isBaby() {
-      return this.person.age <= 2
+      return this.person.age.unit === 'months' ||
+        this.person.age.value < 3
     },
     age() {
-      if (this.person.age === 0) {
-        const ageInMonths = computeAgeMonths(new Date(), this.person.birthday)
-        return {
-          value: ageInMonths,
-          unit: '&nbsp;months old',
-        }
+      let unit = 'y'
+      if (this.person.age.unit === 'months') {
+        unit = '&nbsp;months'
       }
       return {
-        value: this.person.age,
-        unit: 'y old',
+        value: this.person.age.value,
+        unit,
       }
+    },
+    nextAge() {
+      if (this.person.age.unit === 'months') {
+        return 1
+      }
+      return this.person.age.value + 1
     },
   },
   created() {
@@ -222,6 +225,8 @@ export default {
         .baby-icon {
           font-size: .75em;
           padding-left: 5px;
+          display: inline-block;
+          margin-bottom: -3px;
         }
       }
 
