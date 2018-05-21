@@ -46,6 +46,7 @@
             @dblclick="switchToEditMode()"
           >
             {{ person.name }}
+            <span v-if="isBaby" class="baby-icon">👶</span>
           </h3>
 
           <div class="dob-age-wrap">
@@ -133,6 +134,9 @@ export default {
     otherGroups() {
       return this.groups.filter(group => !this.isInGroup(group))
     },
+    isBaby() {
+      return this.person.age <= 2
+    },
   },
   created() {
     this.name = this.person.name
@@ -200,6 +204,11 @@ export default {
 
       h3 {
         padding: 0 30px 2px;
+
+        .baby-icon {
+          font-size: .75em;
+          padding-left: 5px;
+        }
       }
 
       .name-input {
