@@ -11,6 +11,20 @@
               :key="group"
               outline
               color="red"
+              :close="isEditMode"
+              @input="removeFromGroup(group)"
+            >
+              {{ group }}
+            </v-chip>
+          </div>
+          <div v-if="isEditMode" class="group-label">
+            <v-chip
+              v-for="group in otherGroups"
+              :key="group"
+              color="secondary"
+              text-color="white"
+              class="blue-chip"
+              @click="addToGroup(group)"
             >
               {{ group }}
             </v-chip>
@@ -67,20 +81,6 @@
             <strong>{{ person.daysUntilBirthday }}</strong> day{{ person.daysUntilBirthday > 1 && 's' || '' }}
           </div>
 
-          <div v-if="isEditMode">
-            <v-chip
-              v-for="group in groups"
-              :key="group"
-              :selected="isInGroup(group)"
-              color="secondary"
-              text-color="white"
-              class="blue-chip"
-              @click="changeGroup(group)"
-            >
-              {{ group }}
-            </v-chip>
-          </div>
-
           <v-btn v-if="!isEditMode" icon class="edit-btn" @click="switchToEditMode()">
             <v-icon>edit</v-icon>
           </v-btn>
@@ -130,6 +130,9 @@ export default {
     readableBirthday() {
       return format(this.person.birthday, 'D MMM YYYY')
     },
+    otherGroups() {
+      return this.groups.filter(group => !this.isInGroup(group))
+    },
   },
   created() {
     this.name = this.person.name
@@ -160,18 +163,17 @@ export default {
     isInGroup(group) {
       return this.person.groups && this.person.groups.includes(group)
     },
-    changeGroup(group) {
-      if (this.isInGroup(group)) {
-        this.$store.commit('removeGroupFromPerson', {
-          personId: this.person.id,
-          groupToRemove: group,
-        })
-      } else {
-        this.$store.commit('addGroupToPerson', {
-          personId: this.person.id,
-          groupToAdd: group,
-        })
-      }
+    addToGroup(group) {
+      this.$store.commit('addGroupToPerson', {
+        personId: this.person.id,
+        groupToAdd: group,
+      })
+    },
+    removeFromGroup(group) {
+      this.$store.commit('removeGroupFromPerson', {
+        personId: this.person.id,
+        groupToRemove: group,
+      })
     },
   },
 }
