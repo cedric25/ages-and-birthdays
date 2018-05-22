@@ -2,35 +2,23 @@
   <div>
 
     <div v-if="importantPersons.length > 0" class="list-header">
-      <div>
-        Order by:
-        <v-chip
-          :selected="selectedOrder === 'daysUntilBirthday'"
-          color="secondary"
-          text-color="white"
-          @click="selectOrder('daysUntilBirthday')"
-          @keyup.enter="selectOrder('daysUntilBirthday')"
-        >
-          upcoming birthdays
-        </v-chip>
-        <v-chip
-          :selected="selectedOrder === 'name'"
-          color="secondary"
-          text-color="white"
-          @click="selectOrder('name')"
-          @keyup.enter="selectOrder('name')"
-        >
-          names
-        </v-chip>
-        <v-chip
-          :selected="selectedOrder === 'age'"
-          color="secondary"
-          text-color="white"
-          @click="selectOrder('age')"
-          @keyup.enter="selectOrder('age')"
-        >
-          ages
-        </v-chip>
+
+      <div class="order-total-clear">
+
+        <ab-order-by
+          :selected-order="selectedOrder"
+          @order="selectOrder"
+        ></ab-order-by>
+
+        <div class="total-persons">
+          <strong>{{ importantPersons.length }}</strong> important persons
+        </div>
+
+        <div class="ml-3">
+          <v-btn color="error" @click="clearList()">
+            Clear list?
+          </v-btn>
+        </div>
       </div>
 
       <div>
@@ -49,11 +37,6 @@
         </v-chip>
       </div>
 
-      <div>
-        <v-btn color="error" @click="clearList()">
-          Clear list?
-        </v-btn>
-      </div>
     </div>
 
     <transition-group name="flip-list" tag="div" class="persons-grid">
@@ -70,12 +53,14 @@ import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
 import { computeAge } from '../../helpers/computeAge'
 import comparePersons from '../../helpers/comparePersons'
 import OnePerson from './OnePerson.vue'
+import OrderBy from './OrderBy.vue'
 
 const today = new Date()
 
 export default {
   components: {
     OnePerson,
+    'ab-order-by': OrderBy,
   },
   data() {
     return {
@@ -170,10 +155,20 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .list-header {
+  .list-header > div {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+
+    &.order-total-clear {
+      padding: 0 6px;
+      display: flex;
+      justify-content: space-between;
+
+      .total-persons {
+        flex-grow: 1;
+        text-align: right;
+      }
+    }
 
     .chip:focus {
       border-color: rgb(25, 118, 210) !important;
