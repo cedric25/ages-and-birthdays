@@ -5,7 +5,12 @@
       Download JSON
     </v-btn>
 
-    <input type="file" @change="onFileChange">
+    <label class="btn">
+      <input type="file" @change="onFileChange">
+      <span class="btn__content">
+        Upload JSON
+      </span>
+    </label>
 
   </div>
 </template>
@@ -52,10 +57,6 @@ export default {
         } catch (err) {
           console.error('Invalid JSON file...')
         }
-
-        // TODO
-        // Virer le fichier sélectionné (Or remove the display of the file name)
-        // Better style for input type="file" button?
       }
 
       reader.readAsText(file)
@@ -63,3 +64,13 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+  input[type="file"] {
+    display: none;
+  }
+
+  .btn {
+    cursor: pointer;
+  }
+</style>
