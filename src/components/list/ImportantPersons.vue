@@ -1,9 +1,13 @@
 <template>
   <div>
 
+    <div class="admin-actions px-2">
+      <ab-import-export />
+    </div>
+
     <div v-if="importantPersons.length > 0" class="list-header">
 
-      <div class="order-total-clear">
+      <div class="order-total-clear px-2">
 
         <ab-order-by
           :selected-order="selectedOrder"
@@ -54,6 +58,7 @@ import { computeAge } from '../../helpers/computeAge'
 import comparePersons from '../../helpers/comparePersons'
 import OnePerson from './OnePerson.vue'
 import OrderBy from './OrderBy.vue'
+import ImportExport from './ImportExport'
 
 const today = new Date()
 
@@ -61,6 +66,7 @@ export default {
   components: {
     OnePerson,
     'ab-order-by': OrderBy,
+    'ab-import-export': ImportExport,
   },
   data() {
     return {
@@ -155,12 +161,17 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+  .admin-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+
   .list-header > div {
     display: flex;
     align-items: center;
 
     &.order-total-clear {
-      padding: 0 6px;
       display: flex;
       justify-content: space-between;
 

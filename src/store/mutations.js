@@ -2,8 +2,8 @@ export default {
 
   // --- Important persons ---
 
-  setBirthdays(state, allBirthdays) {
-    state.importantPersons = allBirthdays
+  setAllPersons(state, allPersons) {
+    state.importantPersons = allPersons
   },
 
   addNewImportantPerson(state, newPerson) {
@@ -62,7 +62,7 @@ export default {
 
   // --- Groups ---
 
-  setGroups(state, allGroups) {
+  setAllGroups(state, allGroups) {
     state.groups = allGroups
   },
 
