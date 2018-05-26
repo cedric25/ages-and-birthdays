@@ -48,7 +48,9 @@
     </div>
     <div class="clear-fix"></div>
 
-    <add-group />
+    <add-group
+      :isGroupFormOpen="isGroupFormOpen"
+    />
 
   </div>
 </template>
@@ -67,6 +69,12 @@ import AddGroup from './AddGroup'
 export default {
   components: {
     AddGroup,
+  },
+  props: {
+    isGroupFormOpen: {
+      type: Boolean,
+      required: true,
+    }
   },
   data() {
     return {

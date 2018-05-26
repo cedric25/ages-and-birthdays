@@ -1,114 +1,95 @@
 <template>
 
-  <v-expansion-panel popout>
-    <v-expansion-panel-content
-      v-model="isFormOpen"
-    >
-      <div slot="header">
-        {{ addPersonLabel }}
+  <form class="add-person">
+    <div class="md">
+      <v-text-field
+        ref="name"
+        v-model="name"
+        name="name"
+        placeholder="Name"
+        class="name-input"
+      />
+    </div>
+
+    <div class="group-choice">
+      <v-chip
+        v-for="group in groups"
+        :key="group"
+        :selected="isGroupSelected(group)"
+        color="secondary"
+        text-color="white"
+        class="blue-chip"
+        @click="selectGroup(group)"
+        @keyup.enter="selectGroup(group)"
+      >
+        {{ group }}
+      </v-chip>
+
+    </div>
+
+    <div>
+      <ad-add-group />
+    </div>
+
+    <div class="xs pt-0">
+      <v-text-field
+        ref="day"
+        v-model="day"
+        name="day"
+        placeholder="DD"
+      />
+    </div>
+
+    <div class="month">
+      <select-month
+        v-for="(month, index) in months"
+        :key="month"
+        :month-index="index"
+        :month-label="month"
+        :selected="monthNo === index"
+        @select="selectMonth($event)"
+      />
+    </div>
+
+    <div class="years-wrap">
+      <div class="year">
+        <div class="year-prefix">
+          19
+        </div>
+        <v-text-field
+          ref="year1"
+          v-model="year1"
+          name="year1"
+          placeholder="YY"
+          maxlength="2"
+        />
       </div>
 
-      <form class="add-person">
-        <div class="md">
-          <v-text-field
-            ref="name"
-            v-model="name"
-            name="name"
-            placeholder="Name"
-            class="name-input"
-          />
+      <div class="year">
+        <div class="year-prefix">
+          20
         </div>
-
-        <div class="group-choice">
-          <v-chip
-            v-for="group in groups"
-            :key="group"
-            :selected="isGroupSelected(group)"
-            color="secondary"
-            text-color="white"
-            class="blue-chip"
-            @click="selectGroup(group)"
-            @keyup.enter="selectGroup(group)"
-          >
-            {{ group }}
-          </v-chip>
-
-          <add-group />
-
-        </div>
-
-        <div class="xs pt-0">
-          <v-text-field
-            ref="day"
-            v-model="day"
-            name="day"
-            placeholder="DD"
-            class="pt-0"
-          />
-        </div>
-
-        <div class="month">
-          <select-month
-            v-for="(month, index) in months"
-            :key="month"
-            :month-index="index"
-            :month-label="month"
-            :selected="monthNo === index"
-            @select="selectMonth($event)"
-          />
-        </div>
-
-        <div class="years-wrap">
-          <div class="year">
-            <div class="year-prefix">
-              19
-            </div>
-            <v-text-field
-              ref="year1"
-              v-model="year1"
-              name="year1"
-              placeholder="YY"
-              maxlength="2"
-            />
-          </div>
-
-          <div class="year">
-            <div class="year-prefix">
-              20
-            </div>
-            <v-text-field
-              ref="year2"
-              v-model="year2"
-              name="year2"
-              placeholder="YY"
-              maxlength="2"
-            />
-          </div>
-        </div>
-
-        <div>
-          <v-btn
-            :disabled="!isFormValid"
-            type="submit"
-            color="primary"
-            @click.prevent="addBirthDate()"
-          >
-            Add
-          </v-btn>
-        </div>
-      </form>
-
-    </v-expansion-panel-content>
-
-    <v-expansion-panel-content>
-      <div slot="header">
-        Manage groups
+        <v-text-field
+          ref="year2"
+          v-model="year2"
+          name="year2"
+          placeholder="YY"
+          maxlength="2"
+        />
       </div>
-      <div class="manage-groups">
-        <manage-groups />
-      </div>
-    </v-expansion-panel-content>
-  </v-expansion-panel>
+    </div>
+
+    <div>
+      <v-btn
+        :disabled="!isFormValid"
+        type="submit"
+        color="primary"
+        @click.prevent="addBirthDate()"
+      >
+        Add
+      </v-btn>
+    </div>
+  </form>
 
 </template>
 
@@ -117,17 +98,21 @@ import { mapGetters } from 'vuex'
 import uuid from 'uuid/v4'
 import AddGroup from './AddGroup'
 import SelectMonth from './SelectMonth.vue'
-import ManageGroups from './ManageGroups.vue'
 
 export default {
+  name: 'AddBirthDate',
   components: {
-    AddGroup,
+    'ad-add-group': AddGroup,
     SelectMonth,
-    ManageGroups,
+  },
+  props: {
+    isBirthdayFormOpen: {
+      type: Boolean,
+      required: true,
+    },
   },
   data() {
     return {
-      addPersonLabel: 'Add someone\'s birthday',
       months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       name: '',
       day: '',
@@ -136,7 +121,6 @@ export default {
       year1: '',
       year2: '',
       selectedGroups: [],
-      isFormOpen: false,
     }
   },
   computed: {
@@ -152,15 +136,9 @@ export default {
     },
   },
   watch: {
-    isFormOpen(value) {
+    isBirthdayFormOpen(value) {
       value && this.focusNameInputDelay()
     },
-  },
-  mounted() {
-    if (this.importantPersons.length === 0) {
-      this.isFormOpen = true
-      this.addPersonLabel = 'Add your first person\'s birthday to the list'
-    }
   },
   methods: {
     selectMonth(monthNo) {
@@ -312,9 +290,5 @@ export default {
         }
       }
     }
-  }
-
-  .manage-groups {
-    padding: 5px 20px 20px;
   }
 </style>

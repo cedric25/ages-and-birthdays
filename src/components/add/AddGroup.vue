@@ -3,6 +3,7 @@
   <div class="add-group-form-wrap ml-2 mt-3">
     <div class="add-group-form">
       <v-text-field
+        ref="group"
         v-model="newGroupName"
         name="group"
         placeholder="Add new..."
@@ -25,6 +26,13 @@
 import { mapGetters } from 'vuex'
 
 export default {
+  name: 'AddGroup',
+  props: {
+    isGroupFormOpen: {
+      type: Boolean,
+      required: false,
+    }
+  },
   data() {
     return {
       newGroupName: '',
@@ -43,9 +51,15 @@ export default {
   watch: {
     newGroupName() {
       this.showError = false
-    }
+    },
+    isGroupFormOpen(value) {
+      value && this.focusGroupInputDelay()
+    },
   },
   methods: {
+    focusGroupInputDelay() {
+      setTimeout(() => this.$refs.group.focus(), 300)
+    },
     addGroup() {
       if (this.hasError) {
         this.showError = true
