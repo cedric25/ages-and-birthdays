@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <ab-full-width>
+    <ab-full-width-container>
       <v-jumbotron
         :gradient="gradient"
         height="100vh"
@@ -44,17 +44,17 @@
           </v-layout>
         </v-container>
       </v-jumbotron>
-    </ab-full-width>
+    </ab-full-width-container>
   </transition>
 </template>
 
 <script>
-import AbFullWidth from '../components/containers/ab-full-width'
+import FullWidthContainer from '../components/containers/FullWidthContainer.vue'
 import { version } from '../../package.json'
 
 export default {
   components: {
-    AbFullWidth,
+    'ab-full-width-container': FullWidthContainer,
   },
   data: () => ({
     appVersion: version,

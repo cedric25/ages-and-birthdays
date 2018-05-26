@@ -1,30 +1,30 @@
 <template>
   <transition name="fade">
-    <ab-fixed-width class="pa-4">
+    <ab-fixed-width-container class="pa-4">
 
       <h2 class="subtitle">
         Can't remember ages and birthdays? Me neither...
       </h2>
 
-      <add-birth-date/>
+      <ab-add-and-manage />
 
       <hr>
 
-      <important-persons/>
+      <important-persons />
 
-    </ab-fixed-width>
+    </ab-fixed-width-container>
   </transition>
 </template>
 
 <script>
-import AbFixedWidth from '../components/containers/ab-fixed-width'
-import AddBirthDate from '../components/add/AddBirthDate.vue'
+import FixedWidthContainer from '../components/containers/FixedWidthContainer.vue'
+import AddAndManage from '../components/add/AddAndManage.vue'
 import ImportantPersons from '../components/list/ImportantPersons.vue'
 
 export default {
   components: {
-    AbFixedWidth,
-    AddBirthDate,
+    'ab-fixed-width-container': FixedWidthContainer,
+    'ab-add-and-manage': AddAndManage,
     ImportantPersons,
   },
 }
