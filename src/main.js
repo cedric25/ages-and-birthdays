@@ -20,6 +20,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+// eslint-disable-next-line no-unused-vars
+import ClickOutside from './directives/click-outside-directive'
+
 require('../node_modules/vuetify/src/stylus/app.styl')
 
 Vue.use(Vuetify, {

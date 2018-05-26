@@ -107,8 +107,6 @@
 import format from 'date-fns/format'
 import parse from 'date-fns/parse'
 import { mapGetters } from 'vuex'
-// eslint-disable-next-line no-unused-vars
-import ClickOutside from '../../directives/click-outside-directive'
 
 export default {
   props: {
