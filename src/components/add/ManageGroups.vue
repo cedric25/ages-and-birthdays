@@ -14,13 +14,16 @@
         <v-text-field
           ref="newGroupName"
           :value="newGroupName"
-          @input="inputGroupName"
+          @input="(event) => { inputGroupName(event, group.name) }"
           name="group"
           append-icon="check"
-          :append-icon-cb="() => changeGroupName(group)"
-          @keyup.enter="changeGroupName(group)"
+          :append-icon-cb="() => submitNewGroupName(group)"
+          @keyup.enter="submitNewGroupName(group)"
           class="group-name-input"
           :style="'width: ' + groupNameInputSize + 'px'"
+          :error="inputHasError"
+          v-click-outside="cancelEdit"
+          @keyup.esc="cancelEdit"
         />
         <div class="to-get-text-width">
           {{ newGroupName }}
@@ -59,7 +62,6 @@ import AddGroup from './AddGroup'
  * Fix 'saute' due to input shown before having calculating its right width
  *   (hide with an animation?)
  * Try to have a dark rounded submit icon?
- * Check if group doesn't exist already
  */
 
 export default {
@@ -71,6 +73,7 @@ export default {
       groupsList: [],
       newGroupName: '',
       groupNameInputSize: 0,
+      inputHasError: false,
     }
   },
   computed: {
@@ -116,11 +119,15 @@ export default {
       })
 
       this.$nextTick(() => {
-        this.inputGroupName(this.newGroupName)
+        this.inputGroupName(this.newGroupName, this.newGroupName)
         this.$refs['newGroupName'][0].focus()
       })
     },
-    changeGroupName(groupToEdit) {
+    submitNewGroupName(groupToEdit) {
+      if (this.inputHasError) {
+        return
+      }
+
       this.groupsList = this.groupsList.map(group => {
         if (group.name === groupToEdit.name) {
           return {
@@ -135,11 +142,26 @@ export default {
         newName: this.newGroupName,
       })
     },
-    inputGroupName(newText) {
-      this.newGroupName = newText
+    inputGroupName(newName, originalName) {
+
+      this.newGroupName = newName
+
+      const groupsMinusEditingOne = this.groups.filter(group => {
+        return group !== originalName
+      })
+      if (newName !== originalName) {
+        groupsMinusEditingOne.push(this.newGroupName)
+      }
+      this.inputHasError = groupsMinusEditingOne.length !== new Set(groupsMinusEditingOne).size
+
       setTimeout(() => {
         const textWidthDiv = this.$el.querySelector('.to-get-text-width')
         this.groupNameInputSize = textWidthDiv.clientWidth + 60
+      })
+    },
+    cancelEdit() {
+      this.groupsList.forEach(group => {
+        group.isEditMode = false
       })
     },
   }
