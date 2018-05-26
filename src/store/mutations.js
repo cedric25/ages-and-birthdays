@@ -1,6 +1,6 @@
 export default {
 
-  // --- Important persons ---
+  // ------------------------- Important persons -------------------------
 
   setAllPersons(state, allPersons) {
     state.importantPersons = allPersons
@@ -60,19 +60,24 @@ export default {
     state.importantPersons = []
   },
 
-  // --- Groups ---
+  // ------------------------- GROUPS -------------------------
 
   setAllGroups(state, allGroups) {
     state.groups = allGroups
   },
 
   addGroup(state, newGroupLabel) {
-    state.groups.push(newGroupLabel)
+    const groups = state.groups
+    groups.push(newGroupLabel)
+    const sortedGroups = groups.sort((groupOne, groupTwo) => {
+      return groupOne.toLowerCase().localeCompare(groupTwo.toLowerCase())
+    })
+    state.groups = sortedGroups
   },
 
   deleteGroup(state, groupToDelete) {
 
-    // Remove label from all persons having it
+    // Remove group from all persons having it
     state.importantPersons.forEach(person => {
       if (person.groups && person.groups.includes(groupToDelete)) {
         person.groups = person.groups.filter(group => group !== groupToDelete)
@@ -81,4 +86,23 @@ export default {
 
     state.groups.splice(state.groups.indexOf(groupToDelete), 1)
   },
+
+  renameGroup(state, { oldName, newName }) {
+    const currentGroups = state.groups
+    currentGroups.splice(currentGroups.indexOf(oldName), 1)
+    currentGroups.push(newName)
+    state.groups = currentGroups
+
+    state.importantPersons.forEach(person => {
+      if (person.groups && person.groups.includes(oldName)) {
+        person.groups = person.groups.map(group => {
+          if (group === oldName) {
+            return newName
+          }
+          return group
+        })
+      }
+    })
+  },
+
 }
