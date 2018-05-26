@@ -6,12 +6,16 @@
         v-model="newGroupName"
         name="group"
         placeholder="Add new..."
-        class="pt-0"
+        class="new-group-input pt-0"
         @keyup.enter="addGroup()"
+        :error="hasError"
       />
       <v-btn :disabled="!newGroupName" color="accent" @click.prevent="addGroup()">
         Add group
       </v-btn>
+      <div v-if="showError" class="red--text">
+        {{ errorMessage }}
+      </div>
     </div>
   </div>
 
@@ -24,32 +28,44 @@ export default {
   data() {
     return {
       newGroupName: '',
+      errorMessage: 'This group already exists...',
+      showError: false,
     }
   },
   computed: {
     ...mapGetters([
       'groups',
     ]),
+    hasError() {
+      return this.groups.indexOf(this.newGroupName) !== -1
+    },
+  },
+  watch: {
+    newGroupName() {
+      this.showError = false
+    }
   },
   methods: {
     addGroup() {
-      if (this.groups.indexOf(this.newGroupName) === -1) {
-        this.$store.commit('addGroup', this.newGroupName)
-        this.newGroupName = ''
+      if (this.hasError) {
+        this.showError = true
+        return
       }
+      this.$store.commit('addGroup', this.newGroupName)
+      this.newGroupName = ''
     },
   },
 }
 </script>
 
 <style scoped>
-  .add-group-form-wrap {
-    max-width: 300px;
-  }
-
   .add-group-form {
     display: flex;
     align-items: baseline;
+  }
+
+  .new-group-input {
+    max-width: 200px;
   }
 
   .add-group-form /deep/ .input-group__details {
