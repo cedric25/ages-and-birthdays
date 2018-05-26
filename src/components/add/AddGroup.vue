@@ -1,6 +1,6 @@
 <template>
 
-  <div class="add-group-form-wrap">
+  <div class="add-group-form-wrap ml-2 mt-3">
     <div class="add-group-form">
       <v-text-field
         v-model="newGroupName"
@@ -50,5 +50,9 @@ export default {
   .add-group-form {
     display: flex;
     align-items: baseline;
+  }
+
+  .add-group-form /deep/ .input-group__details {
+    min-height: 1px;
   }
 </style>
