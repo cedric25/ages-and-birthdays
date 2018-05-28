@@ -63,7 +63,7 @@ describe('OnePerson component', () => {
       expect(wrapper.vm.isBaby).toBe(false)
     })
 
-    test('ageValue, should give 30 years', () => {
+    test('ageValue, should give 30y', () => {
       expect(wrapper.vm.ageValue).toEqual({
         value: 30,
         unit: 'y'
