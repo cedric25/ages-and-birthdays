@@ -115,6 +115,7 @@
 import format from 'date-fns/format'
 import parse from 'date-fns/parse'
 import { mapGetters } from 'vuex'
+import { containsYear } from '../../helpers/date'
 
 export default {
   props: {
@@ -159,9 +160,9 @@ export default {
     },
     readableBirthday() {
       if (!this.isYearKnown) {
-        return format(this.birthday, 'D MMM')
+        return format(this.birthday, 'd MMM')
       }
-      return format(this.birthday, 'D MMM YYYY')
+      return format(this.birthday, 'd MMM YYYY')
     },
     otherGroups() {
       return this.groups.filter(group => !this.isInGroup(group))
@@ -194,6 +195,9 @@ export default {
     },
     textBeforeDays() {
       if (this.isBirthdayToday) {
+        if (this.isYearKnown) {
+          return `Turning ${this.nextAge} today!`
+        }
         return 'Birthday today!'
       }
       if (this.isYearKnown) {
@@ -204,7 +208,11 @@ export default {
   },
   created() {
     this.newName = this.name
-    this.dob = format(this.birthday, 'YYYY-MM-DD')
+    if (this.isYearKnown) {
+      this.dob = format(this.birthday, 'dd/MM/YYYY')
+    } else {
+      this.dob = format(this.birthday, 'dd/MM')
+    }
   },
   methods: {
     switchToEditMode(inputToFocusOn = 'name') {
@@ -213,10 +221,14 @@ export default {
     },
     updatePerson() {
       this.isEditMode = false
+      let dateFormat = 'dd/MM/yyyy'
+      if (!containsYear(this.dob)) {
+        dateFormat = 'dd/MM'
+      }
       this.$store.commit('updatePerson', {
         id: this.id,
         name: this.newName,
-        birthday: parse(this.dob),
+        birthday: parse(this.dob, dateFormat, new Date(1900, 0, 1)),
       })
     },
     deletePerson() {
