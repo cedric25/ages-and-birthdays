@@ -1,5 +1,5 @@
-import differenceInYears from 'date-fns/difference_in_years'
-import differenceInMonths from 'date-fns/difference_in_months'
+import differenceInYears from 'date-fns/differenceInYears'
+import differenceInMonths from 'date-fns/differenceInMonths'
 
 export function computeAge(today, dateOfBirth) {
   if (dateOfBirth.getFullYear() === 1900) {

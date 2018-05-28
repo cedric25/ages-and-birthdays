@@ -14,7 +14,7 @@
     "deploy": "npm run build; push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
-    "date-fns": "^1.29.0",
+    "date-fns": "^2.0.0-alpha.9",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuetify": "^1.0.18",
