@@ -7,7 +7,7 @@ const About = () => import(/* webpackChunkName: "route-about" */ '@/pages/About'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  // mode: 'history',
   routes: [
     {
       path: '/',
