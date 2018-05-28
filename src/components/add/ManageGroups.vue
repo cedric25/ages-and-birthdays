@@ -108,7 +108,7 @@ export default {
     )
   },
   methods: {
-    deleteGroup (group) {
+    deleteGroup(group) {
       this.$store.commit('deleteGroup', group.name)
     },
     editGroup(groupToEdit) {

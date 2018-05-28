@@ -40,7 +40,7 @@ export default {
 
       document.body.removeChild(tempDownloadButton)
     },
-    onFileChange ($event) {
+    onFileChange($event) {
       const files = $event.target.files || $event.dataTransfer.files
       this.handleFile(files[0])
     },

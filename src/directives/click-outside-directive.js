@@ -40,7 +40,7 @@ function isServer(vNode) {
 }
 
 Vue.directive('click-outside', {
-  bind: function (el, binding, vNode) {
+  bind: function(el, binding, vNode) {
     if (!validate(binding)) return
 
     // Define Handler and cache it on the element
@@ -64,11 +64,11 @@ Vue.directive('click-outside', {
     !isServer(vNode) && document.addEventListener('click', handler)
   },
 
-  update: function (el, binding) {
+  update: function(el, binding) {
     if (validate(binding)) el.__vueClickOutside__.callback = binding.value
   },
 
-  unbind: function (el, binding, vNode) {
+  unbind: function(el, binding, vNode) {
     // Remove Event Listeners
     !isServer(vNode) && document.removeEventListener('click', el.__vueClickOutside__.handler)
     delete el.__vueClickOutside__

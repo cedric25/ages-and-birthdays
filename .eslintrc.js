@@ -21,19 +21,17 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
+    // allow paren-less arrow functions
+    'arrow-parens': 0,
     // allow async-await
     'generator-star-spacing': 'off',
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'space-before-function-paren': 0,
+    'space-before-function-paren': ['error', 'never'],
+    // Allow new line after start of block (function)
     'padded-blocks': 0,
-    'comma-dangle': ['error', {
-      arrays: 'ignore',
-      objects: 'ignore',
-      imports: 'ignore',
-      exports: 'ignore',
-      functions: 'ignore'
-    }],
+    // Allow trailing commas
+    'comma-dangle': 0,
     "vue/max-attributes-per-line": [2, {
       "singleline": 4,
       "multiline": {
