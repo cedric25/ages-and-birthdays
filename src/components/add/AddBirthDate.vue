@@ -131,8 +131,7 @@ export default {
     isFormValid() {
       return this.name &&
         this.day &&
-        this.monthNo !== -1 &&
-        (this.year1.length === 2 || this.year2.length === 2)
+        this.monthNo !== -1
     },
   },
   watch: {
@@ -160,8 +159,9 @@ export default {
       this.focusNameInput()
     },
     getYear(year1, year2) {
-      return (year1 && parseInt(`19${year1}`, 10)) ||
-        (year2 && parseInt(`20${year2}`, 10))
+      return year1 && parseInt(`19${year1}`, 10) ||
+        year2 && parseInt(`20${year2}`, 10) ||
+        1900
     },
     resetForm() {
       this.name = ''

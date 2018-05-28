@@ -1,3 +1,6 @@
+// Run it with:
+// npx jest --config test/unit/jest.conf.js test/unit/specs/helpers/computeAge.spec.js
+
 import { computeAge } from '@/helpers/computeAge'
 
 describe('computeAge()', () => {
@@ -28,6 +31,16 @@ describe('computeAge()', () => {
       expect(age).toEqual({
         value: 88,
         unit: 'years',
+      })
+    })
+  })
+
+  describe('when year is 1900', () => {
+    test('should answer null', () => {
+      const age = computeAge(new Date('2018-05-06'), new Date('1900-02-15'))
+      expect(age).toEqual({
+        value: null,
+        unit: '',
       })
     })
   })

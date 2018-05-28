@@ -1,3 +1,6 @@
+// Run it with:
+// npx jest --config test/unit/jest.conf.js test/unit/specs/components/list/OnePerson.spec.js
+
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { shallowMount } from '@vue/test-utils'
@@ -12,27 +15,15 @@ describe('OnePerson component', () => {
       id: '123',
       name: 'Cédric',
       birthday: new Date('1988-02-25'),
-      age: 30,
+      age: {
+        value: 30,
+        unit: 'years',
+      },
       daysUntilBirthday: 295,
-      groups: ['Family'],
+      personGroups: ['Family'],
     }
     const wrapper = shallowMount(OnePerson, {
-      propsData: { person }
-    })
-    expect(wrapper.vm.$el.querySelector('h3').textContent.trim()).toBe('Cédric')
-  })
-
-  test('renders props.msg when passed', () => {
-    const person = {
-      id: '123',
-      name: 'Cédric',
-      birthday: new Date('1988-02-25'),
-      age: 30,
-      daysUntilBirthday: 295,
-      groups: ['Family'],
-    }
-    const wrapper = shallowMount(OnePerson, {
-      propsData: { person },
+      propsData: { ...person },
       store: new Vuex.Store({
         state: {
           importantPersons: [],
@@ -40,8 +31,6 @@ describe('OnePerson component', () => {
         }
       }),
     })
-
-    console.log('wrapper', wrapper.vm.$store.state.groups)
 
     expect(wrapper.vm.$el.querySelector('h3').textContent.trim()).toBe('Cédric')
   })

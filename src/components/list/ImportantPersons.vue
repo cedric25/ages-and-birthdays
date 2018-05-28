@@ -45,7 +45,14 @@
 
     <transition-group name="flip-list" tag="div" class="persons-grid">
       <div v-for="person in persons" :key="person.id">
-        <one-person :person="person" />
+        <one-person
+          :id="person.id"
+          :name="person.name"
+          :birthday="person.birthday"
+          :age="person.age"
+          :days-until-birthday="person.daysUntilBirthday"
+          :person-groups="person.groups"
+        />
       </div>
     </transition-group>
   </div>
@@ -99,8 +106,8 @@ export default {
         return {
           id: person.id,
           name: person.name,
-          birthday: person.birthday,
-          age: computeAge(new Date(), person.birthday),
+          birthday: new Date(person.birthday),
+          age: computeAge(new Date(), new Date(person.birthday)),
           daysUntilBirthday: this.daysUntilBirthday(person.birthday),
           groups: person.groups && person.groups.sort(),
         }

@@ -7,7 +7,7 @@
 
           <div v-if="hasGroups" class="group-label">
             <v-chip
-              v-for="group in person.groups"
+              v-for="group in personGroups"
               :key="group"
               outline
               color="red"
@@ -33,7 +33,7 @@
           <v-text-field
             v-if="isEditMode"
             ref="name"
-            v-model="name"
+            v-model="newName"
             name="name"
             placeholder="Name"
             class="name-input pt-0"
@@ -45,12 +45,12 @@
             class="headline mb-0 text-md-center"
             @dblclick="switchToEditMode()"
           >
-            {{ person.name }}
+            {{ name }}
             <span v-if="isBaby" class="baby-icon">👶</span>
           </h3>
 
           <div class="dob-age-wrap">
-            <div class="dob-wrap">
+            <div class="dob-wrap" :class="{ 'text-center': !isYearKnown }">
               <v-chip
                 v-if="!isEditMode"
                 color="green"
@@ -67,19 +67,27 @@
                 name="dob"
                 placeholder="DD/MM/YYYY"
                 class="dob-input pt-0"
+                :class="{ 'margin-auto': !isYearKnown }"
                 @keyup.enter="updatePerson()"
                 @keyup.esc="cancelEdit()"
               />
             </div>
-            <div class="age-wrap">
+            <div class="age-wrap" v-if="isYearKnown">
               <v-chip color="accent" text-color="white" disabled>
-                <span class="age">{{ age.value }}</span><span v-html="age.unit"></span>&nbsp;old
+                <span class="age">{{ ageValue.value }}</span><span v-html="ageValue.unit"></span>&nbsp;old
               </v-chip>
             </div>
           </div>
-          <div class="mt-1 text-md-center">
-            Will turn {{ nextAge }} in
-            <strong>{{ person.daysUntilBirthday }}</strong> day{{ person.daysUntilBirthday > 1 && 's' || '' }}
+          <div class="birthday-in-wrap mt-1 text-md-center">
+            <span>
+              {{ textBeforeDays }}
+            </span>
+            <span v-if="!isBirthdayToday">
+              <strong>{{ daysUntilBirthday }}</strong> day{{ daysUntilBirthday > 1 && 's' || '' }}
+            </span>
+            <span class="cake-icon" v-if="isBirthdayToday">
+              🎂
+            </span>
           </div>
 
           <v-btn v-if="!isEditMode" icon class="edit-btn" @click="switchToEditMode()">
@@ -110,12 +118,35 @@ import { mapGetters } from 'vuex'
 
 export default {
   props: {
-    person: Object,
+    id: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    birthday: {
+      type: Date,
+      required: true,
+    },
+    age: {
+      type: Object,
+      required: true,
+    },
+    daysUntilBirthday: {
+      type: Number,
+      required: true,
+    },
+    personGroups: {
+      type: Array,
+      required: true,
+    }
   },
   data() {
     return {
       isEditMode: false,
-      name: '',
+      newName: '',
       dob: '',
     }
   },
@@ -124,38 +155,56 @@ export default {
       'groups',
     ]),
     hasGroups() {
-      return this.person.groups && this.person.groups.length > 0
+      return this.personGroups && this.personGroups.length > 0
     },
     readableBirthday() {
-      return format(this.person.birthday, 'D MMM YYYY')
+      if (!this.isYearKnown) {
+        return format(this.birthday, 'D MMM')
+      }
+      return format(this.birthday, 'D MMM YYYY')
     },
     otherGroups() {
       return this.groups.filter(group => !this.isInGroup(group))
     },
     isBaby() {
-      return this.person.age.unit === 'months' ||
-        this.person.age.value < 3
+      return this.isYearKnown &&
+        (this.age.unit === 'months' || this.age.value < 3)
     },
-    age() {
+    ageValue() {
       let unit = 'y'
-      if (this.person.age.unit === 'months') {
+      if (this.age.unit === 'months') {
         unit = '&nbsp;months'
       }
       return {
-        value: this.person.age.value,
+        value: this.age.value,
         unit,
       }
     },
     nextAge() {
-      if (this.person.age.unit === 'months') {
+      if (this.ageValue.unit === 'months') {
         return 1
       }
-      return this.person.age.value + 1
+      return this.ageValue.value + 1
+    },
+    isYearKnown() {
+      return this.birthday.getFullYear() !== 1900
+    },
+    isBirthdayToday() {
+      return this.daysUntilBirthday === 0
+    },
+    textBeforeDays() {
+      if (this.isBirthdayToday) {
+        return 'Birthday today!'
+      }
+      if (this.isYearKnown) {
+        return `Will turn ${this.nextAge} in`
+      }
+      return `Birthday in`
     },
   },
   created() {
-    this.name = this.person.name
-    this.dob = format(this.person.birthday, 'YYYY-MM-DD')
+    this.newName = this.name
+    this.dob = format(this.birthday, 'YYYY-MM-DD')
   },
   methods: {
     switchToEditMode(inputToFocusOn = 'name') {
@@ -165,32 +214,32 @@ export default {
     updatePerson() {
       this.isEditMode = false
       this.$store.commit('updatePerson', {
-        id: this.person.id,
-        name: this.name,
+        id: this.id,
+        name: this.newName,
         birthday: parse(this.dob),
       })
     },
     deletePerson() {
       this.$store.commit('deletePerson', {
-        id: this.person.id,
+        id: this.id,
       })
     },
     cancelEdit() {
       this.isEditMode = false
-      this.name = this.person.name
+      this.newName = this.name
     },
     isInGroup(group) {
-      return this.person.groups && this.person.groups.includes(group)
+      return this.personGroups && this.personGroups.includes(group)
     },
     addToGroup(group) {
       this.$store.commit('addGroupToPerson', {
-        personId: this.person.id,
+        personId: this.id,
         groupToAdd: group,
       })
     },
     removeFromGroup(group) {
       this.$store.commit('removeGroupFromPerson', {
-        personId: this.person.id,
+        personId: this.id,
         groupToRemove: group,
       })
     },
@@ -215,6 +264,7 @@ export default {
 
       .group-label {
         text-align: left;
+        padding-right: 30px;
       }
 
       h3 {
@@ -229,6 +279,7 @@ export default {
       }
 
       .name-input {
+        margin-top: 3px;
         padding: 0 30px;
 
         /deep/ input {
@@ -252,14 +303,26 @@ export default {
         }
         .dob-wrap {
           text-align: right;
+
+          &.text-center {
+            text-align: center;
+          }
         }
         .age-wrap {
           text-align: left;
         }
 
         .dob-input {
+          margin-top: 3px;
+          margin-bottom: 3px;
           max-width: 100px;
           float: right;
+
+          &.margin-auto {
+            float: none;
+            margin-left: auto;
+            margin-right: auto;
+          }
 
           /deep/ input {
             text-align: center;
@@ -267,6 +330,17 @@ export default {
           /deep/ .input-group__details {
             min-height: 0;
           }
+        }
+      }
+
+      .birthday-in-wrap {
+        position: relative;
+
+        .cake-icon {
+          font-size: 1.5em;
+          position: absolute;
+          top: -5px;
+          margin-left: 5px;
         }
       }
 
