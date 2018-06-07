@@ -1,3 +1,6 @@
+// Run it with:
+// npx jest --config test/unit/jest.conf.js test/unit/specs/helpers/comparePersons.spec.js
+
 import comparePersons from '@/helpers/comparePersons'
 
 describe('comparePersons()', () => {
@@ -84,6 +87,26 @@ describe('comparePersons()', () => {
           'age'
         )
         expect(result).toBeGreaterThan(0)
+      })
+    })
+    describe('When the first person has no unit (year of birth unknown)', () => {
+      test('should put the second person first', () => {
+        const result = comparePersons(
+          { age: { value: null, unit: '' } },
+          { age: { value: 10, unit: 'years' } },
+          'age'
+        )
+        expect(result).toBeGreaterThan(0)
+      })
+    })
+    describe('When the second person has no unit (year of birth unknown)', () => {
+      test('should put the first person first', () => {
+        const result = comparePersons(
+          { age: { value: 15, unit: 'years' } },
+          { age: { value: null, unit: '' } },
+          'age'
+        )
+        expect(result).toBeLessThan(0)
       })
     })
   })
