@@ -182,10 +182,10 @@ export default {
       }
     },
     nextAge() {
-      if (this.ageValue.unit === 'months') {
+      if (this.age.unit === 'months') {
         return 1
       }
-      return this.ageValue.value + 1
+      return this.age.value + 1
     },
     isYearKnown() {
       return this.birthday.getFullYear() !== 1900

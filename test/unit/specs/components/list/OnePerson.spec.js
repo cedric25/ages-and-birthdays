@@ -98,3 +98,57 @@ describe('OnePerson component', () => {
   })
 
 })
+
+describe('OnePerson component - Less than 1y old', () => {
+
+  let person
+  let wrapper
+
+  beforeAll(() => {
+    person = {
+      id: '234',
+      name: 'Tommy',
+      birthday: new Date('2018-02-01'),
+      age: {
+        value: 4,
+        unit: 'months',
+      },
+      daysUntilBirthday: 240,
+      personGroups: ['Friends'],
+    }
+    wrapper = shallowMount(OnePerson, {
+      propsData: {...person},
+      store: new Vuex.Store({
+        state: {
+          importantPersons: [],
+          groups: ['Family', 'Friends'],
+        },
+        getters: {
+          groups (state) {
+            return state.groups.sort()
+          },
+        },
+      }),
+    })
+  })
+
+  describe('Computed props', () => {
+
+    test('isBaby, should be true', () => {
+      expect(wrapper.vm.isBaby).toBe(true)
+    })
+
+    test('ageValue, should give 4 months', () => {
+      expect(wrapper.vm.ageValue).toEqual({
+        value: 4,
+        unit: '&nbsp;months'
+      })
+    })
+
+    test('nextAge, should give 1', () => {
+      expect(wrapper.vm.nextAge).toBe(1)
+    })
+
+  })
+
+})
