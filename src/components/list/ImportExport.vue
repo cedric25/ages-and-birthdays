@@ -1,7 +1,10 @@
 <template>
   <div>
 
-    <v-btn @click="downloadJson()">
+    <v-btn
+      v-if="importantPersons.length > 0"
+      @click="downloadJson()"
+    >
       Download JSON
     </v-btn>
 
