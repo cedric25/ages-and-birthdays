@@ -6,8 +6,7 @@
 
 ## Boilerplate
 
-Project generated from vue-cli 2.9.3  
-Using default 'webpack' template.
+Project generated from vue-cli 2.9.3 using default 'webpack' template.
 
 ## Build Setup
 
