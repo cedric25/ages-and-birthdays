@@ -3,29 +3,30 @@
 
     <div class="admin-actions px-2">
       <ab-import-export />
+
+      <div v-if="importantPersons.length > 0" class="ml-3">
+        <v-btn color="error" @click="clearList()">
+          Clear list?
+        </v-btn>
+      </div>
     </div>
 
     <div v-if="importantPersons.length > 0" class="list-header">
 
-      <div class="order-total-clear px-2">
+      <div class="order-and-total px-2">
 
         <ab-order-by
           :selected-order="selectedOrder"
           @order="selectOrder"
         ></ab-order-by>
 
-        <div class="total-persons">
+        <div class="total-persons pr-2">
           <strong>{{ importantPersons.length }}</strong> important persons
         </div>
 
-        <div class="ml-3">
-          <v-btn color="error" @click="clearList()">
-            Clear list?
-          </v-btn>
-        </div>
       </div>
 
-      <div>
+      <div class="groups-and-members-count">
         <v-chip
           v-for="group in groups"
           :key="group"
@@ -170,26 +171,58 @@ export default {
 <style scoped lang="scss">
 
   .admin-actions {
-    display: flex;
-    justify-content: flex-end;
+    display: none;
+  }
+
+  @media (min-width: 700px) {
+    .admin-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
   }
 
   .list-header > div {
     display: flex;
     align-items: center;
 
-    &.order-total-clear {
+    &.order-and-total {
       display: flex;
-      justify-content: space-between;
+      margin: 7px 0;
+    }
 
-      .total-persons {
-        flex-grow: 1;
-        text-align: right;
+    @media (max-width: 699px) {
+      &.order-and-total {
+        flex-direction: column-reverse;
+
+        > div {
+          width: 100%;
+        }
+
+        .total-persons {
+          text-align: right;
+        }
       }
     }
 
-    .chip:focus {
-      border-color: rgb(25, 118, 210) !important;
+    @media (min-width: 700px) {
+      &.order-and-total {
+        flex-direction: row;
+        justify-content: space-between;
+
+        .total-persons {
+          flex-grow: 1;
+          text-align: right;
+        }
+      }
+    }
+
+    &.groups-and-members-count {
+      display: block;
+      text-align: left;
+
+      .chip:focus {
+        border-color: rgb(25, 118, 210) !important;
+      }
     }
   }
 
@@ -217,18 +250,19 @@ export default {
 
   .persons-grid {
     display: grid;
-    grid-template-columns: auto;
+    grid-template-columns: 1fr;
     justify-items: center;
-    grid-gap: 0 30px;
+    grid-gap: 0 15px;
   }
-  @media (min-width: 700px) {
+  @media (min-width: 665px) {
     .persons-grid {
-      grid-template-columns: auto auto;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 0 15px;
     }
   }
-  @media (min-width: 1000px) {
+  @media (min-width: 1065px) {
     .persons-grid {
-      grid-template-columns: auto auto auto;
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 </style>

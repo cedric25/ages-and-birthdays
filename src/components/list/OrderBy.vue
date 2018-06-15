@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="order-by-wrap">
     Order by:
 
     <v-btn
@@ -56,8 +56,26 @@ export default {
 }
 </script>
 
-<style scoped>
-  .btn-sort-daysUntilBirthday {
-    min-width: 190px;
+<style scoped lang="scss">
+  .order-by-wrap {
+    text-align: left;
+
+    @media (max-width: 699px) {
+      button {
+        display: block;
+        min-width: 0;
+        margin-left: 0;
+      }
+    }
+
+    @media (min-width: 700px) {
+      button {
+        display: inline;
+      }
+
+      .btn-sort-daysUntilBirthday {
+        min-width: 190px;
+      }
+    }
   }
 </style>

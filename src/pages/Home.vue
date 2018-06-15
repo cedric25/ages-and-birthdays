@@ -6,7 +6,7 @@
         Can't remember ages and birthdays? Me neither...
       </h2>
 
-      <ab-add-and-manage />
+      <ab-add-and-manage-groups />
 
       <hr>
 
@@ -18,13 +18,13 @@
 
 <script>
 import FixedWidthContainer from '../components/containers/FixedWidthContainer.vue'
-import AddAndManage from '../components/add/AddAndManage.vue'
+import AddAndManageGroups from '../components/add/AddAndManageGroups.vue'
 import ImportantPersons from '../components/list/ImportantPersons.vue'
 
 export default {
   components: {
     'ab-fixed-width-container': FixedWidthContainer,
-    'ab-add-and-manage': AddAndManage,
+    'ab-add-and-manage-groups': AddAndManageGroups,
     ImportantPersons,
   },
 }
@@ -32,11 +32,17 @@ export default {
 
 <style scoped>
   .subtitle {
+    font-size: 22px;
     font-weight: 300;
-    font-size: 32px;
     color: #526488;
     word-spacing: 5px;
     padding-bottom: 15px;
+  }
+
+  @media (min-width: 450px) {
+    .subtitle {
+      font-size: 32px;
+    }
   }
 
   hr {

@@ -261,7 +261,7 @@ export default {
 
 <style scoped lang="scss">
   .person {
-    width: 350px;
+    width: 300px;
     display: flex;
     flex-direction: column;
     margin: 15px 0;
@@ -398,6 +398,42 @@ export default {
     .edit-btn,
     .delete-btn {
       opacity: 0;
+    }
+  }
+
+  @media (max-width: 399px) {
+    .person {
+      width: 300px;
+    }
+  }
+
+  @media (min-width: 400px) and (max-width: 664px) {
+    .person {
+      width: 350px;
+    }
+  }
+
+  @media (min-width: 665px) and (max-width: 762px) {
+    .person {
+      width: 300px;
+    }
+  }
+
+  @media (min-width: 763px) and (max-width: 1064px) {
+    .person {
+      width: 350px;
+    }
+  }
+
+  @media (min-width: 1065px) and (max-width: 1263px) {
+    .person {
+      width: 300px;
+    }
+  }
+
+  @media (min-width: 1264px) {
+    .person {
+      width: 350px;
     }
   }
 </style>

@@ -24,7 +24,6 @@
       >
         {{ group }}
       </v-chip>
-
     </div>
 
     <div>
@@ -248,16 +247,20 @@ export default {
     }
 
     .month {
-      justify-content: center;
-      display: flex;
-      flex-direction: row;
+      text-align: center;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
 
-      .chip:focus {
-        background-color: #555 !important;
-      }
+      .chip {
+        justify-content: center;
 
-      > span /deep/ span {
-        cursor: pointer;
+        &:focus {
+          background-color: #555 !important;
+        }
+
+        /deep/ .chip__content {
+          cursor: pointer;
+        }
       }
 
       .chip--selected {
@@ -268,6 +271,12 @@ export default {
           background: rgb(25, 118, 210);
           opacity: 1;
         }
+      }
+    }
+
+    @media (min-width: 450px) {
+      .month {
+        grid-template-columns: repeat(6, 1fr);
       }
     }
 
