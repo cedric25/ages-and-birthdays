@@ -22,6 +22,7 @@ import firebaseConfig from './firebase-config'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import * as localStorageHelper from './helpers/localStorageHelper'
 
 // eslint-disable-next-line no-unused-vars
 import ClickOutside from './directives/click-outside-directive'
@@ -68,7 +69,21 @@ new Vue({
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.$store.dispatch('autoSignIn', user)
+      } else {
+        this.getStateFromLocalStorage()
       }
     })
-  }
+  },
+  methods: {
+    getStateFromLocalStorage() {
+      const importantPersons = localStorageHelper.getPersons()
+      const groups = localStorageHelper.getGroups()
+      if (importantPersons) {
+        this.$store.commit('setAllPersons', JSON.parse(importantPersons))
+      }
+      if (groups) {
+        this.$store.commit('setAllGroups', JSON.parse(groups))
+      }
+    },
+  },
 })

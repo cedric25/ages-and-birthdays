@@ -1,4 +1,5 @@
 import * as db from './db'
+import * as localStorageHelper from './localStorageHelper'
 
 export function addGroup({ state, commit }, groupName) {
   commit('addGroup', groupName)
@@ -19,5 +20,9 @@ export function renameGroup({ state, commit }, oldName, newName) {
 }
 
 function updateDbGroups(state) {
-  db.setGroups(state.user.user.id, state.app.groups)
+  if (state.user.user) {
+    db.setGroups(state.user.user.id, state.app.groups)
+  } else {
+    localStorageHelper.setGroups(state.app.groups)
+  }
 }

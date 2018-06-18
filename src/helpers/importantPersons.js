@@ -1,4 +1,5 @@
 import * as db from './db'
+import * as localStorageHelper from './localStorageHelper'
 
 export function addNewPerson({ state, commit }, newPerson) {
   commit('addNewImportantPerson', newPerson)
@@ -32,5 +33,9 @@ export function removeGroupFromPerson({ state, commit }, personId, groupToRemove
 }
 
 function updateDbPersons(state) {
-  db.setImportantPersons(state.user.user.id, state.app.importantPersons)
+  if (state.user.user) {
+    db.setImportantPersons(state.user.user.id, state.app.importantPersons)
+  } else {
+    localStorageHelper.setPersons(state.app.importantPersons)
+  }
 }
