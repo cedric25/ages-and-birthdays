@@ -32,8 +32,7 @@
 
     <div class="xs pt-0">
       <v-text-field
-        type="number"
-        class="input-number"
+        type="tel"
         ref="day"
         v-model="day"
         name="day"
@@ -58,8 +57,7 @@
           19
         </div>
         <v-text-field
-          type="number"
-          class="input-number"
+          type="tel"
           ref="year1"
           v-model="year1"
           name="year1"
@@ -73,8 +71,7 @@
           20
         </div>
         <v-text-field
-          type="number"
-          class="input-number"
+          type="tel"
           ref="year2"
           v-model="year2"
           name="year2"
@@ -225,19 +222,6 @@ export default {
 
     .group-choice {
       text-align: center;
-    }
-
-    /* Chrome / Safari */
-    .input-number /deep/ input::-webkit-inner-spin-button {
-      display: none;
-    }
-    /* Firefox */
-    .input-number /deep/ input {
-      -moz-appearance: textfield;
-    }
-    .input-number /deep/ input::-webkit-outer-spin-button,
-    .input-number /deep/ input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
     }
 
     .years-wrap {
