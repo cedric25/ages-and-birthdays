@@ -4,16 +4,23 @@ import { checkUserData } from '../../helpers/checkUserData'
 export default {
   state: {
     user: null,
+    loginTried: false,
   },
   getters: {
     user(state) {
       return state.user
     },
+    loginTried(state) {
+      return state.loginTried
+    },
   },
   mutations: {
     setUser(state, payload) {
       state.user = payload
-    }
+    },
+    setLoginTried(state) {
+      state.loginTried = true
+    },
   },
   actions: {
     autoSignIn({ commit, dispatch }, payload) {
@@ -72,12 +79,16 @@ export default {
             // Override local state with what's in Firebase
             // TODO Message to ask if override okay?
             const personsState = []
-            for (const personKey of Object.keys(userData.importantPersons)) {
-              personsState.push(userData.importantPersons[personKey])
+            if (userData.importantPersons) {
+              for (const personKey of Object.keys(userData.importantPersons)) {
+                personsState.push(userData.importantPersons[personKey])
+              }
             }
             userData.importantPersons && commit('setAllPersons', personsState)
             userData.groups && commit('setAllGroups', userData.groups)
           }
+
+          commit('setLoginTried')
         })
         .catch(err => {
           console.error('Nothing? Or error?...', err)

@@ -71,6 +71,7 @@ new Vue({
         this.$store.dispatch('autoSignIn', user)
       } else {
         this.getStateFromLocalStorage()
+        this.$store.commit('setLoginTried')
       }
     })
   },
