@@ -1,5 +1,5 @@
 <template>
-  <div class="google-signin">
+  <div class="google-signin ml-3">
 
     <v-btn
       v-if="!user"
