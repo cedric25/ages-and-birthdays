@@ -91,6 +91,15 @@
         Add
       </v-btn>
     </div>
+
+      <v-alert
+        :value="showConfirmation"
+        color="success"
+        icon="new_releases"
+        class="success-alert text-xs-center mt-3"
+      >
+        You've added <strong>{{ addedName }}</strong>!
+      </v-alert>
   </form>
 
 </template>
@@ -123,6 +132,8 @@ export default {
       year1: '',
       year2: '',
       selectedGroups: [],
+      showConfirmation: false,
+      addedName: '',
     }
   },
   computed: {
@@ -157,6 +168,11 @@ export default {
         birthday,
         groups: this.selectedGroups,
       })
+      this.addedName = this.name
+      this.showConfirmation = true
+      setTimeout(() => {
+        this.showConfirmation = false
+      }, 2000)
       this.resetForm()
       this.focusNameInput()
     },
@@ -301,6 +317,14 @@ export default {
           opacity: 1;
         }
       }
+    }
+  }
+
+  .success-alert {
+    width: 100%;
+
+    /deep/ > div {
+      padding-right: 36px;
     }
   }
 </style>
