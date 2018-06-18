@@ -21,7 +21,7 @@
         ></ab-order-by>
 
         <div class="total-persons pr-2">
-          <strong>{{ importantPersons.length }}</strong> important persons
+          <strong>{{ importantPersons.length }}</strong> important person{{ importantPersons.length > 1 ? 's' : '' }}
         </div>
 
       </div>
