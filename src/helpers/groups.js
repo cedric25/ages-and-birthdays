@@ -1,6 +1,11 @@
 import * as db from './db'
 import * as localStorageHelper from './localStorageHelper'
 
+export function setAllGroups({ state, commit }, allGroups) {
+  commit('setAllGroups', allGroups)
+  updateDbGroups(state)
+}
+
 export function addGroup({ state, commit }, groupName) {
   commit('addGroup', groupName)
   updateDbGroups(state)

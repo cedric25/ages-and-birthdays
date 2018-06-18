@@ -21,6 +21,8 @@
 <script>
 import { mapGetters } from 'vuex'
 import { findGroups } from '../../helpers/findGroups'
+import * as importantPersons from '../../helpers/importantPersons'
+import * as groups from '../../helpers/groups'
 
 export default {
   computed: {
@@ -54,9 +56,9 @@ export default {
       reader.onload = () => {
         try {
           const jsonPersons = JSON.parse(reader.result)
-          this.$store.commit('setAllPersons', jsonPersons)
-          const groups = findGroups(jsonPersons)
-          this.$store.commit('setAllGroups', groups)
+          importantPersons.setAllPersons(this.$store, jsonPersons)
+          const allGroups = findGroups(jsonPersons)
+          groups.setAllGroups(this.$store, allGroups)
         } catch (err) {
           console.error('Invalid JSON file...')
         }

@@ -1,6 +1,11 @@
 import * as db from './db'
 import * as localStorageHelper from './localStorageHelper'
 
+export function setAllPersons({ state, commit }, allPersons) {
+  commit('setAllPersons', allPersons)
+  updateDbPersons(state)
+}
+
 export function addNewPerson({ state, commit }, newPerson) {
   commit('addNewImportantPerson', newPerson)
   updateDbPersons(state)
