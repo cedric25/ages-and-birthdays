@@ -42,10 +42,6 @@ export default {
           console.log(error)
         })
     },
-    signout({ commit }) {
-      firebase.auth().signOut()
-      commit('setUser', null)
-    },
     signinDone({ state, rootState, commit }) {
       // TODO Use a dynamic ref instead of 'once'?
 
@@ -86,6 +82,12 @@ export default {
         .catch(err => {
           console.error('Nothing? Or error?...', err)
         })
+    },
+    signout({ commit }) {
+      firebase.auth().signOut()
+      commit('setUser', null)
+      commit('setAllPersons', [])
+      commit('setAllGroups', ['Family', 'Friends'])
     },
   },
 }
