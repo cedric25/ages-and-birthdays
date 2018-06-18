@@ -50,9 +50,9 @@ export default {
     personToUpdate.groups = personToUpdate.groups.filter(group => group !== groupToRemove)
   },
 
-  deletePerson(state, personToDelete) {
+  deletePerson(state, personId) {
     state.importantPersons = state.importantPersons.filter(person => {
-      return person.id !== personToDelete.id
+      return person.id !== personId
     })
   },
 

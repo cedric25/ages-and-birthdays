@@ -115,6 +115,7 @@
 import format from 'date-fns/format'
 import parse from 'date-fns/parse'
 import { mapGetters } from 'vuex'
+import * as importantPersons from '../../helpers/importantPersons'
 import { containsYear } from '../../helpers/date'
 
 export default {
@@ -225,16 +226,14 @@ export default {
       if (!containsYear(this.dob)) {
         dateFormat = 'dd/MM'
       }
-      this.$store.commit('updatePerson', {
+      importantPersons.updatePerson(this.$store, {
         id: this.id,
         name: this.newName,
         birthday: parse(this.dob, dateFormat, new Date(1900, 0, 1)),
       })
     },
     deletePerson() {
-      this.$store.commit('deletePerson', {
-        id: this.id,
-      })
+      importantPersons.deletePerson(this.$store, this.id)
     },
     cancelEdit() {
       this.isEditMode = false
@@ -244,16 +243,10 @@ export default {
       return this.personGroups && this.personGroups.includes(group)
     },
     addToGroup(group) {
-      this.$store.commit('addGroupToPerson', {
-        personId: this.id,
-        groupToAdd: group,
-      })
+      importantPersons.addGroupToPerson(this.$store, this.id, group)
     },
     removeFromGroup(group) {
-      this.$store.commit('removeGroupFromPerson', {
-        personId: this.id,
-        groupToRemove: group,
-      })
+      importantPersons.removeGroupFromPerson(this.$store, this.id, group)
     },
   },
 }

@@ -107,7 +107,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import uuid from 'uuid/v4'
-import * as db from '../../helpers/db'
+import * as importantPersons from '../../helpers/importantPersons'
 import AddGroup from './AddGroup'
 import SelectMonth from './SelectMonth.vue'
 
@@ -169,8 +169,7 @@ export default {
         birthday,
         groups: this.selectedGroups,
       }
-      this.$store.commit('addNewImportantPerson', newPerson)
-      db.addImportantPerson(this.$store.state.user.user.id, newPerson)
+      importantPersons.addNewPerson(this.$store, newPerson)
       this.addedName = this.name
       this.showConfirmation = true
       setTimeout(() => {
