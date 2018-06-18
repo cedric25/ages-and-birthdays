@@ -1,29 +1,28 @@
 <template>
   <div class="google-signin ml-3">
 
-    <v-btn
+    <a
       v-if="!user"
-      flat
-      @click="googleSignin()"
+      @click.prevent="googleSignin()"
     >
-      Google Signin
-    </v-btn>
+      <v-icon large>face</v-icon>
+    </a>
 
     <a
+      v-if="user"
       @click.prevent="signout()"
     >
-    <v-avatar
-      v-if="user"
-      slot="activator"
-      size="36px"
-    >
-      <img
-        v-if="user.photoUrl"
-        :src="user.photoUrl"
-        :alt="user.name"
+      <v-avatar
+        slot="activator"
+        size="36px"
       >
-      <v-icon v-else color="blue">{{ user.name.substr(0, 1) }}</v-icon>
-    </v-avatar>
+        <img
+          v-if="user.photoUrl"
+          :src="user.photoUrl"
+          :alt="user.name"
+        >
+        <v-icon v-else color="blue">{{ user.name.substr(0, 1) }}</v-icon>
+      </v-avatar>
     </a>
 
   </div>
