@@ -4,7 +4,7 @@ import { checkUserData } from '../../helpers/checkUserData'
 export default {
   state: {
     user: null,
-    loginTried: false,
+    loginTried: 0,
   },
   getters: {
     user(state) {
@@ -19,7 +19,7 @@ export default {
       state.user = payload
     },
     setLoginTried(state) {
-      state.loginTried = true
+      state.loginTried++
     },
   },
   actions: {

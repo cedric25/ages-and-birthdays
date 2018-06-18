@@ -57,6 +57,9 @@ export default {
       if (newValue && this.importantPersons.length === 0) {
         this.isBirthdayFormOpen = true
         this.addPersonLabel = `Add your first person's birthday to the list`
+      } else {
+        this.isBirthdayFormOpen = false
+        this.addPersonLabel = `Add someone's birthday`
       }
     },
   }
