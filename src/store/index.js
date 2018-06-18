@@ -1,28 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import createPersistedState from 'vuex-persistedstate'
-import mutations from './mutations'
+import user from './user/user-store'
+import app from './app/app-store'
 
 Vue.use(Vuex)
 
-const plugins = []
-if (process.env.NODE_ENV !== 'test') {
-  plugins.push(createPersistedState())
-}
-
 export default new Vuex.Store({
-  state: {
-    importantPersons: [],
-    groups: ['Family', 'Friends'],
+  modules: {
+    user,
+    app,
   },
-  mutations,
-  getters: {
-    importantPersons(state) {
-      return state.importantPersons
-    },
-    groups(state) {
-      return state.groups.sort()
-    },
-  },
-  plugins,
 })

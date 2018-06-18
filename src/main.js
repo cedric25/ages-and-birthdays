@@ -17,6 +17,8 @@ import {
   VTextField,
   VToolbar,
 } from 'vuetify'
+import * as firebase from 'firebase'
+import firebaseConfig from './firebase-config'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -61,4 +63,12 @@ new Vue({
   router,
   render: h => h(App),
   store,
+  created() {
+    firebase.initializeApp(firebaseConfig)
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.$store.dispatch('autoSignIn', user)
+      }
+    })
+  }
 })

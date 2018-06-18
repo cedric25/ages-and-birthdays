@@ -24,6 +24,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import * as db from '../../helpers/db'
 
 export default {
   name: 'AddGroup',
@@ -65,7 +66,10 @@ export default {
         this.showError = true
         return
       }
+      // TODO Use a helper to put both functions inside?
       this.$store.commit('addGroup', this.newGroupName)
+      db.setGroups(this.$store.state.user.user.id, this.groups)
+
       this.newGroupName = ''
     },
   },

@@ -12,6 +12,7 @@
         <v-btn flat to="/about">
           About
         </v-btn>
+        <ab-google-signin />
       </v-toolbar-items>
     </v-toolbar>
 
@@ -21,6 +22,16 @@
 
   </v-app>
 </template>
+
+<script>
+import GoogleSignin from './components/GoogleSignin'
+
+export default {
+  components: {
+    'ab-google-signin': GoogleSignin,
+  },
+}
+</script>
 
 <style scoped>
   a {

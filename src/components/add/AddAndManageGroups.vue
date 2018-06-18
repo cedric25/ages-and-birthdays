@@ -52,6 +52,7 @@ export default {
     ]),
   },
   mounted() {
+    // TODO Wait for first sync done before doing this check
     if (this.importantPersons.length === 0) {
       this.isBirthdayFormOpen = true
       this.addPersonLabel = `Add your first person's birthday to the list`
