@@ -57,6 +57,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import * as groups from '../../helpers/groups'
 import AddGroup from './AddGroup'
 
 /**
@@ -109,7 +110,7 @@ export default {
   },
   methods: {
     deleteGroup(group) {
-      this.$store.commit('deleteGroup', group.name)
+      groups.deleteGroup(this.$store, group.name)
     },
     editGroup(groupToEdit) {
       this.groupsList = this.groupsList.map(group => {
@@ -145,10 +146,7 @@ export default {
         }
         return group
       })
-      this.$store.commit('renameGroup', {
-        oldName: groupToEdit.name,
-        newName: this.newGroupName,
-      })
+      groups.renameGroup(this.$store, groupToEdit.name, this.newGroupName)
     },
     inputGroupName(newName, originalName) {
 
