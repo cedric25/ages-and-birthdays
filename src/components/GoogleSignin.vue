@@ -8,22 +8,25 @@
       <v-icon large>face</v-icon>
     </a>
 
-    <a
-      v-if="user"
-      @click.prevent="signout()"
-    >
-      <v-avatar
+    <v-tooltip bottom open-delay="50" close-delay="100">
+      <a
+        v-if="user"
         slot="activator"
-        size="36px"
+        @click.prevent="signout()"
       >
-        <img
-          v-if="user.photoUrl"
-          :src="user.photoUrl"
-          :alt="user.name"
+        <v-avatar
+          size="36px"
         >
-        <v-icon v-else color="blue">{{ user.name.substr(0, 1) }}</v-icon>
-      </v-avatar>
-    </a>
+          <img
+            v-if="user.photoUrl"
+            :src="user.photoUrl"
+            :alt="user.name"
+          >
+          <v-icon v-else color="blue">{{ user.name.substr(0, 1) }}</v-icon>
+        </v-avatar>
+      </a>
+      <span>Signout</span>
+    </v-tooltip>
 
   </div>
 </template>

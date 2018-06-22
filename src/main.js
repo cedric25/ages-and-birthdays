@@ -15,6 +15,7 @@ import {
   VIcon,
   VJumbotron,
   VTextField,
+  VTooltip,
   VToolbar,
 } from 'vuetify'
 import * as firebase from 'firebase'
@@ -45,6 +46,7 @@ Vue.use(Vuetify, {
     VIcon,
     VJumbotron,
     VTextField,
+    VTooltip,
     VToolbar,
   },
   theme: {
