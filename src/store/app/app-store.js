@@ -4,6 +4,7 @@ export default {
   state: {
     importantPersons: [],
     groups: ['Family', 'Friends'],
+    isSyncingDb: false,
   },
   mutations,
   getters: {
@@ -12,6 +13,9 @@ export default {
     },
     groups(state) {
       return state.groups.sort()
+    },
+    isSyncingDb(state) {
+      return state.isSyncingDb
     },
   },
 }

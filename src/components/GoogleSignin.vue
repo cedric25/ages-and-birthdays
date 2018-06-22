@@ -1,5 +1,5 @@
 <template>
-  <div class="google-signin ml-3">
+  <v-layout align-center class="ml-3">
 
     <v-tooltip bottom open-delay="50" close-delay="100">
       <a
@@ -32,7 +32,7 @@
       <span>Signout</span>
     </v-tooltip>
 
-  </div>
+  </v-layout>
 </template>
 
 <script>
@@ -55,10 +55,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-  .google-signin {
-    display: flex;
-    align-items: center;
-  }
-</style>

@@ -13,6 +13,7 @@
           About
         </v-btn>
         <ab-google-signin />
+        <ab-sync-loader />
       </v-toolbar-items>
     </v-toolbar>
 
@@ -25,10 +26,12 @@
 
 <script>
 import GoogleSignin from './components/GoogleSignin'
+import SyncLoader from './components/SyncLoader.js'
 
 export default {
   components: {
     'ab-google-signin': GoogleSignin,
+    'ab-sync-loader': SyncLoader,
   },
 }
 </script>

@@ -3,22 +3,22 @@ import * as localStorageHelper from './localStorageHelper'
 
 export function setAllPersons({ state, commit }, allPersons) {
   commit('setAllPersons', allPersons)
-  updateDbPersons(state)
+  updateDbPersons(state, commit)
 }
 
 export function addNewPerson({ state, commit }, newPerson) {
   commit('addNewImportantPerson', newPerson)
-  updateDbPersons(state)
+  updateDbPersons(state, commit)
 }
 
 export function updatePerson({ state, commit }, updatedPerson) {
   commit('updatePerson', updatedPerson)
-  updateDbPersons(state)
+  updateDbPersons(state, commit)
 }
 
 export function deletePerson({ state, commit }, personId) {
   commit('deletePerson', personId)
-  updateDbPersons(state)
+  updateDbPersons(state, commit)
 }
 
 export function addGroupToPerson({ state, commit }, personId, groupToAdd) {
@@ -26,7 +26,7 @@ export function addGroupToPerson({ state, commit }, personId, groupToAdd) {
     personId,
     groupToAdd,
   })
-  updateDbPersons(state)
+  updateDbPersons(state, commit)
 }
 
 export function removeGroupFromPerson({ state, commit }, personId, groupToRemove) {
@@ -34,12 +34,20 @@ export function removeGroupFromPerson({ state, commit }, personId, groupToRemove
     personId,
     groupToRemove,
   })
-  updateDbPersons(state)
+  updateDbPersons(state, commit)
 }
 
-function updateDbPersons(state) {
+function updateDbPersons(state, commit) {
   if (state.user.user) {
+    commit('syncingDb', true)
     db.setImportantPersons(state.user.user.id, state.app.importantPersons)
+      .then(() => {
+        commit('syncingDb', false)
+      })
+      .catch(err => {
+        console.error('Sync importantPersons into Firebase', err)
+        commit('syncingDb', false)
+      })
   } else {
     localStorageHelper.setPersons(state.app.importantPersons)
   }

@@ -1,6 +1,6 @@
 export default {
 
-  // ------------------------- Important persons -------------------------
+  // ------------------------- IMPORTANT PERSONS -------------------------
 
   setAllPersons(state, allPersons) {
     state.importantPersons = allPersons
@@ -103,6 +103,12 @@ export default {
         })
       }
     })
+  },
+
+  // ------------------------- MISC -------------------------
+
+  syncingDb(state, isSyncing) {
+    state.isSyncingDb = isSyncing
   },
 
 }
