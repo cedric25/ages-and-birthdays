@@ -193,7 +193,7 @@ export default {
   }
 
   .group-name-input {
-    padding-top: 7px;
+    padding-top: 8px;
   }
 
   .group-name-input /deep/ .input-group__details {
