@@ -4,7 +4,7 @@
       <v-jumbotron
         :gradient="gradient"
         height="100vh"
-        src="../assets/material2-bw.jpg"
+        src="/static/img/material2-bw.jpg"
       >
         <v-container fill-height>
           <v-layout align-center>
