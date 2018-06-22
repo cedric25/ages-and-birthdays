@@ -1,12 +1,16 @@
 <template>
   <div class="google-signin ml-3">
 
-    <a
-      v-if="!user"
-      @click.prevent="googleSignin()"
-    >
-      <v-icon large>face</v-icon>
-    </a>
+    <v-tooltip bottom open-delay="50" close-delay="100">
+      <a
+        v-if="!user"
+        slot="activator"
+        @click.prevent="googleSignin()"
+      >
+        <v-icon large>face</v-icon>
+      </a>
+      <span>Signin</span>
+    </v-tooltip>
 
     <v-tooltip bottom open-delay="50" close-delay="100">
       <a
