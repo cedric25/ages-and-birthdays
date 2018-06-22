@@ -92,14 +92,14 @@
       </v-btn>
     </div>
 
-      <v-alert
-        :value="showConfirmation"
-        color="success"
-        icon="new_releases"
-        class="success-alert text-xs-center mt-3"
-      >
-        You've added <strong>{{ addedName }}</strong>!
-      </v-alert>
+    <v-alert
+      :value="showConfirmation"
+      color="success"
+      icon="new_releases"
+      class="success-alert text-xs-center mt-3"
+    >
+      You've added <strong>{{ addedName }}</strong>!
+    </v-alert>
   </form>
 
 </template>
