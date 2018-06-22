@@ -255,6 +255,7 @@ export default {
         }
 
         .year-prefix {
+          font-size: 16px;
           top: -4px;
           position: relative;
           margin-right: 3px;
