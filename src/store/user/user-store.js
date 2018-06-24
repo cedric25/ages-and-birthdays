@@ -1,4 +1,5 @@
 import * as firebase from 'firebase'
+import * as db from '../../helpers/db'
 import { checkUserData } from '../../helpers/checkUserData'
 
 export default {
@@ -50,48 +51,32 @@ export default {
         })
     },
     signinDone({ state, rootState, commit }) {
-      // TODO Use a dynamic ref instead of 'once'?
-
-      firebase.database().ref(`users/${state.user.id}`).once('value')
+      commit('syncingDb', true)
+      db.readUserDataOnce(state.user.id)
         .then(userDataSnapshot => {
           const userData = userDataSnapshot.val()
           if (!userData) {
-            // Create an entry and push whatever exists locally
-            firebase.database().ref(`users/${state.user.id}`).set({
-              user: state.user,
-              importantPersons: rootState.app.importantPersons,
-              groups: rootState.app.groups,
-            }, err => {
-              if (err) {
-                // The write failed...
-                console.error('Firebase write failed...', err)
-              } else {
-                // Data saved successfully!
-                console.log('Firebase write all good')
-              }
-            })
+            const { importantPersons, groups } = rootState.app
+            uploadLocalStateToDb(state.user, importantPersons, groups)
+              .then(() => commit('syncingDb', false))
+              .catch(() => commit('syncingDb', false))
           } else {
             const validData = checkUserData(userData)
             if (!validData) {
-              throw new Error('There is data to be synced but invalid?... :(')
+              commit('syncingDb', false)
+              throw new Error('There is data to be synced but invalid... :(')
               // Keep local state...
             }
             // Override local state with what's in Firebase
             // TODO Message to ask if override okay?
-            const personsState = []
-            if (userData.importantPersons) {
-              for (const personKey of Object.keys(userData.importantPersons)) {
-                personsState.push(userData.importantPersons[personKey])
-              }
-            }
-            userData.importantPersons && commit('setAllPersons', personsState)
-            userData.groups && commit('setAllGroups', userData.groups)
+            useDbState(userData, commit)
+            commit('syncingDb', false)
           }
-
           commit('setLoginTried')
         })
         .catch(err => {
-          console.error('Nothing? Or error?...', err)
+          commit('syncingDb', false)
+          console.error('Error...', err)
         })
     },
     signout({ commit }) {
@@ -101,4 +86,25 @@ export default {
       commit('setAllGroups', ['Family', 'Friends'])
     },
   },
+}
+
+function uploadLocalStateToDb(user, importantPersons, groups) {
+  return db.setUserData(user.id, {
+    user,
+    importantPersons,
+    groups,
+  })
+    .then(() => console.log('Firebase write all good'))
+    .catch(err => console.error('Firebase write failed...', err))
+}
+
+function useDbState(userData, commit) {
+  const personsState = []
+  if (userData.importantPersons) {
+    for (const personKey of Object.keys(userData.importantPersons)) {
+      personsState.push(userData.importantPersons[personKey])
+    }
+  }
+  userData.importantPersons && commit('setAllPersons', personsState)
+  userData.groups && commit('setAllGroups', userData.groups)
 }
