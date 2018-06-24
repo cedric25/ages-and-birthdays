@@ -142,7 +142,7 @@ export default {
     },
     personGroups: {
       type: Array,
-      required: true,
+      required: false,
     }
   },
   data() {
