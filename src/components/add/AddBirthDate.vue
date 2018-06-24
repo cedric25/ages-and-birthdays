@@ -162,7 +162,7 @@ export default {
       const year = this.getYear(this.year1, this.year2)
       const month = this.monthNo
       const day = parseInt(this.day, 10)
-      const birthday = new Date(year, month, day)
+      const birthday = new Date(Date.UTC(year, month, day))
       const newPerson = {
         id: uuid(),
         name: this.name,
