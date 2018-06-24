@@ -1,5 +1,5 @@
 <template>
-  <v-app light>
+  <v-app>
 
     <v-toolbar app dark color="primary">
       <router-link to="/">
@@ -56,5 +56,10 @@ export default {
     .header-title {
       margin-left: 0;
     }
+  }
+
+  /deep/ .content--wrap {
+    background-image: url(/static/img/material2-bw.jpg);
+    background-attachment: fixed;
   }
 </style>
