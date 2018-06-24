@@ -13,7 +13,7 @@
           About
         </v-btn>
         <ab-google-signin />
-        <ab-sync-loader />
+        <ab-sync-loader v-if="user" />
       </v-toolbar-items>
     </v-toolbar>
 
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import GoogleSignin from './components/GoogleSignin'
 import SyncLoader from './components/SyncLoader.js'
 
@@ -32,6 +33,11 @@ export default {
   components: {
     'ab-google-signin': GoogleSignin,
     'ab-sync-loader': SyncLoader,
+  },
+  computed: {
+    ...mapGetters([
+      'user',
+    ]),
   },
 }
 </script>
