@@ -68,6 +68,7 @@
                 placeholder="DD/MM/YYYY"
                 class="dob-input pt-0"
                 :class="{ 'margin-auto': !isYearKnown }"
+                :error="wrongDateEntered"
                 @keyup.enter="updatePerson()"
                 @keyup.esc="cancelEdit()"
               />
@@ -150,6 +151,7 @@ export default {
       isEditMode: false,
       newName: '',
       dob: '',
+      wrongDateEntered: false,
     }
   },
   computed: {
@@ -207,6 +209,11 @@ export default {
       return `Birthday in`
     },
   },
+  watch: {
+    dob() {
+      this.wrongDateEntered = false
+    },
+  },
   created() {
     this.newName = this.name
     if (this.isYearKnown) {
@@ -221,16 +228,22 @@ export default {
       this.$nextTick(() => this.$refs[inputToFocusOn].focus())
     },
     updatePerson() {
-      this.isEditMode = false
       let dateFormat = 'dd/MM/yyyy'
       if (!containsYear(this.dob)) {
         dateFormat = 'dd/MM'
       }
-      importantPersons.updatePerson(this.$store, {
-        id: this.id,
-        name: this.newName,
-        birthday: parse(this.dob, dateFormat, new Date(1901, 0, 1)),
-      })
+      const newBirthdayDate = parse(this.dob, dateFormat, new Date(1901, 0, 1))
+      if (!(newBirthdayDate instanceof Date) || isNaN(newBirthdayDate)) {
+        this.wrongDateEntered = true
+      } else {
+        this.isEditMode = false
+        const newBirthday = new Date(Date.UTC(newBirthdayDate.getFullYear(), newBirthdayDate.getMonth(), newBirthdayDate.getDate()))
+        importantPersons.updatePerson(this.$store, {
+          id: this.id,
+          name: this.newName,
+          birthday: newBirthday,
+        })
+      }
     },
     deletePerson() {
       importantPersons.deletePerson(this.$store, this.id)
