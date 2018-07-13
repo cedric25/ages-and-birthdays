@@ -8,6 +8,16 @@
 
 Project generated from vue-cli 2.9.3 using default 'webpack' template.
 
+## Features
+
+ - Add a person and its birthday (year optional)
+ - Manage groups
+ - List all persons with group filters and sorts
+
+Storage:
+ - Within the browser (localStorage)
+ - Login with Google and syncing with Firebase
+
 ## Build Setup
 
 ``` bash
@@ -28,6 +38,9 @@ npm run unit
 
 # run all tests
 npm test
+
+# build and deploy to Github pages
+npm run deploy
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
