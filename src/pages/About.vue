@@ -21,7 +21,7 @@
               </div>
               <p>
                 No data is being shared.<br>
-                Your list of birthdays sits within your browser only.
+                Your list of birthdays sits within your browser only, or in Firebase if you log in.
               </p>
 
               <v-divider class="my-3" />
