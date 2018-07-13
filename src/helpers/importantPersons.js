@@ -29,6 +29,11 @@ export function addGroupToPerson({ state, commit }, personId, groupToAdd) {
   updateDbPersons(state, commit)
 }
 
+export function removeAllPersons({ state, commit }) {
+  commit('removeAllPersons')
+  updateDbPersons(state, commit)
+}
+
 export function removeGroupFromPerson({ state, commit }, personId, groupToRemove) {
   commit('removeGroupFromPerson', {
     personId,

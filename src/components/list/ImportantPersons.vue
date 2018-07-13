@@ -64,6 +64,7 @@ import { mapGetters } from 'vuex'
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 import { computeAge } from '../../helpers/computeAge'
 import comparePersons from '../../helpers/comparePersons'
+import * as importantPersons from '../../helpers/importantPersons'
 import OnePerson from './OnePerson.vue'
 import OrderBy from './OrderBy.vue'
 import ImportExport from './ImportExport'
@@ -145,7 +146,7 @@ export default {
       this.selectedOrder = order
     },
     clearList() {
-      this.$store.commit('removeAllPersons')
+      importantPersons.removeAllPersons(this.$store)
     },
     isGroupSelected(groupLabel) {
       return this.selectedGroups.indexOf(groupLabel) !== -1
