@@ -23,3 +23,11 @@ export function setUserData(userId, { user, importantPersons, groups }) {
   userUpdates[`/users/${userId}/groups`] = groups
   return firebase.database().ref().update(userUpdates)
 }
+
+export function getImportantPersonsRef(userId) {
+  return firebase.database().ref(`users/${userId}/importantPersons`)
+}
+
+export function getGroupsRef(userId) {
+  return firebase.database().ref(`users/${userId}/groups`)
+}

@@ -58,7 +58,10 @@ export default {
           if (!userData) {
             const { importantPersons, groups } = rootState.app
             uploadLocalStateToDb(state.user, importantPersons, groups)
-              .then(() => commit('syncingDb', false))
+              .then(() => {
+                commit('syncingDb', false)
+                watchForDbChanges(state.user.id, commit)
+              })
               .catch(() => commit('syncingDb', false))
           } else {
             const validData = checkUserData(userData)
@@ -71,6 +74,7 @@ export default {
             // TODO Message to ask if override okay?
             useDbState(userData, commit)
             commit('syncingDb', false)
+            watchForDbChanges(state.user.id, commit)
           }
           commit('setLoginTried')
         })
@@ -107,4 +111,36 @@ function useDbState(userData, commit) {
   }
   userData.importantPersons && commit('setAllPersons', personsState)
   userData.groups && commit('setAllGroups', userData.groups)
+}
+
+function watchForDbChanges(userId, commit) {
+
+  const MIN_LOADING_TIME = 250
+
+  db.getImportantPersonsRef(userId).on('value', function(personsSnapshot) {
+
+    commit('syncingDb', true)
+
+    if (!personsSnapshot.val()) {
+      commit('setAllPersons', [])
+    } else {
+      // Check that all persons got a birthday prop, otherwise it might be a local Firebase value...
+      const allPersonsFine = personsSnapshot.val().every(person => !!person.birthday)
+      if (allPersonsFine) {
+        commit('setAllPersons', personsSnapshot.val())
+      }
+    }
+
+    setTimeout(() => {
+      commit('syncingDb', false)
+    }, MIN_LOADING_TIME)
+  })
+
+  db.getGroupsRef(userId).on('value', function(groupsSnapshot) {
+    commit('syncingDb', true)
+    commit('setAllGroups', groupsSnapshot.val() || [])
+    setTimeout(() => {
+      commit('syncingDb', false)
+    }, MIN_LOADING_TIME)
+  })
 }
