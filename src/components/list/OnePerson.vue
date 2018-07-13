@@ -161,7 +161,7 @@ export default {
     },
     readableBirthday() {
       if (!this.isYearKnown) {
-        return format(this.birthday, 'd MMM')
+        return `${this.birthday.getDate()} ${format(this.birthday, 'MMM')}`
       }
       return format(this.birthday, 'd MMM YYYY')
     },
@@ -212,7 +212,7 @@ export default {
     if (this.isYearKnown) {
       this.dob = format(this.birthday, 'dd/MM/YYYY')
     } else {
-      this.dob = format(this.birthday, 'dd/MM')
+      this.dob = `${this.birthday.getDate()}/${format(this.birthday, 'MM')}`
     }
   },
   methods: {
@@ -229,7 +229,7 @@ export default {
       importantPersons.updatePerson(this.$store, {
         id: this.id,
         name: this.newName,
-        birthday: parse(this.dob, dateFormat, new Date(1900, 0, 1)),
+        birthday: parse(this.dob, dateFormat, new Date(1901, 0, 1)),
       })
     },
     deletePerson() {
