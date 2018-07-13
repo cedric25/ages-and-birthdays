@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 export default {
 
   // ------------------------- IMPORTANT PERSONS -------------------------
@@ -11,20 +13,15 @@ export default {
   },
 
   updatePerson(state, newInfo) {
-
-    const personToUpdate = state.importantPersons.find(person => person.id === newInfo.id)
-
-    const updatedPerson = Object.assign({}, personToUpdate,
-      { name: newInfo.name },
-      { birthday: newInfo.birthday }
-    )
-
-    let newPersonsList = state.importantPersons.filter(person => {
-      return person.id !== newInfo.id
+    state.importantPersons.forEach((person, index) => {
+      if (person.id === newInfo.id) {
+        const updatedPerson = Object.assign({}, person,
+          { name: newInfo.name },
+          { birthday: newInfo.birthday }
+        )
+        Vue.set(state.importantPersons, index, updatedPerson)
+      }
     })
-    newPersonsList.push(updatedPerson)
-
-    state.importantPersons = newPersonsList
   },
 
   addGroupToPerson(state, { personId, groupToAdd }) {
