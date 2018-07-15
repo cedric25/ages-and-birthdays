@@ -148,6 +148,11 @@ export default {
         this.monthNo !== -1
     },
   },
+  created() {
+    if (this.isBirthdayFormOpen) {
+      this.focusNameInputDelay()
+    }
+  },
   watch: {
     isBirthdayFormOpen(value) {
       value && this.focusNameInputDelay()

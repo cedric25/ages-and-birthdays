@@ -52,9 +52,21 @@ export default {
       'loginTried',
     ]),
   },
+  created() {
+    if (this.loginTried > 0) {
+      this.updatePanelTitle()
+    }
+  },
   watch: {
     loginTried(newValue) {
-      if (newValue && this.importantPersons.length === 0) {
+      if (newValue) {
+        this.updatePanelTitle()
+      }
+    },
+  },
+  methods: {
+    updatePanelTitle() {
+      if (this.importantPersons.length === 0) {
         this.isBirthdayFormOpen = true
         this.addPersonLabel = `Add your first person's birthday to the list`
       } else {
