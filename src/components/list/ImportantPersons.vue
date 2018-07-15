@@ -45,7 +45,7 @@
     </div>
 
     <transition-group name="flip-list" tag="div" class="persons-grid">
-      <div v-for="person in persons" :key="person.id">
+      <div v-for="person in persons" :key="person.id" class="flip-list-item">
         <one-person
           :id="person.id"
           :name="person.name"
@@ -227,8 +227,18 @@ export default {
     }
   }
 
+  .flip-list-item {
+    transition: all .5s;
+    display: inline-block;
+  }
   .flip-list-move {
     transition: transform .8s;
+  }
+  .flip-list-enter, .flip-list-leave-to {
+    opacity: 0;
+  }
+  .flip-list-leave-active {
+    position: absolute;
   }
 
   .chip /deep/ span {
