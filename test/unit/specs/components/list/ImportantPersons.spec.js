@@ -1,3 +1,6 @@
+// Run it with:
+// npm t -- ImportantPersons.spec.js
+
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { createLocalVue, shallowMount } from '@vue/test-utils'
@@ -9,6 +12,10 @@ import ImportantPersons from '@/components/list/ImportantPersons.vue'
 // Use store, mock it with all attributes, whole component gets mounted... Not necessary here!
 // And still a warning in the console about unknown Vuetify components
 // Also needed 'stage-2 in .babelrc, otherwise ...mapGetters([...]) was making it fail
+
+Vue.config.ignoredElements = [
+  /^v-/
+]
 
 Vue.use(Vuex)
 

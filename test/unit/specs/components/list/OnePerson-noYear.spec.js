@@ -1,12 +1,18 @@
 // Run it with:
-// npx jest --config test/unit/jest.conf.js test/unit/specs/components/list/OnePerson-noYear.spec.js
+// npm t -- OnePerson-noYear
 
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { shallowMount } from '@vue/test-utils'
 import OnePerson from '@/components/list/OnePerson.vue'
 
+Vue.config.ignoredElements = [
+  /^v-/
+]
+
 Vue.use(Vuex)
+
+Vue.directive('click-outside', jest.fn())
 
 describe('OnePerson component', () => {
 
