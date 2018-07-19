@@ -272,8 +272,15 @@ export default {
     flex-direction: column;
     margin: 15px 0;
 
+    > .card {
+      min-height: 164px;
+      display: flex;
+      align-items: flex-end;
+    }
+
     .card__title {
       display: flex;
+      width: 100%;
       padding: 5px 5px 16px 5px;
 
       > div {
