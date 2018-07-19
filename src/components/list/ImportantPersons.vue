@@ -65,6 +65,7 @@ import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 import { computeAge } from '../../helpers/computeAge'
 import comparePersons from '../../helpers/comparePersons'
 import * as importantPersons from '../../helpers/importantPersons'
+import * as localStorageHelper from '../../helpers/localStorageHelper'
 import OnePerson from './OnePerson.vue'
 import OrderBy from './OrderBy.vue'
 import ImportExport from './ImportExport'
@@ -102,7 +103,13 @@ export default {
       return this.sortPersons(personsList, this.selectedOrder)
     },
   },
+  created() {
+    this.selectedOrder = this.getOrderFromLocalStorage() || 'daysUntilBirthday'
+  },
   methods: {
+    getOrderFromLocalStorage() {
+      return localStorageHelper.getListOrder()
+    },
     buildPersons(serverPersons) {
       return serverPersons && Object.values(serverPersons).map(person => {
         return {
@@ -144,6 +151,7 @@ export default {
     },
     selectOrder(order) {
       this.selectedOrder = order
+      localStorageHelper.saveListOrder(order)
     },
     clearList() {
       importantPersons.removeAllPersons(this.$store)
