@@ -5,9 +5,47 @@
       <ab-import-export />
 
       <div v-if="importantPersons.length > 0" class="ml-3">
-        <v-btn color="error" @click="clearList()">
-          Clear list?
-        </v-btn>
+        <v-dialog
+          v-model="confirmClearDialog"
+          width="400"
+          @keydown.esc="confirmClearDialog = false"
+        >
+          <v-btn
+            slot="activator"
+            color="error"
+          >
+            Clear list?
+          </v-btn>
+          <v-card>
+            <v-card-title
+              class="headline grey lighten-2"
+              primary-title
+            >
+              Please confirm...
+            </v-card-title>
+            <v-card-text>
+              This will delete all persons...
+            </v-card-text>
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="secondary"
+                flat
+                @click="confirmClearDialog = false"
+              >
+                No
+              </v-btn>
+              <v-btn
+                color="primary"
+                flat
+                @click="clearList()"
+              >
+                Yes
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </div>
     </div>
 
@@ -82,6 +120,7 @@ export default {
     return {
       selectedOrder: 'daysUntilBirthday',
       selectedGroups: [],
+      confirmClearDialog: false,
     }
   },
   computed: {
@@ -155,6 +194,7 @@ export default {
     },
     clearList() {
       importantPersons.removeAllPersons(this.$store)
+      this.confirmClearDialog = false
     },
     isGroupSelected(groupLabel) {
       return this.selectedGroups.indexOf(groupLabel) !== -1
