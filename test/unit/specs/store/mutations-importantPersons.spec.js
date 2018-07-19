@@ -1,4 +1,7 @@
-import mutations from '@/store/mutations.js'
+// Run it with:
+// npm t -- mutations-importantPersons
+
+import { mutations } from '@/store/app/app-mutations.js'
 
 const {
   addNewImportantPerson,
@@ -93,9 +96,7 @@ describe('deletePerson()', () => {
         id: '123',
         name: 'Bob',
       }]
-      deletePerson(state, {
-        id: '123',
-      })
+      deletePerson(state, '123')
       expect(state.importantPersons.length).toBe(0)
     })
   })
