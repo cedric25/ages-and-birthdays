@@ -1,4 +1,4 @@
-import mutations from './app-mutations'
+import { mutations } from './app-mutations'
 
 export default {
   state: {

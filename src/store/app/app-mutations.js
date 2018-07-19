@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-export default {
+export const mutations = {
 
   // ------------------------- IMPORTANT PERSONS -------------------------
 
