@@ -393,7 +393,7 @@ export default {
       position: absolute;
       top: 0;
       right: 0;
-      color: rgba(0, 0, 0, 0.6);
+      color: rgba(0, 0, 0, .5);
       margin: 4px;
       transition: opacity ease-in-out 200ms;
     }
@@ -403,7 +403,11 @@ export default {
     }
     .edit-btn,
     .delete-btn {
-      opacity: 0;
+      opacity: 1;
+
+      @media (min-width: 665px) {
+        opacity: 0;
+      }
     }
   }
 
