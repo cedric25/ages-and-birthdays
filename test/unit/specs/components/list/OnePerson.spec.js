@@ -179,41 +179,6 @@ describe('OnePerson component - Birthday is today', () => {
 
 })
 
-describe('OnePerson component - Year unknown', () => {
-
-  let person
-  let wrapper
-
-  beforeAll(() => {
-    person = {
-      id: '345',
-      name: 'Leila',
-      birthday: new Date('1900-03-21'),
-      age: {
-        value: null,
-        unit: '',
-      },
-      daysUntilBirthday: 32,
-    }
-    wrapper = shallowMount(OnePerson, {
-      propsData: { ...person },
-    })
-  })
-
-  describe('Computed props', () => {
-
-    test(`readableBirthday, should give '21 March'`, () => {
-      expect(wrapper.vm.readableBirthday).toBe('21 Mar')
-    })
-
-    test(`textBeforeDays, should give 'Birthday in'`, () => {
-      expect(wrapper.vm.textBeforeDays).toBe('Birthday in')
-    })
-
-  })
-
-})
-
 describe('OnePerson component - Birthday today AND year unknown', () => {
 
   let person
