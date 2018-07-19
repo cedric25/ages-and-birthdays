@@ -1,12 +1,18 @@
 // Run it with:
-// npm t -- OnePerson
+// npm t -- OnePerson.spec.js
 
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { shallowMount } from '@vue/test-utils'
 import OnePerson from '@/components/list/OnePerson.vue'
 
+Vue.config.ignoredElements = [
+  /^v-/
+]
+
 Vue.use(Vuex)
+
+Vue.directive('click-outside', jest.fn())
 
 describe('OnePerson component', () => {
 
@@ -82,16 +88,8 @@ describe('OnePerson component', () => {
       expect(wrapper.vm.isBirthdayToday).toBe(false)
     })
 
-    describe('textBeforeDays', () => {
-      test(`should give 'Will turn 31 in'`, () => {
-        expect(wrapper.vm.textBeforeDays).toBe('Will turn 31 in')
-      })
-      describe('When birthday is today', () => {
-        test(`should give 'Turning 31 today!'`, () => {
-          wrapper.vm.daysUntilBirthday = 0
-          expect(wrapper.vm.textBeforeDays).toBe('Turning 30 today!')
-        })
-      })
+    test(`textBeforeDays, should give 'Will turn 31 in'`, () => {
+      expect(wrapper.vm.textBeforeDays).toBe('Will turn 31 in')
     })
 
   })
@@ -125,18 +123,7 @@ describe('OnePerson component - Less than 1y old', () => {
       personGroups: ['Friends'],
     }
     wrapper = shallowMount(OnePerson, {
-      propsData: {...person},
-      store: new Vuex.Store({
-        state: {
-          importantPersons: [],
-          groups: ['Family', 'Friends'],
-        },
-        getters: {
-          groups (state) {
-            return state.groups.sort()
-          },
-        },
-      }),
+      propsData: { ...person },
     })
   })
 
@@ -155,6 +142,37 @@ describe('OnePerson component - Less than 1y old', () => {
 
     test('nextAge, should give 1', () => {
       expect(wrapper.vm.nextAge).toBe(1)
+    })
+
+  })
+
+})
+
+describe('OnePerson component - Birthday is today', () => {
+
+  let person
+  let wrapper
+
+  beforeAll(() => {
+    person = {
+      id: '345',
+      name: 'Xavier',
+      birthday: new Date(),
+      age: {
+        value: 30,
+        unit: 'years',
+      },
+      daysUntilBirthday: 0,
+    }
+    wrapper = shallowMount(OnePerson, {
+      propsData: { ...person },
+    })
+  })
+
+  describe('Computed props', () => {
+
+    test(`textBeforeDays, should give 'Turning 30 today!'`, () => {
+      expect(wrapper.vm.textBeforeDays).toBe('Turning 30 today!')
     })
 
   })
