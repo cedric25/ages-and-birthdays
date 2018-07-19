@@ -67,5 +67,10 @@ export default {
   /deep/ .content--wrap {
     background-image: url(/static/img/material2-bw.jpg);
     background-attachment: fixed;
+    background-position: center;
+    background-size: auto 100%;
+    @media (min-aspect-ratio: 35/20) {
+      background-size: 100% auto;
+    }
   }
 </style>
