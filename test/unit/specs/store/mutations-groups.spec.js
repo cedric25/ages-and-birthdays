@@ -1,4 +1,7 @@
-import mutations from '@/store/mutations.js'
+// Run it with:
+// npm t -- mutations-groups
+
+import { mutations } from '@/store/app/app-mutations.js'
 
 const {
   addGroup,
