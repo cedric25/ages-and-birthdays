@@ -1,5 +1,5 @@
 // Run it with:
-// npx jest --config test/unit/jest.conf.js test/unit/specs/components/list/OnePerson.spec.js
+// npm t -- OnePerson
 
 import Vue from 'vue'
 import Vuex from 'vuex'
@@ -82,8 +82,16 @@ describe('OnePerson component', () => {
       expect(wrapper.vm.isBirthdayToday).toBe(false)
     })
 
-    test(`textBeforeDays, should give 'Will turn 31 in'`, () => {
-      expect(wrapper.vm.textBeforeDays).toBe('Will turn 31 in')
+    describe('textBeforeDays', () => {
+      test(`should give 'Will turn 31 in'`, () => {
+        expect(wrapper.vm.textBeforeDays).toBe('Will turn 31 in')
+      })
+      describe('When birthday is today', () => {
+        test(`should give 'Turning 31 today!'`, () => {
+          wrapper.vm.daysUntilBirthday = 0
+          expect(wrapper.vm.textBeforeDays).toBe('Turning 30 today!')
+        })
+      })
     })
 
   })

@@ -86,7 +86,7 @@
             <span v-if="!isBirthdayToday">
               <strong>{{ daysUntilBirthday }}</strong> day{{ daysUntilBirthday > 1 && 's' || '' }}
             </span>
-            <span class="cake-icon" v-if="isBirthdayToday">
+            <span v-else class="cake-icon">
               🎂
             </span>
           </div>
@@ -199,7 +199,7 @@ export default {
     textBeforeDays() {
       if (this.isBirthdayToday) {
         if (this.isYearKnown) {
-          return `Turning ${this.nextAge} today!`
+          return `Turning ${this.nextAge - 1} today!`
         }
         return 'Birthday today!'
       }
