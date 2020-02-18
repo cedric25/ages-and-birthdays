@@ -2,7 +2,7 @@
   <div class="person">
 
     <v-card v-click-outside="cancelEdit">
-      <v-card-title :class="{ 'mt-2': !hasGroups }">
+      <v-card-title>
         <div>
 
           <div v-if="hasGroups" class="group-label">
@@ -165,7 +165,7 @@ export default {
       if (!this.isYearKnown) {
         return `${this.birthday.getDate()} ${format(this.birthday, 'MMM')}`
       }
-      return format(this.birthday, 'd MMM YYYY')
+      return format(this.birthday, 'd MMM yyyy')
     },
     otherGroups() {
       return this.groups.filter(group => !this.isInGroup(group))
@@ -217,7 +217,7 @@ export default {
   created() {
     this.newName = this.name
     if (this.isYearKnown) {
-      this.dob = format(this.birthday, 'dd/MM/YYYY')
+      this.dob = format(this.birthday, 'dd/MM/yyyy')
     } else {
       this.dob = `${this.birthday.getDate()}/${format(this.birthday, 'MM')}`
     }
