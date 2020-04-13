@@ -7,20 +7,21 @@
           :key="group"
           outlined
           color="red"
+          class="mr-2"
           :close="isEditMode"
-          @input="removeFromGroup(group)"
+          @click:close="removeFromGroup(group)"
         >
           {{ group }}
         </v-chip>
       </div>
 
-      <div v-if="isEditMode" class="group-label">
+      <div v-if="isEditMode" class="mt-2 ml-2 pr-10 text-left">
         <v-chip
           v-for="group in otherGroups"
           :key="group"
           color="secondary"
           text-color="white"
-          class="blue-chip"
+          class="mr-2 mt-2"
           @click="addToGroup(group)"
         >
           {{ group }}
@@ -33,40 +34,41 @@
         v-model="newName"
         name="name"
         placeholder="Name"
-        class="name-input pt-0"
-        @keyup.enter="updatePerson()"
-        @keyup.esc="cancelEdit()"
+        class="mt-1 px-10 pb-1 centered-input big-font-input"
+        hide-details
+        @keyup.enter="updatePerson"
+        @keyup.esc="cancelEdit"
       />
-      <h3 v-if="!isEditMode" class="headline mb-0 text-md-center" @dblclick="switchToEditMode()">
+      <h3 v-if="!isEditMode" class="headline mb-0 text-md-center" @dblclick="switchToEditMode">
         {{ name }}
         <span v-if="isBaby" class="baby-icon">👶</span>
       </h3>
 
       <div class="d-flex justify-center mt-2 mb-2">
         <div class="text-right" :class="{ 'text-center': !isYearKnown }" style="flex: 1;">
-          <v-chip
-            v-if="!isEditMode"
-            color="green"
-            text-color="white"
-            class="mr-1"
-            @dblclick="switchToEditMode('dob')"
-          >
-            {{ readableBirthday }}
-          </v-chip>
           <v-text-field
             v-if="isEditMode"
             ref="dob"
             v-model="dob"
             name="dob"
             placeholder="DD/MM/YYYY"
-            class="dob-input pt-0"
-            :class="{ 'margin-auto': !isYearKnown }"
+            class="ma-auto px-10 pt-0 centered-input small-width-input"
+            prepend-inner-icon="fa-calendar"
             :error="wrongDateEntered"
             @keyup.enter="updatePerson()"
             @keyup.esc="cancelEdit()"
           />
+          <v-chip
+            v-if="!isEditMode"
+            color="green"
+            text-color="white"
+            class="mr-1"
+            @dblclick="$event => switchToEditMode($event, 'dob')"
+          >
+            {{ readableBirthday }}
+          </v-chip>
         </div>
-        <div class="text-left" v-if="isYearKnown" style="flex: 1;">
+        <div class="text-left" v-if="!isEditMode && isYearKnown" style="flex: 1;">
           <v-chip color="accent" text-color="white" class="ml-1">
             {{ ageValue.value }}{{ ageValue.unit }}&nbsp;old
           </v-chip>
@@ -92,11 +94,11 @@
         <v-icon small>fa-trash</v-icon>
       </v-btn>
 
-      <v-btn v-if="isEditMode" icon @click="updatePerson">
-        <v-icon>fa-check</v-icon>
+      <v-btn v-if="isEditMode" icon class="submit-btn" @click="updatePerson">
+        <v-icon small>fa-check</v-icon>
       </v-btn>
       <v-btn v-if="isEditMode" icon class="cancel-btn" @click="cancelEdit">
-        <v-icon>fa-clear</v-icon>
+        <v-icon small>fa-undo</v-icon>
       </v-btn>
     </v-card>
   </div>
@@ -158,7 +160,7 @@
         return this.age.value + 1
       },
       isYearKnown() {
-        return this.birthday.getFullYear() !== 1900
+        return this.birthday.getFullYear() > 1910
       },
       isBirthdayToday() {
         return this.daysUntilBirthday === 0
@@ -190,7 +192,7 @@
       }
     },
     methods: {
-      switchToEditMode(inputToFocusOn = 'name') {
+      switchToEditMode($event, inputToFocusOn = 'name') {
         this.isEditMode = true
         this.$nextTick(() => this.$refs[inputToFocusOn].focus())
       },
@@ -276,14 +278,19 @@
   }
 
   .edit-btn,
-  .delete-btn {
+  .delete-btn,
+  .submit-btn,
+  .cancel-btn {
     position: absolute;
     top: 0;
     right: 0;
     color: rgba(0, 0, 0, 0.5);
     margin: 4px;
-    transition: opacity ease-in-out 200ms;
+  }
+  .edit-btn,
+  .delete-btn {
     opacity: 1;
+    transition: opacity ease-in-out 200ms;
 
     @media (min-width: 665px) {
       opacity: 0;
@@ -292,5 +299,20 @@
   .delete-btn,
   .cancel-btn {
     top: 35px;
+  }
+</style>
+
+<style>
+  .centered-input input {
+    text-align: center;
+  }
+  .big-font-input {
+    font-size: 24px;
+  }
+  .small-width-input {
+    max-width: 210px;
+  }
+  .small-width-input i {
+    font-size: 16px !important;
   }
 </style>

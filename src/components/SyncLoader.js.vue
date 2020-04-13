@@ -10,7 +10,7 @@
     ></v-progress-circular>
 
     <span v-else class="synced mb-2">
-      <v-icon :size="19">check_circle</v-icon>
+      <v-icon :size="19">fa-check-circle</v-icon>
     </span>
   </v-layout>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="admin-actions px-2">
+    <div class="admin-actions px-2" v-if="showAdminActions">
       <ImportExport />
 
       <div v-if="importantPersons.length > 0" class="ml-3">
@@ -25,7 +25,7 @@
           :key="group"
           :color="isGroupSelected(group) ? 'primary' : 'secondary'"
           :ripple="false"
-          class="mr-2"
+          class="mr-2 mb-2"
           @click="filterByGroup(group)"
         >
           <v-avatar left class="secondary darken-4">
@@ -74,6 +74,7 @@
       OnePerson,
     },
     data: () => ({
+      showAdminActions: false,
       selectedOrder: 'daysUntilBirthday',
       selectedGroups: [],
     }),

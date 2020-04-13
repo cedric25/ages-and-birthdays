@@ -1,5 +1,5 @@
 <template>
-  <transition name="fade">
+  <transition name="slide">
     <FixedWidthContainer class="pa-4">
       <h2 class="subtitle">
         Can't remember ages and birthdays? Me neither...
@@ -50,13 +50,13 @@
     margin: 20px 0;
   }
 
-  .fade-enter-active {
+  .slide-enter-active {
     transition: transform 0.3s ease;
   }
-  .fade-enter {
+  .slide-enter {
     transform: translateX(-50%);
   }
-  .fade-leave {
+  .slide-leave {
     opacity: 0;
   }
 </style>

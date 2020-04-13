@@ -10,7 +10,7 @@
         :key="group"
         :color="isGroupSelected(group) ? 'primary' : 'secondary'"
         :ripple="false"
-        class="mr-2"
+        class="mr-2 mb-2"
         tabindex="0"
         @click="selectGroup(group)"
         @keyup.enter="selectGroup(group)"
@@ -142,7 +142,6 @@
     },
     watch: {
       isBirthdayFormOpen(value) {
-        console.log('isBirthdayFormOpen', value)
         value && this.focusNameInputDelay()
       },
     },

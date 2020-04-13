@@ -1,17 +1,17 @@
 <template>
   <v-layout align-center class="ml-3">
-    <v-tooltip v-model="showSigninTooltip" bottom open-delay="50" close-delay="100">
+    <v-tooltip v-if="!user" v-model="showSigninTooltip" bottom open-delay="50" close-delay="100">
       <template v-slot:activator="{ on }">
-        <a v-if="!user" v-on="on" @click.prevent="googleSignin()">
-          <v-icon>fa-smile</v-icon>
+        <a v-on="on" @click.prevent="googleSignin">
+          <v-icon size="36" style="margin-right: 10px;">fa-smile</v-icon>
         </a>
       </template>
       <span>Signin</span>
     </v-tooltip>
 
-    <v-tooltip v-model="showSignoutTooltip" bottom open-delay="50" close-delay="100">
+    <v-tooltip v-if="user" v-model="showSignoutTooltip" bottom open-delay="50" close-delay="100">
       <template v-slot:activator="{ on }">
-        <a v-if="user" v-on="on" @click.prevent="signout()">
+        <a v-on="on" @click.prevent="signout">
           <v-avatar size="36px">
             <img v-if="user.photoUrl" :src="user.photoUrl" :alt="user.name" />
             <v-icon v-else color="blue">{{ user.name.substr(0, 1) }}</v-icon>

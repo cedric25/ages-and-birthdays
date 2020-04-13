@@ -2,7 +2,7 @@
   <v-expansion-panels v-model="indexPanelExpanded" flat class="one-panel">
     <v-expansion-panel>
       <v-expansion-panel-header>
-        {{ addPersonLabel }}
+        {{ panelHeaderTitle }}
       </v-expansion-panel-header>
       <v-expansion-panel-content>
         <AddBirthDate :is-birthday-form-open="indexPanelExpanded === 0" />
@@ -22,25 +22,22 @@
     },
     data: () => ({
       indexPanelExpanded: null,
-      addPersonLabel: `Add someone's birthday`,
     }),
     computed: {
       ...mapGetters(['importantPersons', 'loginTried']),
+      panelHeaderTitle() {
+        if (this.importantPersons.length === 0) {
+          return `Add your first person's birthday to the list`
+        }
+        return `Add someone's birthday`
+      },
     },
-    created() {
-      if (this.loginTried > 0) {
-        this.updatePanelTitle()
-      }
+    mounted() {
+      this.openOrClosePanel()
     },
     methods: {
-      updatePanelTitle() {
-        if (this.importantPersons.length === 0) {
-          this.isBirthdayFormOpen = true
-          this.addPersonLabel = `Add your first person's birthday to the list`
-        } else {
-          this.isBirthdayFormOpen = false
-          this.addPersonLabel = `Add someone's birthday`
-        }
+      openOrClosePanel() {
+        this.indexPanelExpanded = this.importantPersons.length === 0 ? 0 : null
       },
     },
   }
