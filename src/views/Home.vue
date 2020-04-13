@@ -1,28 +1,31 @@
 <template>
   <transition name="fade">
-    <ab-fixed-width-container class="pa-4">
+    <FixedWidthContainer class="pa-4">
       <h2 class="subtitle">
         Can't remember ages and birthdays? Me neither...
       </h2>
 
-      <ab-add-and-manage-groups />
+      <AddBirthDatePanel />
+      <ManageGroupsPanel />
 
       <hr />
 
       <important-persons />
-    </ab-fixed-width-container>
+    </FixedWidthContainer>
   </transition>
 </template>
 
 <script>
   import FixedWidthContainer from '../components/containers/FixedWidthContainer.vue'
-  import AddAndManageGroups from '../components/add/AddAndManageGroups.vue'
+  import AddBirthDatePanel from '../components/addBirthDate/AddBirthDatePanel.vue'
+  import ManageGroupsPanel from '../components/manageGroups/ManageGroupsPanel.vue'
   import ImportantPersons from '../components/list/ImportantPersons.vue'
 
   export default {
     components: {
-      'ab-fixed-width-container': FixedWidthContainer,
-      'ab-add-and-manage-groups': AddAndManageGroups,
+      FixedWidthContainer,
+      AddBirthDatePanel,
+      ManageGroupsPanel,
       ImportantPersons,
     },
   }

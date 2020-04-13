@@ -8,8 +8,7 @@
       <v-chip
         v-for="group in groups"
         :key="group"
-        :selected="isGroupSelected(group)"
-        color="secondary"
+        :color="isGroupSelected(group) ? 'primary' : 'secondary'"
         text-color="white"
         class="blue-chip"
         @click="selectGroup(group)"
@@ -20,7 +19,7 @@
     </div>
 
     <div>
-      <ad-add-group />
+      <AddGroup />
     </div>
 
     <div class="xs pt-0">
@@ -90,20 +89,17 @@
   import { mapGetters } from 'vuex'
   import uuid from 'uuid/v4'
   import * as importantPersons from '../../helpers/importantPersons'
-  import AddGroup from './AddGroup'
+  import AddGroup from '../manageGroups/AddGroup.vue'
   import SelectMonth from './SelectMonth.vue'
 
   export default {
     name: 'AddBirthDate',
     components: {
-      'ad-add-group': AddGroup,
+      AddGroup,
       SelectMonth,
     },
     props: {
-      isBirthdayFormOpen: {
-        type: Boolean,
-        required: true,
-      },
+      isBirthdayFormOpen: { type: Boolean, required: true },
     },
     data() {
       return {
@@ -222,14 +218,14 @@
     }
 
     .xs {
-      /deep/ input {
+      >>> input {
         letter-spacing: 2px;
         max-width: 30px;
         text-align: center;
       }
     }
 
-    .name-input /deep/ input {
+    .name-input >>> input {
       text-align: center;
     }
 
@@ -256,7 +252,7 @@
           margin-right: 3px;
         }
 
-        /deep/ input {
+        >>> input {
           letter-spacing: 2px;
           max-width: 24px;
         }
@@ -275,7 +271,7 @@
           background-color: #555 !important;
         }
 
-        /deep/ .chip__content {
+        >>> .chip__content {
           cursor: pointer;
         }
       }
@@ -298,7 +294,7 @@
     }
 
     .blue-chip {
-      /deep/ span {
+      >>> span {
         cursor: pointer;
       }
 
@@ -321,7 +317,7 @@
   .success-alert {
     width: 100%;
 
-    /deep/ > div {
+    > div {
       padding-right: 36px;
     }
   }

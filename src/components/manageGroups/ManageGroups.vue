@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="float-left" v-for="group in groupsList" :key="group.name">
+    <div class="group-chip mr-2" v-for="group in groupsList" :key="group.name">
       <div v-if="group.isEditMode" class="group-name-input-wrap">
         <v-text-field
           ref="newGroupName"
@@ -11,13 +11,12 @@
             }
           "
           name="group"
-          append-icon="check"
-          :append-icon-cb="() => submitNewGroupName(group)"
+          append-icon="mdi-check"
+          @click:append="() => submitNewGroupName(group)"
           @keyup.enter="submitNewGroupName(group)"
           class="group-name-input"
           :style="'width: ' + groupNameInputSize + 'px'"
           :error="inputHasError"
-          v-click-outside="cancelEdit"
           @keyup.esc="cancelEdit"
         />
         <div class="to-get-text-width">
@@ -30,26 +29,24 @@
         text-color="white"
         class="blue-chip"
         close
-        @input="deleteGroup(group)"
+        @click:close="deleteGroup(group)"
       >
         {{ group.name }}
-        <div class="chip__close edit-icon" @click="editGroup(group)">
-          <i aria-hidden="true" class="icon material-icons">
-            edit
-          </i>
-        </div>
+        <v-btn icon depressed color="white" class="edit-icon" @click="editGroup(group)">
+          <v-icon size="18">mdi-pencil</v-icon>
+        </v-btn>
       </v-chip>
     </div>
     <div class="clear-fix"></div>
 
-    <add-group :isGroupFormOpen="isGroupFormOpen" />
+    <AddGroup :is-group-form-open="isGroupsFormOpen" />
   </div>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
   import * as groups from '../../helpers/groups'
-  import AddGroup from './AddGroup'
+  import AddGroup from './AddGroup.vue'
 
   /**
    * TODO
@@ -59,14 +56,12 @@
    */
 
   export default {
+    name: 'ManageGroups',
     components: {
       AddGroup,
     },
     props: {
-      isGroupFormOpen: {
-        type: Boolean,
-        required: true,
-      },
+      isGroupsFormOpen: { type: Boolean, required: true },
     },
     data() {
       return {
@@ -150,10 +145,12 @@
 
         setTimeout(() => {
           const textWidthDiv = this.$el.querySelector('.to-get-text-width')
+          console.log('textWidthDiv', textWidthDiv)
           this.groupNameInputSize = textWidthDiv.clientWidth + 60
         })
       },
       cancelEdit() {
+        console.log('cancelEdit')
         this.groupsList.forEach(group => {
           group.isEditMode = false
         })
@@ -163,7 +160,7 @@
 </script>
 
 <style scoped>
-  .float-left {
+  .group-chip {
     float: left;
   }
   .clear-fix {
@@ -172,6 +169,7 @@
   }
 
   .edit-icon {
+    margin-left: 5px;
     margin-right: -3px;
   }
 
@@ -184,7 +182,7 @@
     padding-top: 8px;
   }
 
-  .group-name-input /deep/ .input-group__details {
+  .group-name-input >>> .input-group__details {
     min-height: 1px;
   }
 

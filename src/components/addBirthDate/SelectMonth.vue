@@ -1,7 +1,6 @@
 <template>
   <v-chip
-    :selected="selected"
-    color="secondary"
+    :color="selected ? 'primary' : 'secondary'"
     text-color="white"
     @click="$emit('select', monthIndex)"
     @keyup.enter="$emit('select', monthIndex)"

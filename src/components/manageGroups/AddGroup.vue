@@ -6,7 +6,7 @@
         v-model="newGroupName"
         name="group"
         placeholder="Add new..."
-        class="new-group-input pt-0"
+        class="new-group-input pt-0 mr-2"
         @keyup.enter="addGroup()"
         :error="hasError"
       />
@@ -27,10 +27,7 @@
   export default {
     name: 'AddGroup',
     props: {
-      isGroupFormOpen: {
-        type: Boolean,
-        required: false,
-      },
+      isGroupFormOpen: { type: Boolean, required: false },
     },
     data() {
       return {
@@ -79,7 +76,7 @@
     max-width: 200px;
   }
 
-  .add-group-form /deep/ .input-group__details {
+  .add-group-form >>> .input-group__details {
     min-height: 1px;
   }
 </style>

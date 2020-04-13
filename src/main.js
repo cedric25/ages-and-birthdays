@@ -7,8 +7,7 @@ import router from "./router";
 import store from "./store";
 import * as localStorageHelper from './helpers/localStorageHelper'
 
-// eslint-disable-next-line no-unused-vars
-import ClickOutside from './directives/click-outside-directive'
+import vuetify from './plugins/vuetify'
 
 Vue.config.productionTip = false;
 
@@ -16,9 +15,11 @@ new Vue({
   router,
   store,
   render: h => h(App),
+  vuetify,
   created() {
     firebase.initializeApp(firebaseConfig)
     firebase.auth().onAuthStateChanged(user => {
+      console.log('user', user)
       if (user) {
         this.$store.dispatch('autoSignIn', user)
       } else {
@@ -38,5 +39,5 @@ new Vue({
         this.$store.commit('setAllGroups', JSON.parse(groups))
       }
     },
-  },
+  }
 }).$mount("#app");

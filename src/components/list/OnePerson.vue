@@ -307,11 +307,11 @@
         margin-top: 3px;
         padding: 0 30px;
 
-        /deep/ input {
+        >>> input {
           text-align: center;
           font-size: 24px;
         }
-        /deep/ .input-group__details {
+        >>> .input-group__details {
           min-height: 0;
         }
       }
@@ -349,10 +349,10 @@
             margin-right: auto;
           }
 
-          /deep/ input {
+          >>> input {
             text-align: center;
           }
-          /deep/ .input-group__details {
+          >>> .input-group__details {
             min-height: 0;
           }
         }
@@ -375,7 +375,7 @@
       }
 
       .blue-chip {
-        /deep/ span {
+        >>> span {
           cursor: pointer;
         }
 

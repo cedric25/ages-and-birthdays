@@ -271,7 +271,7 @@
     position: absolute;
   }
 
-  .chip /deep/ span {
+  .chip >>> span {
     cursor: pointer;
   }
 
@@ -279,7 +279,7 @@
     box-shadow: none;
     border-color: rgb(25, 118, 210) !important;
 
-    &:focus /deep/ span {
+    &:focus >>> span {
       background: rgb(25, 118, 210);
     }
 
