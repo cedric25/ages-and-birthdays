@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels v-model="indexPanelExpanded" class="mt-4">
+  <v-expansion-panels v-model="indexPanelExpanded" flat class="one-panel mt-1">
     <v-expansion-panel>
       <v-expansion-panel-header>
         Manage groups
@@ -24,3 +24,10 @@
     }),
   }
 </script>
+
+<style scoped>
+  .one-panel {
+    max-width: 95%;
+    margin: auto;
+  }
+</style>

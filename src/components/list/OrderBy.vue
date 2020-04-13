@@ -6,7 +6,6 @@
       v-for="order in orders"
       :key="order.prop"
       text
-      small
       :color="selectedOrder === order.prop ? 'primary' : ''"
       :class="'btn-sort-' + order.prop"
       @click="selectOrder(order.prop)"

@@ -1,42 +1,16 @@
 <template>
   <div>
     <div class="admin-actions px-2">
-      <ab-import-export />
+      <ImportExport />
 
       <div v-if="importantPersons.length > 0" class="ml-3">
-        <v-dialog
-          v-model="confirmClearDialog"
-          width="400"
-          @keydown.esc="confirmClearDialog = false"
-        >
-          <v-btn slot="activator" color="error">
-            Clear list?
-          </v-btn>
-          <v-card>
-            <v-card-title class="headline grey lighten-2" primary-title>
-              Please confirm...
-            </v-card-title>
-            <v-card-text>
-              This will delete all persons...
-            </v-card-text>
-            <v-divider></v-divider>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="secondary" flat @click="confirmClearDialog = false">
-                No
-              </v-btn>
-              <v-btn color="primary" flat @click="clearList()">
-                Yes
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
+        <ClearList />
       </div>
     </div>
 
     <div v-if="importantPersons.length > 0" class="list-header">
-      <div class="order-and-total px-2">
-        <ab-order-by :selected-order="selectedOrder" @order="selectOrder"></ab-order-by>
+      <div class="order-and-total pa-2">
+        <OrderBy :selected-order="selectedOrder" @order="selectOrder" />
 
         <div class="total-persons pr-2">
           <strong>{{ importantPersons.length }}</strong> important person{{
@@ -45,16 +19,16 @@
         </div>
       </div>
 
-      <div class="groups-and-members-count">
+      <div class="groups-and-members-count pt-0 pa-2">
         <v-chip
           v-for="group in groups"
           :key="group"
-          :selected="isGroupSelected(group)"
-          color="secondary"
-          text-color="white"
+          :color="isGroupSelected(group) ? 'primary' : 'secondary'"
+          :ripple="false"
+          class="mr-2"
           @click="filterByGroup(group)"
         >
-          <v-avatar class="secondary darken-4">
+          <v-avatar left class="secondary darken-4">
             {{ nbPersonsWithinGroup(group) }}
           </v-avatar>
           {{ group }}
@@ -64,7 +38,7 @@
 
     <transition-group name="flip-list" tag="div" class="persons-grid">
       <div v-for="person in persons" :key="person.id" class="flip-list-item">
-        <one-person
+        <OnePerson
           :id="person.id"
           :name="person.name"
           :birthday="person.birthday"
@@ -82,27 +56,27 @@
   import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
   import { computeAge } from '../../helpers/computeAge'
   import comparePersons from '../../helpers/comparePersons'
-  import * as importantPersons from '../../helpers/importantPersons'
   import * as localStorageHelper from '../../helpers/localStorageHelper'
-  import OnePerson from './OnePerson.vue'
-  import OrderBy from './OrderBy.vue'
+
+  // Components
   import ImportExport from './ImportExport'
+  import ClearList from './ClearList.vue'
+  import OrderBy from './OrderBy.vue'
+  import OnePerson from './OnePerson.vue'
 
   const today = new Date()
 
   export default {
     components: {
+      ImportExport,
+      ClearList,
+      OrderBy,
       OnePerson,
-      'ab-order-by': OrderBy,
-      'ab-import-export': ImportExport,
     },
-    data() {
-      return {
-        selectedOrder: 'daysUntilBirthday',
-        selectedGroups: [],
-        confirmClearDialog: false,
-      }
-    },
+    data: () => ({
+      selectedOrder: 'daysUntilBirthday',
+      selectedGroups: [],
+    }),
     computed: {
       ...mapGetters(['importantPersons', 'groups']),
       persons() {
@@ -173,10 +147,6 @@
       selectOrder(order) {
         this.selectedOrder = order
         localStorageHelper.saveListOrder(order)
-      },
-      clearList() {
-        importantPersons.removeAllPersons(this.$store)
-        this.confirmClearDialog = false
       },
       isGroupSelected(groupLabel) {
         return this.selectedGroups.indexOf(groupLabel) !== -1

@@ -9,8 +9,8 @@
         v-for="group in groups"
         :key="group"
         :color="isGroupSelected(group) ? 'primary' : 'secondary'"
-        text-color="white"
-        class="blue-chip mr-2"
+        :ripple="false"
+        class="mr-2"
         tabindex="0"
         @click="selectGroup(group)"
         @keyup.enter="selectGroup(group)"
@@ -287,26 +287,6 @@
     @media (min-width: 450px) {
       .month {
         grid-template-columns: repeat(6, 1fr);
-      }
-    }
-
-    .blue-chip {
-      >>> span {
-        cursor: pointer;
-      }
-
-      &:focus {
-        background-color: #555 !important;
-      }
-
-      &.chip--selected {
-        box-shadow: none;
-        border-color: rgb(25, 118, 210) !important;
-
-        &::after {
-          background: rgb(25, 118, 210);
-          opacity: 1;
-        }
       }
     }
   }

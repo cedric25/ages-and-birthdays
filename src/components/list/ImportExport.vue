@@ -1,10 +1,10 @@
 <template>
   <div>
-    <v-btn v-if="importantPersons.length > 0" @click="downloadJson()">
+    <v-btn v-if="importantPersons.length > 0" @click="downloadJson" class="mr-4">
       Download JSON
     </v-btn>
 
-    <label class="btn">
+    <label class="v-btn v-btn--contained theme--light v-size--default" style="cursor: pointer;">
       <input type="file" @change="onFileChange" />
       <span class="btn__content">
         Upload JSON

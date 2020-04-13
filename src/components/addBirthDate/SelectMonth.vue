@@ -1,7 +1,7 @@
 <template>
   <v-chip
     :color="selected ? 'primary' : 'secondary'"
-    text-color="white"
+    :ripple="false"
     tabindex="0"
     class="mr-2 mb-2"
     @click="$emit('select', monthIndex)"

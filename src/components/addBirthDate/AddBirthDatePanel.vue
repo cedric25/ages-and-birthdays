@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels v-model="indexPanelExpanded">
+  <v-expansion-panels v-model="indexPanelExpanded" flat class="one-panel">
     <v-expansion-panel>
       <v-expansion-panel-header>
         {{ addPersonLabel }}
@@ -46,4 +46,9 @@
   }
 </script>
 
-<style scoped></style>
+<style scoped>
+  .one-panel {
+    max-width: 95%;
+    margin: auto;
+  }
+</style>

@@ -1,103 +1,103 @@
 <template>
   <div class="person">
-    <v-card>
-      <div>
-        <div v-if="hasGroups" class="group-label">
-          <v-chip
-            v-for="group in personGroups"
-            :key="group"
-            outlined
-            color="red"
-            :close="isEditMode"
-            @input="removeFromGroup(group)"
-          >
-            {{ group }}
-          </v-chip>
-        </div>
-        <div v-if="isEditMode" class="group-label">
-          <v-chip
-            v-for="group in otherGroups"
-            :key="group"
-            color="secondary"
-            text-color="white"
-            class="blue-chip"
-            @click="addToGroup(group)"
-          >
-            {{ group }}
-          </v-chip>
-        </div>
-
-        <v-text-field
-          v-if="isEditMode"
-          ref="name"
-          v-model="newName"
-          name="name"
-          placeholder="Name"
-          class="name-input pt-0"
-          @keyup.enter="updatePerson()"
-          @keyup.esc="cancelEdit()"
-        />
-        <h3 v-if="!isEditMode" class="headline mb-0 text-md-center" @dblclick="switchToEditMode()">
-          {{ name }}
-          <span v-if="isBaby" class="baby-icon">👶</span>
-        </h3>
-
-        <div class="dob-age-wrap">
-          <div class="dob-wrap" :class="{ 'text-center': !isYearKnown }">
-            <v-chip
-              v-if="!isEditMode"
-              color="green"
-              text-color="white"
-              @dblclick="switchToEditMode('dob')"
-            >
-              {{ readableBirthday }}
-            </v-chip>
-            <v-text-field
-              v-if="isEditMode"
-              ref="dob"
-              v-model="dob"
-              name="dob"
-              placeholder="DD/MM/YYYY"
-              class="dob-input pt-0"
-              :class="{ 'margin-auto': !isYearKnown }"
-              :error="wrongDateEntered"
-              @keyup.enter="updatePerson()"
-              @keyup.esc="cancelEdit()"
-            />
-          </div>
-          <div class="age-wrap" v-if="isYearKnown">
-            <v-chip color="accent" text-color="white">
-              <span class="age">{{ ageValue.value }}</span
-              ><span v-html="ageValue.unit"></span>&nbsp;old
-            </v-chip>
-          </div>
-        </div>
-        <div class="birthday-in-wrap mt-1 text-center">
-          <span>
-            {{ textBeforeDays }}
-          </span>
-          <span v-if="!isBirthdayToday">
-            <strong>{{ daysUntilBirthday }}</strong> day{{ (daysUntilBirthday > 1 && 's') || '' }}
-          </span>
-          <span v-else class="cake-icon">
-            🎂
-          </span>
-        </div>
-
-        <v-btn v-if="!isEditMode" icon class="edit-btn" @click="switchToEditMode">
-          <v-icon>fa-edit</v-icon>
-        </v-btn>
-        <v-btn v-if="!isEditMode" icon class="delete-btn" @click="deletePerson">
-          <v-icon>fa-delete</v-icon>
-        </v-btn>
-
-        <v-btn v-if="isEditMode" icon @click="updatePerson">
-          <v-icon>fa-check</v-icon>
-        </v-btn>
-        <v-btn v-if="isEditMode" icon class="cancel-btn" @click="cancelEdit">
-          <v-icon>fa-clear</v-icon>
-        </v-btn>
+    <v-card class="pb-4">
+      <div v-if="hasGroups" class="mt-2 ml-2 text-left">
+        <v-chip
+          v-for="group in personGroups"
+          :key="group"
+          outlined
+          color="red"
+          :close="isEditMode"
+          @input="removeFromGroup(group)"
+        >
+          {{ group }}
+        </v-chip>
       </div>
+
+      <div v-if="isEditMode" class="group-label">
+        <v-chip
+          v-for="group in otherGroups"
+          :key="group"
+          color="secondary"
+          text-color="white"
+          class="blue-chip"
+          @click="addToGroup(group)"
+        >
+          {{ group }}
+        </v-chip>
+      </div>
+
+      <v-text-field
+        v-if="isEditMode"
+        ref="name"
+        v-model="newName"
+        name="name"
+        placeholder="Name"
+        class="name-input pt-0"
+        @keyup.enter="updatePerson()"
+        @keyup.esc="cancelEdit()"
+      />
+      <h3 v-if="!isEditMode" class="headline mb-0 text-md-center" @dblclick="switchToEditMode()">
+        {{ name }}
+        <span v-if="isBaby" class="baby-icon">👶</span>
+      </h3>
+
+      <div class="d-flex justify-center mt-2 mb-2">
+        <div class="text-right" :class="{ 'text-center': !isYearKnown }" style="flex: 1;">
+          <v-chip
+            v-if="!isEditMode"
+            color="green"
+            text-color="white"
+            class="mr-1"
+            @dblclick="switchToEditMode('dob')"
+          >
+            {{ readableBirthday }}
+          </v-chip>
+          <v-text-field
+            v-if="isEditMode"
+            ref="dob"
+            v-model="dob"
+            name="dob"
+            placeholder="DD/MM/YYYY"
+            class="dob-input pt-0"
+            :class="{ 'margin-auto': !isYearKnown }"
+            :error="wrongDateEntered"
+            @keyup.enter="updatePerson()"
+            @keyup.esc="cancelEdit()"
+          />
+        </div>
+        <div class="text-left" v-if="isYearKnown" style="flex: 1;">
+          <v-chip color="accent" text-color="white" class="ml-1">
+            {{ ageValue.value }}{{ ageValue.unit }}&nbsp;old
+          </v-chip>
+        </div>
+      </div>
+
+      <div class="birthday-in-wrap mt-1 text-center">
+        <span>
+          {{ textBeforeDays }}
+        </span>
+        <span v-if="!isBirthdayToday">
+          <strong>{{ daysUntilBirthday }}</strong> day{{ (daysUntilBirthday > 1 && 's') || '' }}
+        </span>
+        <span v-else class="cake-icon">
+          🎂
+        </span>
+      </div>
+
+      <v-btn v-if="!isEditMode" icon class="edit-btn" @click="switchToEditMode">
+        <v-icon small>fa-edit</v-icon>
+      </v-btn>
+      <v-btn v-if="!isEditMode" icon class="delete-btn" @click="deletePerson">
+        <v-icon small>fa-trash</v-icon>
+      </v-btn>
+
+      <v-btn v-if="isEditMode" icon @click="updatePerson">
+        <v-icon>fa-check</v-icon>
+      </v-btn>
+      <v-btn v-if="isEditMode" icon class="cancel-btn" @click="cancelEdit">
+        <v-icon>fa-clear</v-icon>
+      </v-btn>
     </v-card>
   </div>
 </template>
@@ -111,39 +111,19 @@
 
   export default {
     props: {
-      id: {
-        type: String,
-        required: true,
-      },
-      name: {
-        type: String,
-        required: true,
-      },
-      birthday: {
-        type: Date,
-        required: true,
-      },
-      age: {
-        type: Object,
-        required: true,
-      },
-      daysUntilBirthday: {
-        type: Number,
-        required: true,
-      },
-      personGroups: {
-        type: Array,
-        required: false,
-      },
+      id: { type: String, required: true },
+      name: { type: String, required: true },
+      birthday: { type: Date, required: true },
+      age: { type: Object, required: true },
+      daysUntilBirthday: { type: Number, required: true },
+      personGroups: { type: Array, required: false },
     },
-    data() {
-      return {
-        isEditMode: false,
-        newName: '',
-        dob: '',
-        wrongDateEntered: false,
-      }
-    },
+    data: () => ({
+      isEditMode: false,
+      newName: '',
+      dob: '',
+      wrongDateEntered: false,
+    }),
     computed: {
       ...mapGetters(['groups']),
       hasGroups() {
@@ -164,7 +144,7 @@
       ageValue() {
         let unit = 'y'
         if (this.age.unit === 'months') {
-          unit = '&nbsp;months'
+          unit = ' months'
         }
         return {
           value: this.age.value,
@@ -265,185 +245,52 @@
     flex-direction: column;
     margin: 15px 0;
 
-    > .card {
-      min-height: 164px;
-      display: flex;
-      align-items: flex-end;
-    }
-
-    .card__title {
-      display: flex;
-      width: 100%;
-      padding: 5px 5px 16px 5px;
-
-      > div {
-        flex: 1;
-      }
-
-      .group-label {
-        text-align: left;
-        padding-right: 30px;
-      }
-
-      h3 {
-        padding: 0 30px 2px;
-
-        .baby-icon {
-          font-size: 0.75em;
-          padding-left: 5px;
-          display: inline-block;
-          margin-bottom: -3px;
-        }
-      }
-
-      .name-input {
-        margin-top: 3px;
-        padding: 0 30px;
-
-        >>> input {
-          text-align: center;
-          font-size: 24px;
-        }
-        >>> .input-group__details {
-          min-height: 0;
-        }
-      }
-
-      .dob-age-wrap {
-        display: flex;
-        align-items: center;
-        padding: 0 30px;
-        justify-content: center;
-
-        .dob-wrap,
-        .age-wrap {
-          flex: 1;
-        }
-        .dob-wrap {
-          text-align: right;
-
-          &.text-center {
-            text-align: center;
-          }
-        }
-        .age-wrap {
-          text-align: left;
-        }
-
-        .dob-input {
-          margin-top: 3px;
-          margin-bottom: 3px;
-          max-width: 100px;
-          float: right;
-
-          &.margin-auto {
-            float: none;
-            margin-left: auto;
-            margin-right: auto;
-          }
-
-          >>> input {
-            text-align: center;
-          }
-          >>> .input-group__details {
-            min-height: 0;
-          }
-        }
-      }
-
-      .birthday-in-wrap {
-        position: relative;
-
-        .cake-icon {
-          font-size: 1.5em;
-          position: absolute;
-          top: -5px;
-          margin-left: 5px;
-        }
-      }
-
-      &:hover .edit-btn,
-      &:hover .delete-btn {
-        opacity: 1;
-      }
-
-      .blue-chip {
-        >>> span {
-          cursor: pointer;
-        }
-
-        &.chip--selected {
-          box-shadow: none;
-          border-color: rgb(25, 118, 210) !important;
-
-          &::after {
-            background: rgb(25, 118, 210);
-            opacity: 1;
-          }
-        }
-      }
-    }
-
-    .age {
-      font-weight: bold;
-      font-size: 1.1em;
-    }
-
-    .btn {
-      position: absolute;
-      top: 0;
-      right: 0;
-      color: rgba(0, 0, 0, 0.5);
-      margin: 4px;
-      transition: opacity ease-in-out 200ms;
-    }
-    .delete-btn,
-    .cancel-btn {
-      top: 35px;
-    }
-    .edit-btn,
-    .delete-btn {
+    &:hover .edit-btn,
+    &:hover .delete-btn {
       opacity: 1;
-
-      @media (min-width: 665px) {
-        opacity: 0;
-      }
     }
-  }
 
-  @media (max-width: 399px) {
-    .person {
+    @media (max-width: 399px) {
       width: 300px;
     }
-  }
 
-  @media (min-width: 400px) and (max-width: 664px) {
-    .person {
+    @media (min-width: 400px) and (max-width: 664px) {
+      width: 350px;
+    }
+
+    @media (min-width: 665px) and (max-width: 762px) {
+      width: 300px;
+    }
+
+    @media (min-width: 763px) and (max-width: 1064px) {
+      width: 350px;
+    }
+
+    @media (min-width: 1065px) and (max-width: 1263px) {
+      width: 300px;
+    }
+
+    @media (min-width: 1264px) {
       width: 350px;
     }
   }
 
-  @media (min-width: 665px) and (max-width: 762px) {
-    .person {
-      width: 300px;
+  .edit-btn,
+  .delete-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: rgba(0, 0, 0, 0.5);
+    margin: 4px;
+    transition: opacity ease-in-out 200ms;
+    opacity: 1;
+
+    @media (min-width: 665px) {
+      opacity: 0;
     }
   }
-
-  @media (min-width: 763px) and (max-width: 1064px) {
-    .person {
-      width: 350px;
-    }
-  }
-
-  @media (min-width: 1065px) and (max-width: 1263px) {
-    .person {
-      width: 300px;
-    }
-  }
-
-  @media (min-width: 1264px) {
-    .person {
-      width: 350px;
-    }
+  .delete-btn,
+  .cancel-btn {
+    top: 35px;
   }
 </style>
