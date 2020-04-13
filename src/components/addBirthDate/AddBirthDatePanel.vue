@@ -21,7 +21,7 @@
       AddBirthDate,
     },
     data: () => ({
-      indexPanelExpanded: 0,
+      indexPanelExpanded: null,
       addPersonLabel: `Add someone's birthday`,
     }),
     computed: {

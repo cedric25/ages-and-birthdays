@@ -3,7 +3,7 @@
     <v-tooltip v-model="showSigninTooltip" bottom open-delay="50" close-delay="100">
       <template v-slot:activator="{ on }">
         <a v-if="!user" v-on="on" @click.prevent="googleSignin()">
-          <v-icon large>mdi-face</v-icon>
+          <v-icon>fa-smile</v-icon>
         </a>
       </template>
       <span>Signin</span>

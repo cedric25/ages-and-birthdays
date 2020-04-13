@@ -19,6 +19,10 @@
 </script>
 
 <style scoped lang="scss">
+  .theme--light.v-application {
+    background-color: #fafafa;
+  }
+
   a {
     text-decoration: none;
   }

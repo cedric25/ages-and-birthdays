@@ -20,7 +20,7 @@
       ManageGroups,
     },
     data: () => ({
-      indexPanelExpanded: undefined,
+      indexPanelExpanded: null,
     }),
   }
 </script>

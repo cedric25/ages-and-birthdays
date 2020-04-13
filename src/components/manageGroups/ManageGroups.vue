@@ -33,7 +33,7 @@
       >
         {{ group.name }}
         <v-btn icon depressed color="white" class="edit-icon" @click="editGroup(group)">
-          <v-icon size="18">mdi-pencil</v-icon>
+          <v-icon size="18">fa-pencil-alt</v-icon>
         </v-btn>
       </v-chip>
     </div>

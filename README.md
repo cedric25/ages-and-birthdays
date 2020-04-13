@@ -1,5 +1,8 @@
 # ages-and-birthdays2
 
+Icons set: **Font Awesome** via CDN  
+https://fontawesome.com/icons?d=gallery
+
 ## Project setup
 ```
 yarn install

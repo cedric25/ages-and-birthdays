@@ -1,110 +1,103 @@
 <template>
   <div class="person">
-    <v-card v-click-outside="cancelEdit">
-      <v-card-title>
-        <div>
-          <div v-if="hasGroups" class="group-label">
-            <v-chip
-              v-for="group in personGroups"
-              :key="group"
-              outline
-              color="red"
-              :close="isEditMode"
-              @input="removeFromGroup(group)"
-            >
-              {{ group }}
-            </v-chip>
-          </div>
-          <div v-if="isEditMode" class="group-label">
-            <v-chip
-              v-for="group in otherGroups"
-              :key="group"
-              color="secondary"
-              text-color="white"
-              class="blue-chip"
-              @click="addToGroup(group)"
-            >
-              {{ group }}
-            </v-chip>
-          </div>
-
-          <v-text-field
-            v-if="isEditMode"
-            ref="name"
-            v-model="newName"
-            name="name"
-            placeholder="Name"
-            class="name-input pt-0"
-            @keyup.enter="updatePerson()"
-            @keyup.esc="cancelEdit()"
-          />
-          <h3
-            v-if="!isEditMode"
-            class="headline mb-0 text-md-center"
-            @dblclick="switchToEditMode()"
+    <v-card>
+      <div>
+        <div v-if="hasGroups" class="group-label">
+          <v-chip
+            v-for="group in personGroups"
+            :key="group"
+            outlined
+            color="red"
+            :close="isEditMode"
+            @input="removeFromGroup(group)"
           >
-            {{ name }}
-            <span v-if="isBaby" class="baby-icon">👶</span>
-          </h3>
-
-          <div class="dob-age-wrap">
-            <div class="dob-wrap" :class="{ 'text-center': !isYearKnown }">
-              <v-chip
-                v-if="!isEditMode"
-                color="green"
-                text-color="white"
-                disabled
-                @dblclick="switchToEditMode('dob')"
-              >
-                {{ readableBirthday }}
-              </v-chip>
-              <v-text-field
-                v-if="isEditMode"
-                ref="dob"
-                v-model="dob"
-                name="dob"
-                placeholder="DD/MM/YYYY"
-                class="dob-input pt-0"
-                :class="{ 'margin-auto': !isYearKnown }"
-                :error="wrongDateEntered"
-                @keyup.enter="updatePerson()"
-                @keyup.esc="cancelEdit()"
-              />
-            </div>
-            <div class="age-wrap" v-if="isYearKnown">
-              <v-chip color="accent" text-color="white" disabled>
-                <span class="age">{{ ageValue.value }}</span
-                ><span v-html="ageValue.unit"></span>&nbsp;old
-              </v-chip>
-            </div>
-          </div>
-          <div class="birthday-in-wrap mt-1 text-md-center">
-            <span>
-              {{ textBeforeDays }}
-            </span>
-            <span v-if="!isBirthdayToday">
-              <strong>{{ daysUntilBirthday }}</strong> day{{ (daysUntilBirthday > 1 && 's') || '' }}
-            </span>
-            <span v-else class="cake-icon">
-              🎂
-            </span>
-          </div>
-
-          <v-btn v-if="!isEditMode" icon class="edit-btn" @click="switchToEditMode()">
-            <v-icon>edit</v-icon>
-          </v-btn>
-          <v-btn v-if="!isEditMode" icon class="delete-btn" @click="deletePerson()">
-            <v-icon>delete</v-icon>
-          </v-btn>
-
-          <v-btn v-if="isEditMode" icon @click="updatePerson()">
-            <v-icon>check</v-icon>
-          </v-btn>
-          <v-btn v-if="isEditMode" icon class="cancel-btn" @click="cancelEdit()">
-            <v-icon>clear</v-icon>
-          </v-btn>
+            {{ group }}
+          </v-chip>
         </div>
-      </v-card-title>
+        <div v-if="isEditMode" class="group-label">
+          <v-chip
+            v-for="group in otherGroups"
+            :key="group"
+            color="secondary"
+            text-color="white"
+            class="blue-chip"
+            @click="addToGroup(group)"
+          >
+            {{ group }}
+          </v-chip>
+        </div>
+
+        <v-text-field
+          v-if="isEditMode"
+          ref="name"
+          v-model="newName"
+          name="name"
+          placeholder="Name"
+          class="name-input pt-0"
+          @keyup.enter="updatePerson()"
+          @keyup.esc="cancelEdit()"
+        />
+        <h3 v-if="!isEditMode" class="headline mb-0 text-md-center" @dblclick="switchToEditMode()">
+          {{ name }}
+          <span v-if="isBaby" class="baby-icon">👶</span>
+        </h3>
+
+        <div class="dob-age-wrap">
+          <div class="dob-wrap" :class="{ 'text-center': !isYearKnown }">
+            <v-chip
+              v-if="!isEditMode"
+              color="green"
+              text-color="white"
+              @dblclick="switchToEditMode('dob')"
+            >
+              {{ readableBirthday }}
+            </v-chip>
+            <v-text-field
+              v-if="isEditMode"
+              ref="dob"
+              v-model="dob"
+              name="dob"
+              placeholder="DD/MM/YYYY"
+              class="dob-input pt-0"
+              :class="{ 'margin-auto': !isYearKnown }"
+              :error="wrongDateEntered"
+              @keyup.enter="updatePerson()"
+              @keyup.esc="cancelEdit()"
+            />
+          </div>
+          <div class="age-wrap" v-if="isYearKnown">
+            <v-chip color="accent" text-color="white">
+              <span class="age">{{ ageValue.value }}</span
+              ><span v-html="ageValue.unit"></span>&nbsp;old
+            </v-chip>
+          </div>
+        </div>
+        <div class="birthday-in-wrap mt-1 text-center">
+          <span>
+            {{ textBeforeDays }}
+          </span>
+          <span v-if="!isBirthdayToday">
+            <strong>{{ daysUntilBirthday }}</strong> day{{ (daysUntilBirthday > 1 && 's') || '' }}
+          </span>
+          <span v-else class="cake-icon">
+            🎂
+          </span>
+        </div>
+
+        <v-btn v-if="!isEditMode" icon class="edit-btn" @click="switchToEditMode">
+          <v-icon>fa-edit</v-icon>
+        </v-btn>
+        <v-btn v-if="!isEditMode" icon class="delete-btn" @click="deletePerson">
+          <v-icon>fa-delete</v-icon>
+        </v-btn>
+
+        <v-btn v-if="isEditMode" icon @click="updatePerson">
+          <v-icon>fa-check</v-icon>
+        </v-btn>
+        <v-btn v-if="isEditMode" icon class="cancel-btn" @click="cancelEdit">
+          <v-icon>fa-clear</v-icon>
+        </v-btn>
+      </div>
     </v-card>
   </div>
 </template>
