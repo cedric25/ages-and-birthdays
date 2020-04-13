@@ -163,6 +163,7 @@
   .group-chip {
     float: left;
   }
+
   .clear-fix {
     float: none;
     clear: both;

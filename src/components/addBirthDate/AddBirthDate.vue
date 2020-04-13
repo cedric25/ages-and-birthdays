@@ -10,9 +10,11 @@
         :key="group"
         :color="isGroupSelected(group) ? 'primary' : 'secondary'"
         text-color="white"
-        class="blue-chip"
+        class="blue-chip mr-2"
+        tabindex="0"
         @click="selectGroup(group)"
         @keyup.enter="selectGroup(group)"
+        @keyup.space="selectGroup(group)"
       >
         {{ group }}
       </v-chip>
@@ -22,7 +24,7 @@
       <AddGroup />
     </div>
 
-    <div class="xs pt-0">
+    <div style="width: 30px;">
       <v-text-field type="tel" ref="day" v-model="day" name="day" placeholder="DD" />
     </div>
 
@@ -42,28 +44,32 @@
         <div class="year-prefix">
           19
         </div>
-        <v-text-field
-          type="tel"
-          ref="year1"
-          v-model="year1"
-          name="year1"
-          placeholder="YY"
-          maxlength="2"
-        />
+        <div style="width: 24px;">
+          <v-text-field
+            type="tel"
+            ref="year1"
+            v-model="year1"
+            name="year1"
+            placeholder="YY"
+            maxlength="2"
+          />
+        </div>
       </div>
 
       <div class="year">
         <div class="year-prefix">
           20
         </div>
-        <v-text-field
-          type="tel"
-          ref="year2"
-          v-model="year2"
-          name="year2"
-          placeholder="YY"
-          maxlength="2"
-        />
+        <div style="width: 24px;">
+          <v-text-field
+            type="tel"
+            ref="year2"
+            v-model="year2"
+            name="year2"
+            placeholder="YY"
+            maxlength="2"
+          />
+        </div>
       </div>
     </div>
 
@@ -73,12 +79,7 @@
       </v-btn>
     </div>
 
-    <v-alert
-      :value="showConfirmation"
-      color="success"
-      icon="new_releases"
-      class="success-alert text-xs-center mt-3"
-    >
+    <v-alert :value="showConfirmation" type="success" class="success-alert text-left mt-6">
       You've added <strong>{{ addedName }}</strong
       >!
     </v-alert>
@@ -141,6 +142,7 @@
     },
     watch: {
       isBirthdayFormOpen(value) {
+        console.log('isBirthdayFormOpen', value)
         value && this.focusNameInputDelay()
       },
     },
@@ -251,11 +253,6 @@
           position: relative;
           margin-right: 3px;
         }
-
-        >>> input {
-          letter-spacing: 2px;
-          max-width: 24px;
-        }
       }
     }
 
@@ -316,9 +313,5 @@
 
   .success-alert {
     width: 100%;
-
-    > div {
-      padding-right: 36px;
-    }
   }
 </style>

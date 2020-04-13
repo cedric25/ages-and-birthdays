@@ -1,11 +1,11 @@
 <template>
-  <v-expansion-panels v-model="isPanelExpanded">
+  <v-expansion-panels v-model="indexPanelExpanded">
     <v-expansion-panel>
       <v-expansion-panel-header>
         {{ addPersonLabel }}
       </v-expansion-panel-header>
       <v-expansion-panel-content>
-        <AddBirthDate :is-birthday-form-open="!!isPanelExpanded" />
+        <AddBirthDate :is-birthday-form-open="indexPanelExpanded === 0" />
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-expansion-panels>
@@ -21,7 +21,7 @@
       AddBirthDate,
     },
     data: () => ({
-      isPanelExpanded: 1,
+      indexPanelExpanded: 0,
       addPersonLabel: `Add someone's birthday`,
     }),
     computed: {

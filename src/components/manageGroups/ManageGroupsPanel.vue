@@ -1,11 +1,11 @@
 <template>
-  <v-expansion-panels v-model="isPanelExpanded">
+  <v-expansion-panels v-model="indexPanelExpanded" class="mt-4">
     <v-expansion-panel>
       <v-expansion-panel-header>
         Manage groups
       </v-expansion-panel-header>
       <v-expansion-panel-content>
-        <ManageGroups :is-groups-form-open="!!isPanelExpanded" />
+        <ManageGroups :is-groups-form-open="indexPanelExpanded === 0" />
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-expansion-panels>
@@ -20,7 +20,7 @@
       ManageGroups,
     },
     data: () => ({
-      isPanelExpanded: 1, // 1 = collapsed
+      indexPanelExpanded: undefined,
     }),
   }
 </script>
