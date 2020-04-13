@@ -1,32 +1,72 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+  <v-app>
+    <v-toolbar app dark color="primary">
+      <router-link to="/">
+        <v-toolbar-title class="white--text header-title">
+          Ages and Birthdays
+        </v-toolbar-title>
+      </router-link>
+      <v-spacer />
+      <v-toolbar-items>
+        <v-btn flat to="/about">
+          About
+        </v-btn>
+        <ab-google-signin />
+        <ab-sync-loader v-if="user" />
+      </v-toolbar-items>
+    </v-toolbar>
+
+    <v-content>
+      <router-view class="child-view" />
+    </v-content>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+  import { mapGetters } from 'vuex'
+  import GoogleSignin from './components/GoogleSignin'
+  import SyncLoader from './components/SyncLoader.js'
 
-#nav {
-  padding: 30px;
+  export default {
+    components: {
+      'ab-google-signin': GoogleSignin,
+      'ab-sync-loader': SyncLoader,
+    },
+    computed: {
+      ...mapGetters(['user']),
+    },
+  }
+</script>
 
+<style scoped lang="scss">
   a {
-    font-weight: bold;
-    color: #2c3e50;
+    text-decoration: none;
+  }
 
-    &.router-link-exact-active {
-      color: #42b983;
+  @media (max-width: 450px) {
+    /deep/ .toolbar__content {
+      margin-left: 16px;
+
+      > a {
+        margin-left: 0 !important;
+      }
+    }
+    /deep/ .toolbar__items {
+      margin-right: 16px !important;
+    }
+
+    .header-title {
+      margin-left: 0;
     }
   }
-}
+
+  /deep/ .content--wrap {
+    background-image: url(/static/img/material2-bw.jpg);
+    background-attachment: fixed;
+    background-position: center;
+    background-size: auto 100%;
+    @media (min-aspect-ratio: 35/20) {
+      background-size: 100% auto;
+    }
+  }
 </style>
