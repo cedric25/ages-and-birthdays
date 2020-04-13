@@ -1,20 +1,17 @@
 <template>
   <div>
-    <div class="group-chip mr-2" v-for="group in groupsList" :key="group.name">
+    <div class="group-chip mr-2 mb-2" v-for="group in groupsList" :key="group.name">
       <div v-if="group.isEditMode" class="group-name-input-wrap">
         <v-text-field
           ref="newGroupName"
           :value="newGroupName"
-          @input="
-            event => {
-              inputGroupName(event, group.name)
-            }
-          "
+          @input="event => inputGroupName(event, group.name)"
           name="group"
+          hide-details
           append-icon="mdi-check"
           @click:append="() => submitNewGroupName(group)"
           @keyup.enter="submitNewGroupName(group)"
-          class="group-name-input"
+          class="group-name-input mt-0 pt-0"
           :style="'width: ' + groupNameInputSize + 'px'"
           :error="inputHasError"
           @keyup.esc="cancelEdit"
@@ -23,14 +20,7 @@
           {{ newGroupName }}
         </div>
       </div>
-      <v-chip
-        v-if="!group.isEditMode"
-        color="secondary"
-        text-color="white"
-        class="blue-chip"
-        close
-        @click:close="deleteGroup(group)"
-      >
+      <v-chip v-if="!group.isEditMode" color="secondary" close @click:close="deleteGroup(group)">
         {{ group.name }}
         <v-btn icon depressed color="white" class="edit-icon" @click="editGroup(group)">
           <v-icon size="18">fa-pencil-alt</v-icon>
@@ -47,13 +37,6 @@
   import { mapGetters } from 'vuex'
   import * as groups from '../../helpers/groups'
   import AddGroup from './AddGroup.vue'
-
-  /**
-   * TODO
-   * Fix 'saute' due to input shown before having calculating its right width
-   *   (hide with an animation?)
-   * Try to have a dark rounded submit icon?
-   */
 
   export default {
     name: 'ManageGroups',
@@ -177,19 +160,17 @@
     padding-right: 5px;
   }
 
-  .group-name-input {
-    padding-top: 8px;
-  }
-
-  .group-name-input >>> .input-group__details {
-    min-height: 1px;
-  }
-
   .to-get-text-width {
     width: auto;
     display: inline-block;
     visibility: hidden;
     position: fixed;
     overflow: auto;
+  }
+</style>
+
+<style>
+  .group-name-input input {
+    padding-bottom: 4px;
   }
 </style>
