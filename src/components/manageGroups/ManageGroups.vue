@@ -145,12 +145,10 @@
 
         setTimeout(() => {
           const textWidthDiv = this.$el.querySelector('.to-get-text-width')
-          console.log('textWidthDiv', textWidthDiv)
           this.groupNameInputSize = textWidthDiv.clientWidth + 60
         })
       },
       cancelEdit() {
-        console.log('cancelEdit')
         this.groupsList.forEach(group => {
           group.isEditMode = false
         })

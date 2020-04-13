@@ -24,7 +24,7 @@
       indexPanelExpanded: null,
     }),
     computed: {
-      ...mapGetters(['importantPersons', 'loginTried']),
+      ...mapGetters(['loginTriedOrFinished', 'importantPersons']),
       panelHeaderTitle() {
         if (this.importantPersons.length === 0) {
           return `Add your first person's birthday to the list`
@@ -32,8 +32,10 @@
         return `Add someone's birthday`
       },
     },
-    mounted() {
-      this.openOrClosePanel()
+    watch: {
+      loginTriedOrFinished() {
+        this.openOrClosePanel()
+      },
     },
     methods: {
       openOrClosePanel() {

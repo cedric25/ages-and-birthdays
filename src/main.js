@@ -19,12 +19,11 @@ new Vue({
   created() {
     firebase.initializeApp(firebaseConfig)
     firebase.auth().onAuthStateChanged(user => {
-      console.log('user', user)
       if (user) {
         this.$store.dispatch('autoSignIn', user)
       } else {
         this.getStateFromLocalStorage()
-        this.$store.commit('setLoginTried')
+        this.$store.commit('setLoginTriedOrFinished')
       }
     })
   },

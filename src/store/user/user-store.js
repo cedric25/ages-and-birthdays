@@ -5,27 +5,26 @@ import { checkUserData } from '../../helpers/checkUserData'
 export default {
   state: {
     user: null,
-    loginTried: 0,
+    loginTriedOrFinished: 0,
   },
   getters: {
     user(state) {
       return state.user
     },
-    loginTried(state) {
-      return state.loginTried
+    loginTriedOrFinished(state) {
+      return state.loginTriedOrFinished
     },
   },
   mutations: {
     setUser(state, payload) {
       state.user = payload
     },
-    setLoginTried(state) {
-      state.loginTried++
+    setLoginTriedOrFinished(state) {
+      state.loginTriedOrFinished++
     },
   },
   actions: {
     autoSignIn({ commit, dispatch }, payload) {
-      console.log('autoSignIn -> payload', payload)
       commit('setUser', {
         id: payload.uid,
         name: payload.displayName,
@@ -37,7 +36,6 @@ export default {
     signUserInGoogle({ commit, dispatch }) {
       firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())
         .then(result => {
-          // const token = result.credential.accessToken
           const user = result.user
           commit('setUser', {
             id: user.uid,
@@ -77,7 +75,7 @@ export default {
             commit('syncingDb', false)
             watchForDbChanges(state.user.id, commit)
           }
-          commit('setLoginTried')
+          commit('setLoginTriedOrFinished')
         })
         .catch(err => {
           commit('syncingDb', false)
