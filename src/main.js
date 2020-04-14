@@ -1,10 +1,10 @@
-import Vue from "vue"
+import Vue from 'vue'
 import * as firebase from 'firebase'
 import firebaseConfig from './firebase-config'
-import App from "./App.vue"
-import "./registerServiceWorker"
-import router from "./router"
-import store from "./store"
+import App from './App.vue'
+import './registerServiceWorker'
+import router from './router'
+import store from './store'
 import * as localStorageHelper from './helpers/localStorageHelper'
 
 import vuetify from './plugins/vuetify'
@@ -39,4 +39,4 @@ new Vue({
       }
     },
   }
-}).$mount("#app")
+}).$mount('#app')
