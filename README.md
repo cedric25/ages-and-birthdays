@@ -1,4 +1,4 @@
-# ages-and-birthdays2
+# Ages and Birthdays
 
 > Can't remember ages and birthdays? Me neither...
 
