@@ -1,6 +1,6 @@
 <template>
   <form class="add-person">
-    <div class="md">
+    <div class="name-input md">
       <v-text-field ref="name" v-model="name" name="name" placeholder="Name" class="name-input" />
     </div>
 
@@ -24,7 +24,7 @@
       <AddGroup />
     </div>
 
-    <div style="width: 30px;">
+    <div class="day-input" style="width: 30px;">
       <v-text-field type="tel" ref="day" v-model="day" name="day" placeholder="DD" />
     </div>
 
@@ -221,14 +221,14 @@
     }
 
     .xs {
-      >>> input {
+      > input {
         letter-spacing: 2px;
         max-width: 30px;
         text-align: center;
       }
     }
 
-    .name-input >>> input {
+    .name-input > input {
       text-align: center;
     }
 
@@ -269,7 +269,7 @@
           background-color: #555 !important;
         }
 
-        >>> .chip__content {
+        > .chip__content {
           cursor: pointer;
         }
       }
@@ -298,15 +298,22 @@
 </style>
 
 <style>
+  .name-input input,
+  .day-input input {
+    text-align: center;
+  }
+
   .group-choice .v-chip,
   .month .v-chip {
     box-sizing: border-box;
     border: 2px solid #b0bec5 !important;
   }
+
   .theme--light.v-chip:focus {
     background-color: #8e989e !important;
     border: 2px solid #1976d2 !important;
   }
+
   .theme--light.v-chip.primary:focus {
     background-color: #1976d2 !important;
     border: 2px solid #b0bec5 !important;
