@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app dark color="primary">
+  <v-app-bar app dark color="primary" class="my-app-bar">
     <router-link to="/">
       <v-toolbar-title class="white--text header-title">
         Ages and Birthdays
@@ -35,4 +35,8 @@
   }
 </script>
 
-<style scoped></style>
+<style>
+  .my-app-bar a {
+    text-decoration: none;
+  }
+</style>
