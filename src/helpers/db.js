@@ -1,4 +1,5 @@
-import * as firebase from 'firebase'
+import firebase from 'firebase/app';
+import 'firebase/database';
 
 export function setImportantPersons(userId, importantPersons) {
   return firebase.database().ref().update({

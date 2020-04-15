@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import * as firebase from 'firebase'
+import firebase from 'firebase/app';
+import 'firebase/auth';
 import firebaseConfig from './firebase-config'
 import App from './App.vue'
 import './registerServiceWorker'
