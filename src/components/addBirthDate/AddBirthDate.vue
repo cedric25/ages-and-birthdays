@@ -14,7 +14,7 @@
         tabindex="0"
         @click="selectGroup(group)"
         @keyup.enter="selectGroup(group)"
-        @keyup.space="selectGroup(group)"
+        @keydown.space.prevent="selectGroup(group)"
       >
         {{ group }}
       </v-chip>
@@ -49,6 +49,7 @@
             type="tel"
             ref="year1"
             v-model="year1"
+            :disabled="!!year2"
             name="year1"
             placeholder="YY"
             maxlength="2"
@@ -65,6 +66,7 @@
             type="tel"
             ref="year2"
             v-model="year2"
+            :disabled="!!year1"
             name="year2"
             placeholder="YY"
             maxlength="2"
@@ -292,5 +294,27 @@
 
   .success-alert {
     width: 100%;
+  }
+</style>
+
+<style>
+  .group-choice .v-chip,
+  .month .v-chip {
+    box-sizing: border-box;
+    border: 2px solid #b0bec5 !important;
+  }
+  .theme--light.v-chip:focus {
+    background-color: #8e989e !important;
+    border: 2px solid #1976d2 !important;
+  }
+  .theme--light.v-chip.primary:focus {
+    background-color: #1976d2 !important;
+    border: 2px solid #b0bec5 !important;
+  }
+
+  .years-wrap input {
+    padding-bottom: 4px;
+    padding-top: 2px;
+    letter-spacing: 2px;
   }
 </style>

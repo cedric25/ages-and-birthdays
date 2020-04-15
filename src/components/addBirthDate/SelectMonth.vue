@@ -6,7 +6,7 @@
     class="mr-2 mb-2"
     @click="$emit('select', monthIndex)"
     @keyup.enter="$emit('select', monthIndex)"
-    @keyup.space="$emit('select', monthIndex)"
+    @keydown.space.prevent="$emit('select', monthIndex)"
   >
     {{ monthLabel }}
   </v-chip>
