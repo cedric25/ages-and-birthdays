@@ -8,6 +8,8 @@ import router from './router'
 import store from './store'
 import * as localStorageHelper from './helpers/localStorageHelper'
 
+import './assets/tailwind.css'
+
 Vue.config.productionTip = false
 
 new Vue({

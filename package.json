@@ -7,9 +7,11 @@
     "build": "vue-cli-service build",
     "test": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "deploy": "npm run build; push-dir --dir=dist --branch=gh-pages --cleanup"
+    "deploy": "npm run build; push-dir --dir=dist --branch=gh-pages --cleanup",
+    "export-tailwind-config": "tailwindcss-export-config --config=tailwind.config.js --destination=src/assets/tailwind-variables --format=scss"
   },
   "dependencies": {
+    "autoprefixer": "9.7.6",
     "core-js": "3.6.4",
     "date-fns": "2.12.0",
     "firebase": "7.14.0",
@@ -38,6 +40,8 @@
     "push-dir": "0.4.1",
     "sass": "^1.19.0",
     "sass-loader": "8.0.2",
+    "tailwindcss": "1.2.0",
+    "tailwindcss-export-config": "2.0.2",
     "vue-template-compiler": "2.6.11"
   },
   "gitHooks": {
