@@ -4,13 +4,13 @@
       Ages and Birthdays
     </router-link>
 
-    <router-link to="/about">
-      ABOUT
-    </router-link>
-
-    <!--    <GoogleSignin />-->
-
-    <!--    <SyncLoader v-if="user" />-->
+    <div class="flex items-center h-full">
+      <router-link to="/about" class="top-menu-link" style="padding-top: 2px;">
+        ABOUT
+      </router-link>
+      <GoogleSignin />
+      <SyncLoader v-if="user" />
+    </div>
   </div>
 </template>
 
@@ -18,15 +18,15 @@
   import { mapGetters } from 'vuex'
 
   // Components
-  // import GoogleSignin from './GoogleSignin'
-  // import SyncLoader from './SyncLoader'
+  import GoogleSignin from './GoogleSignin'
+  import SyncLoader from './SyncLoader'
 
   export default {
     name: 'TopMenu',
-    // components: {
-    // GoogleSignin,
-    // SyncLoader,
-    // },
+    components: {
+      GoogleSignin,
+      SyncLoader,
+    },
     computed: {
       ...mapGetters(['user']),
     },
@@ -41,5 +41,15 @@
     @apply bg-blue-600 text-white;
     box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
       0 1px 10px 0 rgba(0, 0, 0, 0.12);
+
+    .top-menu-link {
+      @apply h-full flex items-center;
+      @apply mr-3 px-4;
+      @apply text-sm font-medium tracking-widest;
+
+      &:hover {
+        @apply bg-blue-500;
+      }
+    }
   }
 </style>

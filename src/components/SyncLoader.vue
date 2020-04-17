@@ -1,18 +1,11 @@
 <template>
-  <v-layout align-end>
-    <v-progress-circular
-      v-if="isSyncingDb"
-      indeterminate
-      color="white"
-      :size="19"
-      :width="2"
-      class="syncing mb-2"
-    ></v-progress-circular>
+  <div style="margin-bottom: -24px;">
+    <i v-if="isSyncingDb" class="syncing fas fa-circle-notch fa-spin text-lg"></i>
 
-    <span v-else class="synced mb-2">
-      <v-icon :size="19">fa-check-circle</v-icon>
+    <span v-else class="synced">
+      <i class="fa fa-check-circle text-lg" />
     </span>
-  </v-layout>
+  </div>
 </template>
 
 <script>
