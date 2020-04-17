@@ -8,15 +8,12 @@ import router from './router'
 import store from './store'
 import * as localStorageHelper from './helpers/localStorageHelper'
 
-import vuetify from './plugins/vuetify'
-
 Vue.config.productionTip = false
 
 new Vue({
   router,
   store,
   render: h => h(App),
-  vuetify,
   created() {
     firebase.initializeApp(firebaseConfig)
     firebase.auth().onAuthStateChanged(user => {
