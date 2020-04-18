@@ -3,6 +3,7 @@
     :panel-header-title="panelHeaderTitle"
     :show-content="isPanelExpanded"
     @isExpanded="isExpanded => (isPanelExpanded = isExpanded)"
+    class="mb-1"
   >
     <AddBirthDate :is-birthday-form-open="isPanelExpanded" />
   </ExpandablePanel>
@@ -10,6 +11,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  // import anime from 'animejs'
 
   // Components
   import ExpandablePanel from '../ExpandablePanel'

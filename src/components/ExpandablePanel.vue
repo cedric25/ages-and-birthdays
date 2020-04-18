@@ -1,7 +1,13 @@
 <template>
   <div class="m-auto bg-white" style="max-width: 95%;">
-    <div class="px-6 py-5 cursor-pointer" @click="changeExpandedState">
-      {{ panelHeaderTitle }}
+    <div class="flex justify-between px-6 py-3 cursor-pointer" @click="changeExpandedState">
+      <div>
+        {{ panelHeaderTitle }}
+      </div>
+      <div>
+        <i v-if="isExpanded" class="fa fa-chevron-up text-sm text-gray-600" />
+        <i v-else class="fa fa-chevron-down text-sm text-gray-600" />
+      </div>
     </div>
     <div v-show="isExpanded" ref="addBirthPanelContent" class="px-6 py-5">
       <slot />
