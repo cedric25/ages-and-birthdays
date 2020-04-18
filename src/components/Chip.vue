@@ -4,7 +4,9 @@
       <slot name="icon" />
     </span>
     <span><slot /></span>
-    <button v-if="closable" class="mr-1" @click="$emit('onClose')" />
+    <button v-if="closable" type="button" class="ml-2" @click="$emit('close')">
+      <i class="fa fa-times-circle" />
+    </button>
   </span>
 </template>
 
@@ -12,11 +14,12 @@
   export default {
     props: {
       selected: { type: Boolean, default: false },
+      clickable: { type: Boolean, default: false },
       closable: { type: Boolean, default: false },
     },
     computed: {
       classes() {
-        return this.selected && 'blue'
+        return [this.selected && 'blue', this.clickable && 'clickable'].join(' ')
       },
       circleClasses() {
         const { color } = this
@@ -32,12 +35,15 @@
     @apply text-white text-sm whitespace-no-wrap text-center;
     @apply bg-gray-500;
     @apply rounded-full;
-    @apply cursor-pointer;
     @apply outline-none;
 
-    &:hover,
-    &:focus {
-      @apply bg-gray-600;
+    &.clickable {
+      @apply cursor-pointer;
+
+      &:hover,
+      &:focus {
+        @apply bg-gray-600;
+      }
     }
 
     &.blue {

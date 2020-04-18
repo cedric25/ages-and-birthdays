@@ -23,10 +23,10 @@
         <Chip
           v-for="group in groups"
           :key="group"
-          :color="isGroupSelected(group) ? 'primary' : 'secondary'"
-          :ripple="false"
+          :selected="isGroupSelected(group)"
+          clickable
           class="mr-2 mb-2"
-          @click="filterByGroup(group)"
+          @click.native="filterByGroup(group)"
         >
           <span>
             {{ nbPersonsWithinGroup(group) }}

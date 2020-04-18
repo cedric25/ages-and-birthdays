@@ -9,6 +9,7 @@
         v-for="group in groups"
         :key="group"
         :selected="isGroupSelected(group)"
+        clickable
         class="mr-2 mb-2"
         tabindex="0"
         @click.native="selectGroup(group)"
@@ -39,6 +40,7 @@
         v-for="(month, index) in months"
         :key="month"
         :selected="monthNo === index"
+        clickable
         tabindex="0"
         @click.native="selectMonth(index)"
         @keyup.enter="selectGroup(group)"

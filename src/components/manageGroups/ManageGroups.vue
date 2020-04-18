@@ -3,23 +3,26 @@
     <div class="flex flex-row flex-wrap items-center">
       <div class="flex flex-wrap justify-center mb-2" v-for="group in groupsList" :key="group.name">
         <div v-if="group.isEditMode">
-          <input
-            ref="newGroupName"
-            :value="newGroupName"
-            @input="event => inputGroupName(event, group.name)"
-            name="group"
-            @click:append="() => submitNewGroupName(group)"
-            @keyup.enter="submitNewGroupName(group)"
-            class="group-name-input mt-0 pt-0"
-            :style="'width: ' + groupNameInputSize + 'px'"
-            :error="inputHasError"
-            @keyup.esc="cancelEdit"
-          />
-          <div class="to-get-text-width">{{ newGroupName }}</div>
+          <form>
+            <input
+              ref="newGroupName"
+              :value="newGroupName"
+              @input="event => inputGroupName(event, group.name)"
+              name="group"
+              class="mt-0 pt-0"
+              :style="'width: ' + groupNameInputSize + 'px'"
+              :error="inputHasError"
+              @keyup.esc="cancelEdit"
+            />
+            <button type="submit" class="edit-icon ml-1" @click="submitNewGroupName(group)">
+              <i class="fa fa-check" />
+            </button>
+            <div class="to-get-text-width">{{ newGroupName }}</div>
+          </form>
         </div>
-        <Chip v-if="!group.isEditMode" color="secondary" close @click:close="deleteGroup(group)">
+        <Chip v-if="!group.isEditMode" closable @close="deleteGroup(group)">
           {{ group.name }}
-          <button type="button" class="edit-icon" @click="editGroup(group)">
+          <button type="button" class="edit-icon ml-1" @click="editGroup(group)">
             <i class="fa fa-pencil-alt" />
           </button>
         </Chip>
@@ -95,11 +98,12 @@
         })
 
         this.$nextTick(() => {
-          this.inputGroupName(this.newGroupName, this.newGroupName)
+          this.inputGroupName({ target: { value: this.newGroupName } }, this.newGroupName)
           this.$refs['newGroupName'][0].focus()
         })
       },
       submitNewGroupName(groupToEdit) {
+        console.log('submitNewGroupName')
         if (this.inputHasError) {
           return
         }
@@ -115,7 +119,8 @@
         })
         groups.renameGroup(this.$store, groupToEdit.name, this.newGroupName)
       },
-      inputGroupName(newName, originalName) {
+      inputGroupName($event, originalName) {
+        const newName = $event.target.value
         this.newGroupName = newName
 
         const groupsMinusEditingOne = this.groups.filter(group => {
