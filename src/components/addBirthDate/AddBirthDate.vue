@@ -34,7 +34,7 @@
       />
     </div>
 
-    <div class="grid grid-cols-6 col-gap-1 row-gap-2 mb-2">
+    <div class="grid grid-cols-6 col-gap-1 row-gap-2 mb-6">
       <Chip
         v-for="(month, index) in months"
         :key="month"
@@ -47,37 +47,41 @@
       >
     </div>
 
-    <div class="mb-6">
-      <div>
-        <div>
+    <div class="flex mb-6">
+      <div class="flex mr-4">
+        <div class="tracking-wider">
           19
         </div>
         <div style="width: 24px;">
           <input
             type="tel"
             ref="year1"
+            name="year1"
             v-model="year1"
             :disabled="!!year2"
-            name="year1"
             placeholder="YY"
             maxlength="2"
+            class="ipt tracking-widest"
+            style="width: 24px; margin-left: 1px;"
           />
         </div>
       </div>
 
-      <div>
-        <div>
+      <div class="flex ml-4">
+        <div class="tracking-wider">
           20
         </div>
         <div style="width: 24px;">
           <input
             type="tel"
             ref="year2"
+            name="year2"
             v-model="year2"
             :disabled="!!year1"
-            name="year2"
             placeholder="YY"
             maxlength="2"
+            class="ipt tracking-widest"
+            style="width: 24px; margin-left: 1px;"
           />
         </div>
       </div>
@@ -119,47 +123,31 @@
     props: {
       isBirthdayFormOpen: { type: Boolean, required: true },
     },
-    data() {
-      return {
-        months: [
-          'Jan',
-          'Feb',
-          'Mar',
-          'Apr',
-          'May',
-          'Jun',
-          'Jul',
-          'Aug',
-          'Sep',
-          'Oct',
-          'Nov',
-          'Dec',
-        ],
-        name: '',
-        day: '',
-        monthNo: -1,
-        monthLabel: '',
-        year1: '',
-        year2: '',
-        selectedGroups: [],
-        showConfirmation: false,
-        addedName: '',
-      }
-    },
+    data: () => ({
+      months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      name: '',
+      day: '',
+      monthNo: -1,
+      monthLabel: '',
+      year1: '',
+      year2: '',
+      selectedGroups: [],
+      showConfirmation: false,
+      addedName: '',
+    }),
     computed: {
       ...mapGetters(['importantPersons', 'groups']),
       isFormValid() {
         return this.name && this.day && this.monthNo !== -1
       },
     },
-    created() {
-      if (this.isBirthdayFormOpen) {
-        this.focusNameInputDelay()
-      }
-    },
     watch: {
-      isBirthdayFormOpen(value) {
-        value && this.focusNameInputDelay()
+      isBirthdayFormOpen: {
+        handler(value) {
+          console.log('value', value)
+          value && this.focusNameInputDelay()
+        },
+        immediate: true,
       },
     },
     methods: {

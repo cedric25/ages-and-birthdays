@@ -1,31 +1,33 @@
 <template>
-  <div class="m-auto bg-white" style="max-width: 95%;">
-    <!--    <div class="text-xl px-6 py-4">-->
-    <div class="px-6 py-5">
-      {{ panelHeaderTitle }}
-    </div>
-    <div class="px-6 py-5">
-      <AddBirthDate :is-birthday-form-open="indexPanelExpanded === 0" />
-    </div>
-  </div>
+  <ExpandablePanel
+    :panel-header-title="panelHeaderTitle"
+    :show-content="isPanelExpanded"
+    @isExpanded="isExpanded => (isPanelExpanded = isExpanded)"
+  >
+    <AddBirthDate :is-birthday-form-open="isPanelExpanded" />
+  </ExpandablePanel>
 </template>
 
 <script>
-  import AddBirthDate from './AddBirthDate'
   import { mapGetters } from 'vuex'
+
+  // Components
+  import ExpandablePanel from '../ExpandablePanel'
+  import AddBirthDate from './AddBirthDate'
 
   export default {
     name: 'AddBirthDatePanel',
     components: {
+      ExpandablePanel,
       AddBirthDate,
     },
     data: () => ({
-      indexPanelExpanded: null,
+      isPanelExpanded: false,
     }),
     computed: {
       ...mapGetters(['loginTriedOrFinished', 'importantPersons']),
       panelHeaderTitle() {
-        if (this.importantPersons.length === 0) {
+        if (this.loginTriedOrFinished && this.importantPersons.length === 0) {
           return `Add your first person's birthday to the list`
         }
         return `Add someone's birthday`
@@ -33,20 +35,15 @@
     },
     watch: {
       loginTriedOrFinished() {
-        this.openOrClosePanel()
+        if (this.importantPersons.length === 0) {
+          this.openOrClosePanel()
+        }
       },
     },
     methods: {
       openOrClosePanel() {
-        this.indexPanelExpanded = this.importantPersons.length === 0 ? 0 : null
+        this.isPanelExpanded = !this.isPanelExpanded
       },
     },
   }
 </script>
-
-<style scoped>
-  .one-panel {
-    max-width: 95%;
-    margin: auto;
-  }
-</style>
