@@ -143,9 +143,12 @@
     },
     watch: {
       isBirthdayFormOpen: {
-        handler(value) {
-          console.log('value', value)
-          value && this.focusNameInputDelay()
+        handler(isExpanded) {
+          if (isExpanded) {
+            setTimeout(() => {
+              this.focusNameInputDelay()
+            }, 300)
+          }
         },
         immediate: true,
       },

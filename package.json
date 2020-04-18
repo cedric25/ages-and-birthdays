@@ -11,6 +11,7 @@
     "export-tailwind-config": "tailwindcss-export-config --config=tailwind.config.js --destination=src/assets/tailwind-variables --format=scss"
   },
   "dependencies": {
+    "animejs": "3.2.0",
     "autoprefixer": "9.7.6",
     "core-js": "3.6.4",
     "date-fns": "2.12.0",

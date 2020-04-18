@@ -11,7 +11,6 @@
 
 <script>
   import { mapGetters } from 'vuex'
-  // import anime from 'animejs'
 
   // Components
   import ExpandablePanel from '../ExpandablePanel'
