@@ -1,8 +1,8 @@
 <template>
   <div class="person">
-    <v-card class="pb-4">
+    <div class="pb-4">
       <div v-if="hasGroups" class="mt-2 ml-2 text-left">
-        <v-chip
+        <Chip
           v-for="group in personGroups"
           :key="group"
           outlined
@@ -12,11 +12,11 @@
           @click:close="removeFromGroup(group)"
         >
           {{ group }}
-        </v-chip>
+        </Chip>
       </div>
 
       <div v-if="isEditMode" class="mt-2 ml-2 pr-10 text-left">
-        <v-chip
+        <Chip
           v-for="group in otherGroups"
           :key="group"
           color="secondary"
@@ -25,10 +25,10 @@
           @click="addToGroup(group)"
         >
           {{ group }}
-        </v-chip>
+        </Chip>
       </div>
 
-      <v-text-field
+      <input
         v-if="isEditMode"
         ref="name"
         v-model="newName"
@@ -46,7 +46,7 @@
 
       <div class="d-flex justify-center mt-2 mb-2">
         <div class="text-right" :class="{ 'text-center': !isYearKnown }" style="flex: 1;">
-          <v-text-field
+          <input
             v-if="isEditMode"
             ref="dob"
             v-model="dob"
@@ -58,7 +58,7 @@
             @keyup.enter="updatePerson()"
             @keyup.esc="cancelEdit()"
           />
-          <v-chip
+          <Chip
             v-if="!isEditMode"
             color="green"
             text-color="white"
@@ -66,12 +66,12 @@
             @dblclick="$event => switchToEditMode($event, 'dob')"
           >
             {{ readableBirthday }}
-          </v-chip>
+          </Chip>
         </div>
         <div class="text-left" v-if="!isEditMode && isYearKnown" style="flex: 1;">
-          <v-chip color="accent" text-color="white" class="ml-1">
+          <Chip color="accent" text-color="white" class="ml-1">
             {{ ageValue.value }}{{ ageValue.unit }}&nbsp;old
-          </v-chip>
+          </Chip>
         </div>
       </div>
 
@@ -87,20 +87,20 @@
         </span>
       </div>
 
-      <v-btn v-if="!isEditMode" icon class="edit-btn" @click="switchToEditMode">
-        <v-icon small>fa-edit</v-icon>
-      </v-btn>
-      <v-btn v-if="!isEditMode" icon class="delete-btn" @click="deletePerson">
-        <v-icon small>fa-trash</v-icon>
-      </v-btn>
+      <button v-if="!isEditMode" class="btn edit-btn" @click="switchToEditMode">
+        <i class="fa fa-edit" />
+      </button>
+      <button v-if="!isEditMode" class="btn delete-btn" @click="deletePerson">
+        <i class="fa trash" />
+      </button>
 
-      <v-btn v-if="isEditMode" icon class="submit-btn" @click="updatePerson">
-        <v-icon small>fa-check</v-icon>
-      </v-btn>
-      <v-btn v-if="isEditMode" icon class="cancel-btn" @click="cancelEdit">
-        <v-icon small>fa-undo</v-icon>
-      </v-btn>
-    </v-card>
+      <button v-if="isEditMode" class="btn submit-btn" @click="updatePerson">
+        <i class="fa fa-check" />
+      </button>
+      <button v-if="isEditMode" class="btn cancel-btn" @click="cancelEdit">
+        <i class="fa fa-undo" />
+      </button>
+    </div>
   </div>
 </template>
 
@@ -111,7 +111,13 @@
   import * as importantPersons from '../../helpers/importantPersons'
   import { containsYear } from '../../helpers/date'
 
+  // Components
+  import Chip from '../Chip'
+
   export default {
+    components: {
+      Chip,
+    },
     props: {
       id: { type: String, required: true },
       name: { type: String, required: true },

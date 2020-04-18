@@ -20,7 +20,7 @@
           {{ newGroupName }}
         </div>
       </div>
-      <v-chip v-if="!group.isEditMode" color="secondary" close @click:close="deleteGroup(group)">
+      <Chip v-if="!group.isEditMode" color="secondary" close @click:close="deleteGroup(group)">
         {{ group.name }}
         <button
           type="button"
@@ -32,7 +32,7 @@
         >
           <i class="fa fa-pencil-alt" />
         </button>
-      </v-chip>
+      </Chip>
     </div>
     <div class="clear-fix"></div>
 
@@ -43,12 +43,16 @@
 <script>
   import { mapGetters } from 'vuex'
   import * as groups from '../../helpers/groups'
-  import AddGroup from './AddGroup.vue'
+
+  // Components
+  import AddGroup from './AddGroup'
+  import Chip from '../Chip'
 
   export default {
     name: 'ManageGroups',
     components: {
       AddGroup,
+      Chip,
     },
     props: {
       isGroupsFormOpen: { type: Boolean, required: true },

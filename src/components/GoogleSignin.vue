@@ -3,7 +3,7 @@
     <!--    <v-tooltip v-if="!user" v-model="showSigninTooltip" bottom open-delay="50" close-delay="100">-->
     <!--      <template v-slot:activator="{ on }">-->
     <!--        <a v-on="on" @click.prevent="googleSignin">-->
-    <!--          <v-icon size="36" style="margin-right: 10px;">fa-smile</v-icon>-->
+    <!--          <i size="36" class="fa fa-smile" style="margin-right: 10px;" />-->
     <!--        </a>-->
     <!--      </template>-->
     <!--      <span>Signin</span>-->
@@ -11,7 +11,7 @@
 
     <!--    <v-tooltip v-if="user" v-model="showSignoutTooltip" bottom open-delay="50" close-delay="100">-->
     <!--      <template v-slot:activator="{ on }">-->
-    <a @click.prevent="signout">
+    <a v-if="user" @click.prevent="signout">
       <div style="width: 36px; height: 36px;">
         <img v-if="user.photoUrl" :src="user.photoUrl" :alt="user.name" class="rounded-full" />
         <div

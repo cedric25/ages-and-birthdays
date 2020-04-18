@@ -1,29 +1,27 @@
 <template>
-  <v-dialog v-model="confirmClearDialog" width="400" @keydown.esc="confirmClearDialog = false">
-    <template v-slot:activator="{ on }">
-      <v-btn color="error" dark v-on="on">
-        Clear list?
-      </v-btn>
-    </template>
-    <v-card>
-      <v-card-title class="headline grey lighten-2" primary-title>
+  <!--  <div v-model="confirmClearDialog" @keydown.esc="confirmClearDialog = false">-->
+  <div @keydown.esc="confirmClearDialog = false">
+    <button>
+      Clear list?
+    </button>
+    <div v-if="false">
+      <div class="headline grey lighten-2">
         Please confirm...
-      </v-card-title>
-      <v-card-text class="mt-4">
+      </div>
+      <div class="mt-4">
         This will delete all persons...
-      </v-card-text>
-      <v-divider></v-divider>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn color="secondary" text @click="confirmClearDialog = false">
+      </div>
+
+      <div>
+        <button type="button" class="btn" @click="confirmClearDialog = false">
           No
-        </v-btn>
-        <v-btn color="primary" text @click="clearList">
+        </button>
+        <button type="button" class="btn btn-blue" @click="clearList">
           Yes
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -42,5 +40,3 @@
     },
   }
 </script>
-
-<style scoped></style>

@@ -10,7 +10,7 @@
         @keyup.enter="addGroup"
         :error="hasError"
       />
-      <button :disabled="!newGroupName" class="btn" color="accent" @click.prevent="addGroup()">
+      <button :disabled="!newGroupName" class="btn btn-blue" @click.prevent="addGroup()">
         Add group
       </button>
       <div v-if="showError" class="red--text">

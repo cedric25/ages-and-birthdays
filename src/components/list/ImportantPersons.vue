@@ -20,7 +20,7 @@
       </div>
 
       <div class="groups-and-members-count pt-0 pa-2">
-        <v-chip
+        <Chip
           v-for="group in groups"
           :key="group"
           :color="isGroupSelected(group) ? 'primary' : 'secondary'"
@@ -28,11 +28,11 @@
           class="mr-2 mb-2"
           @click="filterByGroup(group)"
         >
-          <v-avatar left class="secondary darken-4">
+          <span>
             {{ nbPersonsWithinGroup(group) }}
-          </v-avatar>
+          </span>
           {{ group }}
-        </v-chip>
+        </Chip>
       </div>
     </div>
 
@@ -60,9 +60,10 @@
 
   // Components
   import ImportExport from './ImportExport'
-  import ClearList from './ClearList.vue'
-  import OrderBy from './OrderBy.vue'
-  import OnePerson from './OnePerson.vue'
+  import ClearList from './ClearList'
+  import OrderBy from './OrderBy'
+  import OnePerson from './OnePerson'
+  import Chip from '../Chip'
 
   const today = new Date()
 
@@ -72,6 +73,7 @@
       ClearList,
       OrderBy,
       OnePerson,
+      Chip,
     },
     data: () => ({
       showAdminActions: false,

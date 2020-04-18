@@ -1,9 +1,10 @@
 <template>
-  <div>
-    <div class="text-xl">
+  <div class="m-auto bg-white" style="max-width: 95%;">
+    <!--    <div class="text-xl px-6 py-4">-->
+    <div class="px-6 py-5">
       {{ panelHeaderTitle }}
     </div>
-    <div>
+    <div class="px-6 py-5">
       <AddBirthDate :is-birthday-form-open="indexPanelExpanded === 0" />
     </div>
   </div>
