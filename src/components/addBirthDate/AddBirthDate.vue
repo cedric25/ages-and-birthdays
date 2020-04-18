@@ -155,7 +155,6 @@
     },
     methods: {
       selectMonth(monthNo) {
-        console.log('selectMonth', monthNo)
         this.monthNo = monthNo
         this.focusYear1Input()
       },

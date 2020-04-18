@@ -20,10 +20,3 @@
     }),
   }
 </script>
-
-<style scoped>
-  .one-panel {
-    max-width: 95%;
-    margin: auto;
-  }
-</style>

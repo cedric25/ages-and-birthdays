@@ -7,7 +7,7 @@
 
       <AddBirthDatePanel />
 
-      <!--      <ManageGroupsPanel />-->
+      <ManageGroupsPanel />
 
       <hr />
 
@@ -18,13 +18,13 @@
 
 <script>
   import AddBirthDatePanel from '../components/addBirthDate/AddBirthDatePanel.vue'
-  // import ManageGroupsPanel from '../components/manageGroups/ManageGroupsPanel.vue'
+  import ManageGroupsPanel from '../components/manageGroups/ManageGroupsPanel.vue'
   import ImportantPersons from '../components/list/ImportantPersons.vue'
 
   export default {
     components: {
       AddBirthDatePanel,
-      // ManageGroupsPanel,
+      ManageGroupsPanel,
       ImportantPersons,
     },
   }

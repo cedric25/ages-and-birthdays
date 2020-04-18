@@ -37,13 +37,8 @@
     watch: {
       loginTriedOrFinished() {
         if (this.importantPersons.length === 0) {
-          this.openOrClosePanel()
+          this.isPanelExpanded = true
         }
-      },
-    },
-    methods: {
-      openOrClosePanel() {
-        this.isPanelExpanded = !this.isPanelExpanded
       },
     },
   }
