@@ -26,3 +26,7 @@
     color: #2c3e50;
   }
 </style>
+
+<style lang="scss">
+  @import 'assets/global.scss';
+</style>

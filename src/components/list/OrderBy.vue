@@ -2,18 +2,18 @@
   <div class="order-by-wrap">
     Order by:
 
-    <v-btn
+    <button
+      type="button"
       v-for="order in orders"
       :key="order.prop"
-      text
       :color="selectedOrder === order.prop ? 'primary' : ''"
       :class="'btn-sort-' + order.prop"
       @click="selectOrder(order.prop)"
       @keyup.enter="selectOrder(order.prop)"
     >
       {{ order.label }}
-      <v-icon dark right class="ml-2" v-if="selectedOrder === order.prop">fa-chevron-down</v-icon>
-    </v-btn>
+      <i class="fa fa-chevron-down" v-if="selectedOrder === order.prop" />
+    </button>
   </div>
 </template>
 
@@ -22,24 +22,22 @@
     props: {
       selectedOrder: String,
     },
-    data() {
-      return {
-        orders: [
-          {
-            prop: 'daysUntilBirthday',
-            label: 'Upcoming birthday',
-          },
-          {
-            prop: 'name',
-            label: 'Name',
-          },
-          {
-            prop: 'age',
-            label: 'Age',
-          },
-        ],
-      }
-    },
+    data: () => ({
+      orders: [
+        {
+          prop: 'daysUntilBirthday',
+          label: 'Upcoming birthday',
+        },
+        {
+          prop: 'name',
+          label: 'Name',
+        },
+        {
+          prop: 'age',
+          label: 'Age',
+        },
+      ],
+    }),
     methods: {
       selectOrder(order) {
         this.$emit('order', order)

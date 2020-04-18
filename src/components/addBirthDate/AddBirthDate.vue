@@ -1,7 +1,7 @@
 <template>
   <form class="add-person">
     <div class="name-input md">
-      <v-text-field ref="name" v-model="name" name="name" placeholder="Name" class="name-input" />
+      <input ref="name" v-model="name" name="name" placeholder="Name" class="ipt text-center" />
     </div>
 
     <div class="group-choice">
@@ -24,8 +24,16 @@
       <AddGroup />
     </div>
 
-    <div class="day-input" style="width: 30px;">
-      <v-text-field type="tel" ref="day" v-model="day" name="day" placeholder="DD" />
+    <div>
+      <input
+        type="tel"
+        ref="day"
+        v-model="day"
+        name="day"
+        placeholder="DD"
+        class="ipt text-center"
+        style="width: 30px;"
+      />
     </div>
 
     <div class="month">
@@ -45,7 +53,7 @@
           19
         </div>
         <div style="width: 24px;">
-          <v-text-field
+          <input
             type="tel"
             ref="year1"
             v-model="year1"
@@ -62,7 +70,7 @@
           20
         </div>
         <div style="width: 24px;">
-          <v-text-field
+          <input
             type="tel"
             ref="year2"
             v-model="year2"
@@ -76,9 +84,14 @@
     </div>
 
     <div>
-      <v-btn :disabled="!isFormValid" type="submit" color="primary" @click.prevent="addBirthDate()">
+      <button
+        :disabled="!isFormValid"
+        type="submit"
+        color="primary"
+        @click.prevent="addBirthDate()"
+      >
         Add
-      </v-btn>
+      </button>
     </div>
 
     <v-alert :value="showConfirmation" type="success" class="success-alert text-left mt-6">
@@ -228,10 +241,6 @@
       }
     }
 
-    .name-input > input {
-      text-align: center;
-    }
-
     .group-choice {
       text-align: center;
     }
@@ -298,11 +307,6 @@
 </style>
 
 <style>
-  .name-input input,
-  .day-input input {
-    text-align: center;
-  }
-
   .group-choice .v-chip,
   .month .v-chip {
     box-sizing: border-box;

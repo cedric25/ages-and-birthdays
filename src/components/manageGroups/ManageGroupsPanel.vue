@@ -1,14 +1,12 @@
 <template>
-  <v-expansion-panels v-model="indexPanelExpanded" flat class="one-panel mt-1">
-    <v-expansion-panel>
-      <v-expansion-panel-header>
-        Manage groups
-      </v-expansion-panel-header>
-      <v-expansion-panel-content>
-        <ManageGroups :is-groups-form-open="indexPanelExpanded === 0" />
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-  </v-expansion-panels>
+  <div>
+    <div class="text-xl">
+      Manage groups
+    </div>
+    <div>
+      <ManageGroups :is-groups-form-open="indexPanelExpanded === 0" />
+    </div>
+  </div>
 </template>
 
 <script>

@@ -46,6 +46,7 @@
       @apply h-full flex items-center;
       @apply mr-3 px-4;
       @apply text-sm font-medium tracking-widest;
+      @apply transition-colors duration-200 ease-in-out;
 
       &:hover {
         @apply bg-blue-500;

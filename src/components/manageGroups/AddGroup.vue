@@ -1,18 +1,18 @@
 <template>
   <div class="add-group-form-wrap ml-2 mt-3">
     <div class="add-group-form">
-      <v-text-field
+      <input
         ref="group"
         v-model="newGroupName"
         name="group"
         placeholder="Add new..."
-        class="new-group-input pt-0 mr-2"
-        @keyup.enter="addGroup()"
+        class="ipt new-group-input pt-0 mr-2"
+        @keyup.enter="addGroup"
         :error="hasError"
       />
-      <v-btn :disabled="!newGroupName" color="accent" @click.prevent="addGroup()">
+      <button :disabled="!newGroupName" class="btn" color="accent" @click.prevent="addGroup()">
         Add group
-      </v-btn>
+      </button>
       <div v-if="showError" class="red--text">
         {{ errorMessage }}
       </div>

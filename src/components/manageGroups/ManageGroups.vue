@@ -2,7 +2,7 @@
   <div>
     <div class="group-chip mr-2 mb-2" v-for="group in groupsList" :key="group.name">
       <div v-if="group.isEditMode" class="group-name-input-wrap">
-        <v-text-field
+        <input
           ref="newGroupName"
           :value="newGroupName"
           @input="event => inputGroupName(event, group.name)"
@@ -22,9 +22,16 @@
       </div>
       <v-chip v-if="!group.isEditMode" color="secondary" close @click:close="deleteGroup(group)">
         {{ group.name }}
-        <v-btn icon depressed color="white" class="edit-icon" @click="editGroup(group)">
-          <v-icon size="18">fa-pencil-alt</v-icon>
-        </v-btn>
+        <button
+          type="button"
+          icon
+          depressed
+          color="white"
+          class="edit-icon"
+          @click="editGroup(group)"
+        >
+          <i class="fa fa-pencil-alt" />
+        </button>
       </v-chip>
     </div>
     <div class="clear-fix"></div>

@@ -1,14 +1,12 @@
 <template>
-  <v-expansion-panels v-model="indexPanelExpanded" flat class="one-panel">
-    <v-expansion-panel>
-      <v-expansion-panel-header>
-        {{ panelHeaderTitle }}
-      </v-expansion-panel-header>
-      <v-expansion-panel-content>
-        <AddBirthDate :is-birthday-form-open="indexPanelExpanded === 0" />
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-  </v-expansion-panels>
+  <div>
+    <div class="text-xl">
+      {{ panelHeaderTitle }}
+    </div>
+    <div>
+      <AddBirthDate :is-birthday-form-open="indexPanelExpanded === 0" />
+    </div>
+  </div>
 </template>
 
 <script>

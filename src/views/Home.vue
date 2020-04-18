@@ -1,6 +1,6 @@
 <template>
   <transition name="slide">
-    <FixedWidthContainer class="pa-4">
+    <div class="p-6">
       <h2 class="subtitle">
         Can't remember ages and birthdays? Me neither...
       </h2>
@@ -11,19 +11,17 @@
       <hr />
 
       <important-persons />
-    </FixedWidthContainer>
+    </div>
   </transition>
 </template>
 
 <script>
-  import FixedWidthContainer from '../components/containers/FixedWidthContainer.vue'
   import AddBirthDatePanel from '../components/addBirthDate/AddBirthDatePanel.vue'
   import ManageGroupsPanel from '../components/manageGroups/ManageGroupsPanel.vue'
   import ImportantPersons from '../components/list/ImportantPersons.vue'
 
   export default {
     components: {
-      FixedWidthContainer,
       AddBirthDatePanel,
       ManageGroupsPanel,
       ImportantPersons,
@@ -33,6 +31,7 @@
 
 <style scoped>
   .subtitle {
+    @apply text-center;
     font-size: 22px;
     font-weight: 300;
     color: #526488;
