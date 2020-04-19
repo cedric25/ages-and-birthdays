@@ -40,6 +40,13 @@
           this.isPanelExpanded = true
         }
       },
+      'importantPersons.length': {
+        handler() {
+          if (this.importantPersons.length === 0) {
+            this.isPanelExpanded = true
+          }
+        },
+      },
     },
   }
 </script>
