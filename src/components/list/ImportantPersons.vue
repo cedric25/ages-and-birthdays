@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-6">
+  <div class="mt-0 md:mt-6">
     <div class="admin-actions px-2" v-if="showAdminActions">
       <ImportExport />
 
@@ -8,18 +8,18 @@
       </div>
     </div>
 
-    <div v-if="importantPersons.length > 0" class="list-header">
-      <div class="order-and-total pa-2">
-        <OrderBy :selected-order="selectedOrder" @order="selectOrder" />
+    <div v-if="importantPersons.length > 0">
+      <div class="order-and-total">
+        <OrderBy class="flex-1" :selected-order="selectedOrder" @order="selectOrder" />
 
-        <div class="total-persons pr-2">
+        <div class="total-persons">
           <strong>{{ importantPersons.length }}</strong> important person{{
             importantPersons.length > 1 ? 's' : ''
           }}
         </div>
       </div>
 
-      <div class="mt-4">
+      <div class="mt-3">
         <Chip
           v-for="group in groups"
           :key="group"
@@ -170,39 +170,16 @@
 </script>
 
 <style scoped lang="scss">
-  .list-header > div {
-    display: flex;
-    align-items: center;
+  .order-and-total {
+    @apply flex flex-col-reverse;
+    @apply p-2;
 
-    &.order-and-total {
-      display: flex;
-      margin: 7px 0;
+    .total-persons {
+      @apply pr-2 mb-3 text-right;
     }
 
-    @media (max-width: 699px) {
-      &.order-and-total {
-        flex-direction: column-reverse;
-
-        > div {
-          width: 100%;
-        }
-
-        .total-persons {
-          text-align: right;
-        }
-      }
-    }
-
-    @media (min-width: 700px) {
-      &.order-and-total {
-        flex-direction: row;
-        justify-content: space-between;
-
-        .total-persons {
-          flex-grow: 1;
-          text-align: right;
-        }
-      }
+    @media (min-width: 675px) {
+      @apply flex-row;
     }
   }
 
@@ -223,20 +200,40 @@
 
   .persons-grid {
     @apply mt-5;
-    display: grid;
+    @apply grid grid-cols-1 gap-6;
     grid-template-columns: 1fr;
     justify-items: center;
-    grid-gap: 0 15px;
+
+    .one-person {
+      width: 350px;
+    }
   }
   @media (min-width: 665px) {
     .persons-grid {
-      grid-template-columns: repeat(2, 1fr);
-      grid-gap: 0 15px;
+      @apply grid grid-cols-2;
+
+      .one-person {
+        width: 300px;
+      }
+    }
+  }
+  @media (min-width: 768px) {
+    .persons-grid .one-person {
+      width: 350px;
     }
   }
   @media (min-width: 1065px) {
     .persons-grid {
-      grid-template-columns: repeat(3, 1fr);
+      @apply grid grid-cols-3;
+
+      .one-person {
+        width: 300px;
+      }
+    }
+  }
+  @media (min-width: 1265px) {
+    .persons-grid .one-person {
+      width: 350px;
     }
   }
 </style>
