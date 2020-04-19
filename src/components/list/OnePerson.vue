@@ -91,7 +91,7 @@
         <i class="fa fa-edit" />
       </button>
       <button v-if="!isEditMode" class="btn delete-btn" @click="deletePerson">
-        <i class="fa trash" />
+        <i class="fa fa-trash" />
       </button>
 
       <button v-if="isEditMode" class="btn submit-btn" @click="updatePerson">
@@ -245,80 +245,3 @@
     },
   }
 </script>
-
-<style scoped lang="scss">
-  .person {
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-    margin: 15px 0;
-
-    &:hover .edit-btn,
-    &:hover .delete-btn {
-      opacity: 1;
-    }
-
-    @media (max-width: 399px) {
-      width: 300px;
-    }
-
-    @media (min-width: 400px) and (max-width: 664px) {
-      width: 350px;
-    }
-
-    @media (min-width: 665px) and (max-width: 762px) {
-      width: 300px;
-    }
-
-    @media (min-width: 763px) and (max-width: 1064px) {
-      width: 350px;
-    }
-
-    @media (min-width: 1065px) and (max-width: 1263px) {
-      width: 300px;
-    }
-
-    @media (min-width: 1264px) {
-      width: 350px;
-    }
-  }
-
-  .edit-btn,
-  .delete-btn,
-  .submit-btn,
-  .cancel-btn {
-    position: absolute;
-    top: 0;
-    right: 0;
-    color: rgba(0, 0, 0, 0.5);
-    margin: 4px;
-  }
-  .edit-btn,
-  .delete-btn {
-    opacity: 1;
-    transition: opacity ease-in-out 200ms;
-
-    @media (min-width: 665px) {
-      opacity: 0;
-    }
-  }
-  .delete-btn,
-  .cancel-btn {
-    top: 35px;
-  }
-</style>
-
-<style>
-  .centered-input input {
-    text-align: center;
-  }
-  .big-font-input {
-    font-size: 24px;
-  }
-  .small-width-input {
-    max-width: 210px;
-  }
-  .small-width-input i {
-    font-size: 16px !important;
-  }
-</style>
