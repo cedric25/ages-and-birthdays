@@ -28,14 +28,15 @@
       showContent: { type: Boolean, default: false },
     },
     data: () => ({
-      isMounted: false,
-      contentHeight: null,
-      isExpanded: true,
+      isExpanded: false,
     }),
     computed: {
       ...mapGetters(['loginTriedOrFinished']),
       panelContentRef() {
         return `panel-content-${this._uid}`
+      },
+      panelContentDomElement() {
+        return this.$refs[this.panelContentRef]
       },
     },
     watch: {
@@ -45,39 +46,35 @@
           this.isExpanded = value
         },
       },
-      isMounted() {
-        this.saveContentHeight()
-      },
-      loginTriedOrFinished: {
-        handler() {
-          this.saveContentHeight()
-        },
-        immediate: true,
-      },
     },
     mounted() {
-      this.isMounted = true
+      this.collapse()
     },
     methods: {
-      saveContentHeight() {
-        if (this.isMounted && this.loginTriedOrFinished) {
-          this.contentHeight = this.$refs[this.panelContentRef].offsetHeight
-          this.isExpanded = false
-          this.collapse()
-        }
-      },
       changeExpandedState() {
         !this.isExpanded ? this.expand() : this.collapse()
         this.isExpanded = !this.isExpanded
         this.$emit('isExpanded', this.isExpanded)
       },
       expand() {
-        const timeline = anime.timeline({ duration: 500 })
+        // 1- Calculate height
+        this.panelContentDomElement.style.height = 'auto'
+        const contentHeight = this.panelContentDomElement.offsetHeight
+        this.panelContentDomElement.style.height = 0
+
+        // 2- Expand
+        const timeline = anime.timeline({
+          duration: 500,
+          complete: () => {
+            // 3- Back to height: auto
+            this.panelContentDomElement.style.height = 'auto'
+          },
+        })
         timeline
           .add({
-            targets: this.$refs[this.panelContentRef],
+            targets: this.panelContentDomElement,
             translateY: 0,
-            height: [0, this.contentHeight],
+            height: [0, contentHeight],
             easing: 'easeOutElastic(1, 1.5)',
           })
           .add(
@@ -98,12 +95,15 @@
           )
       },
       collapse() {
+        const currentHeight = this.panelContentDomElement.offsetHeight
+        this.panelContentDomElement.style.height = `${currentHeight}px`
+
         const timeline = anime.timeline({ duration: 500 })
         timeline
           .add({
-            targets: this.$refs[this.panelContentRef],
-            translateY: -this.contentHeight,
-            height: [this.contentHeight, 0],
+            targets: this.panelContentDomElement,
+            translateY: -currentHeight,
+            height: [currentHeight, 0],
             easing: 'easeOutQuart',
           })
           .add(
