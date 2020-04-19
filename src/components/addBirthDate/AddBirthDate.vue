@@ -13,8 +13,8 @@
         class="mr-2 mb-2"
         tabindex="0"
         @click.native="selectGroup(group)"
-        @keyup.enter="selectGroup(group)"
-        @keydown.space.prevent="selectGroup(group)"
+        @keyup.native.enter="selectGroup(group)"
+        @keydown.native.space.prevent="selectGroup(group)"
         >{{ group }}</Chip
       >
     </div>
@@ -43,8 +43,8 @@
         clickable
         tabindex="0"
         @click.native="selectMonth(index)"
-        @keyup.enter="selectGroup(group)"
-        @keydown.space.prevent="selectGroup(group)"
+        @keyup.native.enter="selectMonth(index)"
+        @keydown.native.space.prevent="selectMonth(index)"
         >{{ month }}</Chip
       >
     </div>
@@ -204,7 +204,6 @@
         this.$nextTick(() => this.$refs.year1.focus())
       },
       selectGroup(groupLabel) {
-        console.log('selectGroup', groupLabel)
         if (this.selectedGroups.includes(groupLabel)) {
           this.selectedGroups = this.selectedGroups.filter(group => group !== groupLabel)
         } else {
