@@ -3,7 +3,9 @@
     <TopMenu />
 
     <transition name="slide" mode="out-in">
-      <router-view />
+      <div style="padding-top: 56px;">
+        <router-view />
+      </div>
     </transition>
   </div>
 </template>

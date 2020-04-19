@@ -35,6 +35,7 @@
 
 <style scoped lang="scss">
   .top-menu {
+    @apply fixed w-full z-30;
     height: 56px;
     @apply flex items-center justify-between;
     @apply px-4;
