@@ -9,12 +9,17 @@
               :value="newGroupName"
               @input="event => inputGroupName(event, group.name)"
               name="group"
-              class="mt-0 pt-0"
+              class="ipt ml-2"
               :style="'width: ' + groupNameInputSize + 'px'"
               :error="inputHasError"
               @keyup.esc="cancelEdit"
             />
-            <button type="submit" class="edit-icon ml-1" @click="submitNewGroupName(group)">
+            <button
+              type="submit"
+              class="mr-2 inline-flex justify-center rounded-full hover:bg-gray-200"
+              style="width: 29px; height: 29px;"
+              @click="submitNewGroupName(group)"
+            >
               <i class="fa fa-check" />
             </button>
             <div class="to-get-text-width">{{ newGroupName }}</div>
@@ -22,7 +27,7 @@
         </div>
         <Chip v-if="!group.isEditMode" closable @close="deleteGroup(group)">
           {{ group.name }}
-          <button type="button" class="edit-icon ml-1" @click="editGroup(group)">
+          <button type="button" class="ml-1 hover:text-gray-300" @click="editGroup(group)">
             <i class="fa fa-pencil-alt" />
           </button>
         </Chip>
@@ -133,7 +138,7 @@
 
         setTimeout(() => {
           const textWidthDiv = this.$el.querySelector('.to-get-text-width')
-          this.groupNameInputSize = textWidthDiv.clientWidth + 60
+          this.groupNameInputSize = textWidthDiv.clientWidth + 20
         })
       },
       cancelEdit() {

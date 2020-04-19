@@ -1,18 +1,18 @@
 <template>
-  <div class="order-by-wrap">
+  <div>
     Order by:
 
     <button
       type="button"
       v-for="order in orders"
       :key="order.prop"
-      :color="selectedOrder === order.prop ? 'primary' : ''"
-      :class="'btn-sort-' + order.prop"
+      class="ml-6 focus:outline-none"
+      :class="{ 'text-blue-600': selectedOrder === order.prop }"
       @click="selectOrder(order.prop)"
       @keyup.enter="selectOrder(order.prop)"
     >
       {{ order.label }}
-      <i class="fa fa-chevron-down" v-if="selectedOrder === order.prop" />
+      <i v-if="selectedOrder === order.prop" class="fa fa-chevron-down ml-1" />
     </button>
   </div>
 </template>
@@ -47,25 +47,7 @@
 </script>
 
 <style scoped lang="scss">
-  .order-by-wrap {
-    text-align: left;
-
-    @media (max-width: 699px) {
-      button {
-        display: block;
-        min-width: 0;
-        margin-left: 0;
-      }
-    }
-
-    @media (min-width: 700px) {
-      button {
-        display: inline;
-      }
-
-      .btn-sort-daysUntilBirthday {
-        min-width: 190px;
-      }
-    }
+  button {
+    @apply text-sm font-medium tracking-widest uppercase;
   }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-6">
     <div class="admin-actions px-2" v-if="showAdminActions">
       <ImportExport />
 
@@ -19,7 +19,7 @@
         </div>
       </div>
 
-      <div class="groups-and-members-count pt-0 pa-2">
+      <div class="mt-4">
         <Chip
           v-for="group in groups"
           :key="group"
@@ -202,15 +202,6 @@
           flex-grow: 1;
           text-align: right;
         }
-      }
-    }
-
-    &.groups-and-members-count {
-      display: block;
-      text-align: left;
-
-      .chip:focus {
-        border-color: rgb(25, 118, 210) !important;
       }
     }
   }

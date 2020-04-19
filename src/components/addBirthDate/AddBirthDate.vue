@@ -149,7 +149,7 @@
           if (isExpanded) {
             setTimeout(() => {
               this.focusNameInputDelay()
-            }, 300)
+            }, 200)
           }
         },
         immediate: true,

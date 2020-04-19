@@ -1,10 +1,10 @@
 <template>
   <div class="one-person">
-    <div v-if="hasGroups" class="text-left">
+    <div v-if="hasGroups" class="text-left pr-8">
       <Chip
         v-for="group in personGroups"
         :key="group"
-        class="mr-2"
+        class="mr-2 mb-2"
         outlined
         red
         :closable="isEditMode"
@@ -32,7 +32,7 @@
       v-model="newName"
       name="name"
       placeholder="Name"
-      class="ipt mt-1 px-10 pb-1 text-xl text-center block m-auto"
+      class="ipt mt-4 px-10 text-xl text-center block mx-auto"
       @keyup.enter="updatePerson"
       @keyup.esc="cancelEdit"
     />
@@ -42,26 +42,22 @@
     </h3>
 
     <div class="flex justify-center mt-2 mb-2">
-      <div class="text-right flex-1" :class="{ 'text-center': !isYearKnown }">
-        <div v-if="isEditMode" class="flex items-center">
-          <i class="fa fa-calendar-week" />
-          <input
-            ref="dob"
-            v-model="dob"
-            name="dob"
-            placeholder="DD/MM/YYYY"
-            class="ipt px-10 pt-0 text-center block mx-auto"
-            :error="wrongDateEntered"
-            @keyup.enter="updatePerson()"
-            @keyup.esc="cancelEdit()"
-          />
-        </div>
-        <Chip
-          v-if="!isEditMode"
-          green
-          class="mr-1"
-          @dblclick="$event => switchToEditMode($event, 'dob')"
-        >
+      <div v-if="isEditMode" class="mx-auto mt-3 relative">
+        <i class="fa fa-calendar-week text-sm absolute left-0" style="top: 4px;" />
+        <input
+          ref="dob"
+          v-model="dob"
+          name="dob"
+          placeholder="DD/MM/YYYY"
+          class="ipt text-center pl-3"
+          style="max-width: 130px;"
+          :error="wrongDateEntered"
+          @keyup.enter="updatePerson()"
+          @keyup.esc="cancelEdit()"
+        />
+      </div>
+      <div v-if="!isEditMode" class="flex-1 text-right" :class="{ 'text-center': !isYearKnown }">
+        <Chip green class="mr-1" @dblclick="$event => switchToEditMode($event, 'dob')">
           {{ readableBirthday }}
         </Chip>
       </div>
@@ -70,7 +66,7 @@
       </div>
     </div>
 
-    <div class="birthday-in-wrap mt-1 text-center">
+    <div v-if="!isEditMode" class="birthday-in-wrap mt-1 text-center">
       <span>
         {{ textBeforeDays }}
       </span>
@@ -82,17 +78,17 @@
       </span>
     </div>
 
-    <button v-if="!isEditMode" class="btn edit-btn" @click="switchToEditMode">
+    <button v-if="!isEditMode" class="edit-btn" @click="switchToEditMode">
       <i class="fa fa-edit" />
     </button>
-    <button v-if="!isEditMode" class="btn delete-btn" @click="deletePerson">
+    <button v-if="!isEditMode" class="delete-btn" @click="deletePerson">
       <i class="fa fa-trash" />
     </button>
 
-    <button v-if="isEditMode" class="btn submit-btn" @click="updatePerson">
+    <button v-if="isEditMode" class="submit-btn" @click="updatePerson">
       <i class="fa fa-check" />
     </button>
-    <button v-if="isEditMode" class="btn cancel-btn" @click="cancelEdit">
+    <button v-if="isEditMode" class="cancel-btn" @click="cancelEdit">
       <i class="fa fa-undo" />
     </button>
   </div>
@@ -197,6 +193,7 @@
         this.$nextTick(() => this.$refs[inputToFocusOn].focus())
       },
       updatePerson() {
+        if (!this.newName) return
         let dateFormat = 'dd/MM/yyyy'
         if (!containsYear(this.dob)) {
           dateFormat = 'dd/MM'
@@ -240,12 +237,51 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .one-person {
     @apply bg-white;
     @apply pb-6 pt-2 px-2;
+    @apply relative;
     width: 350px;
     box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
       0 1px 5px 0 rgba(0, 0, 0, 0.12);
+
+    .edit-btn,
+    .delete-btn,
+    .submit-btn,
+    .cancel-btn {
+      @apply text-gray-700;
+      @apply absolute;
+      @apply flex justify-center;
+      @apply bg-white rounded-full;
+      @apply outline-none;
+      right: 6px;
+      width: 36px;
+      height: 36px;
+
+      &:hover {
+        @apply bg-gray-200;
+      }
+    }
+    .edit-btn,
+    .delete-btn {
+      @apply opacity-0;
+      @apply transition duration-300;
+    }
+    .edit-btn,
+    .submit-btn {
+      top: 6px;
+    }
+    .delete-btn,
+    .cancel-btn {
+      top: 43px;
+    }
+
+    &:hover {
+      .edit-btn,
+      .delete-btn {
+        @apply opacity-100;
+      }
+    }
   }
 </style>
