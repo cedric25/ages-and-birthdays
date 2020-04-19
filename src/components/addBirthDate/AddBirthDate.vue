@@ -1,5 +1,7 @@
 <template>
   <form class="flex flex-col items-center">
+    <ConfirmationToast :show-confirmation="showConfirmation" :added-name="addedName" />
+
     <div class="name-input mb-6">
       <input ref="name" v-model="name" name="name" placeholder="Name" class="ipt text-center" />
     </div>
@@ -99,11 +101,6 @@
         Add
       </button>
     </div>
-
-    <!--    <v-alert :value="showConfirmation" type="success" class="success-alert text-left mt-6">-->
-    <!--      You've added <strong>{{ addedName }}</strong-->
-    <!--      >!-->
-    <!--    </v-alert>-->
   </form>
 </template>
 
@@ -115,12 +112,14 @@
   // Components
   import AddGroup from '../manageGroups/AddGroup'
   import Chip from '../Chip'
+  import ConfirmationToast from './ConfirmationToast'
 
   export default {
     name: 'AddBirthDate',
     components: {
       AddGroup,
       Chip,
+      ConfirmationToast,
     },
     props: {
       isBirthdayFormOpen: { type: Boolean, required: true },
@@ -135,7 +134,7 @@
       year2: '',
       selectedGroups: [],
       showConfirmation: false,
-      addedName: '',
+      addedName: 'Tom',
     }),
     computed: {
       ...mapGetters(['importantPersons', 'groups']),
@@ -175,7 +174,8 @@
         this.addedName = this.name
         this.showConfirmation = true
         setTimeout(() => {
-          this.showConfirmation = false
+          document.getElementById('footertoast').click()
+          setTimeout(() => (this.showConfirmation = false), 1000)
         }, 2000)
         this.resetForm()
         this.focusNameInput()
