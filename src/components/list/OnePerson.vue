@@ -1,106 +1,100 @@
 <template>
-  <div class="person">
-    <div class="pb-4">
-      <div v-if="hasGroups" class="mt-2 ml-2 text-left">
-        <Chip
-          v-for="group in personGroups"
-          :key="group"
-          outlined
-          color="red"
-          class="mr-2"
-          :close="isEditMode"
-          @click:close="removeFromGroup(group)"
-        >
-          {{ group }}
-        </Chip>
-      </div>
+  <div class="one-person">
+    <div v-if="hasGroups" class="text-left">
+      <Chip
+        v-for="group in personGroups"
+        :key="group"
+        class="mr-2"
+        outlined
+        red
+        :closable="isEditMode"
+        @close="removeFromGroup(group)"
+      >
+        {{ group }}
+      </Chip>
+    </div>
 
-      <div v-if="isEditMode" class="mt-2 ml-2 pr-10 text-left">
-        <Chip
-          v-for="group in otherGroups"
-          :key="group"
-          color="secondary"
-          text-color="white"
-          class="mr-2 mt-2"
-          @click="addToGroup(group)"
-        >
-          {{ group }}
-        </Chip>
-      </div>
+    <div v-if="isEditMode" class="mt-2 ml-2 pr-10 text-left">
+      <Chip
+        v-for="group in otherGroups"
+        :key="group"
+        class="mr-2 mt-2"
+        clickable
+        @click.native="addToGroup(group)"
+      >
+        {{ group }}
+      </Chip>
+    </div>
 
-      <input
-        v-if="isEditMode"
-        ref="name"
-        v-model="newName"
-        name="name"
-        placeholder="Name"
-        class="mt-1 px-10 pb-1 centered-input big-font-input"
-        hide-details
-        @keyup.enter="updatePerson"
-        @keyup.esc="cancelEdit"
-      />
-      <h3 v-if="!isEditMode" class="headline mb-0 text-md-center" @dblclick="switchToEditMode">
-        {{ name }}
-        <span v-if="isBaby" class="baby-icon">👶</span>
-      </h3>
+    <input
+      v-if="isEditMode"
+      ref="name"
+      v-model="newName"
+      name="name"
+      placeholder="Name"
+      class="ipt mt-1 px-10 pb-1 text-xl text-center block m-auto"
+      @keyup.enter="updatePerson"
+      @keyup.esc="cancelEdit"
+    />
+    <h3 v-if="!isEditMode" class="mt-3 text-center text-xl" @dblclick="switchToEditMode">
+      {{ name }}
+      <span v-if="isBaby" class="baby-icon">👶</span>
+    </h3>
 
-      <div class="d-flex justify-center mt-2 mb-2">
-        <div class="text-right" :class="{ 'text-center': !isYearKnown }" style="flex: 1;">
+    <div class="flex justify-center mt-2 mb-2">
+      <div class="text-right flex-1" :class="{ 'text-center': !isYearKnown }">
+        <div v-if="isEditMode" class="flex items-center">
+          <i class="fa fa-calendar-week" />
           <input
-            v-if="isEditMode"
             ref="dob"
             v-model="dob"
             name="dob"
             placeholder="DD/MM/YYYY"
-            class="ma-auto px-10 pt-0 centered-input small-width-input"
-            prepend-inner-icon="fa-calendar"
+            class="ipt px-10 pt-0 text-center block mx-auto"
             :error="wrongDateEntered"
             @keyup.enter="updatePerson()"
             @keyup.esc="cancelEdit()"
           />
-          <Chip
-            v-if="!isEditMode"
-            color="green"
-            text-color="white"
-            class="mr-1"
-            @dblclick="$event => switchToEditMode($event, 'dob')"
-          >
-            {{ readableBirthday }}
-          </Chip>
         </div>
-        <div class="text-left" v-if="!isEditMode && isYearKnown" style="flex: 1;">
-          <Chip color="accent" text-color="white" class="ml-1">
-            {{ ageValue.value }}{{ ageValue.unit }}&nbsp;old
-          </Chip>
-        </div>
+        <Chip
+          v-if="!isEditMode"
+          green
+          class="mr-1"
+          @dblclick="$event => switchToEditMode($event, 'dob')"
+        >
+          {{ readableBirthday }}
+        </Chip>
       </div>
-
-      <div class="birthday-in-wrap mt-1 text-center">
-        <span>
-          {{ textBeforeDays }}
-        </span>
-        <span v-if="!isBirthdayToday">
-          <strong>{{ daysUntilBirthday }}</strong> day{{ (daysUntilBirthday > 1 && 's') || '' }}
-        </span>
-        <span v-else class="cake-icon">
-          🎂
-        </span>
+      <div class="text-left" v-if="!isEditMode && isYearKnown" style="flex: 1;">
+        <Chip light-blue class="ml-1"> {{ ageValue.value }}{{ ageValue.unit }}&nbsp;old </Chip>
       </div>
-
-      <button v-if="!isEditMode" class="btn edit-btn" @click="switchToEditMode">
-        <i class="fa fa-edit" />
-      </button>
-      <button v-if="!isEditMode" class="btn delete-btn" @click="deletePerson">
-        <i class="fa fa-trash" />
-      </button>
-
-      <button v-if="isEditMode" class="btn submit-btn" @click="updatePerson">
-        <i class="fa fa-check" />
-      </button>
-      <button v-if="isEditMode" class="btn cancel-btn" @click="cancelEdit">
-        <i class="fa fa-undo" />
-      </button>
     </div>
+
+    <div class="birthday-in-wrap mt-1 text-center">
+      <span>
+        {{ textBeforeDays }}
+      </span>
+      <span v-if="!isBirthdayToday">
+        <strong>{{ daysUntilBirthday }}</strong> day{{ (daysUntilBirthday > 1 && 's') || '' }}
+      </span>
+      <span v-else class="cake-icon">
+        🎂
+      </span>
+    </div>
+
+    <button v-if="!isEditMode" class="btn edit-btn" @click="switchToEditMode">
+      <i class="fa fa-edit" />
+    </button>
+    <button v-if="!isEditMode" class="btn delete-btn" @click="deletePerson">
+      <i class="fa fa-trash" />
+    </button>
+
+    <button v-if="isEditMode" class="btn submit-btn" @click="updatePerson">
+      <i class="fa fa-check" />
+    </button>
+    <button v-if="isEditMode" class="btn cancel-btn" @click="cancelEdit">
+      <i class="fa fa-undo" />
+    </button>
   </div>
 </template>
 
@@ -245,3 +239,13 @@
     },
   }
 </script>
+
+<style scoped>
+  .one-person {
+    @apply bg-white;
+    @apply pb-6 pt-2 px-2;
+    width: 350px;
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+      0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  }
+</style>

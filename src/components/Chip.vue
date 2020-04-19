@@ -4,8 +4,14 @@
       {{ count }}
     </div>
     <span><slot /></span>
-    <button v-if="closable" type="button" class="ml-2" @click="$emit('close')">
-      <i class="fa fa-times-circle" />
+    <button
+      v-if="closable"
+      type="button"
+      class="inline-flex ml-2"
+      style="margin-right: -5px;"
+      @click="$emit('close')"
+    >
+      <i class="fa fa-times-circle text-base" />
     </button>
   </div>
 </template>
@@ -17,10 +23,23 @@
       clickable: { type: Boolean, default: false },
       closable: { type: Boolean, default: false },
       count: { type: Number, default: null },
+      green: { type: Boolean, default: false },
+      outlined: { type: Boolean, default: false },
+      red: { type: Boolean, default: false },
+      lightBlue: { type: Boolean, default: false },
     },
     computed: {
       classes() {
-        return [this.selected && 'blue', this.clickable && 'clickable'].join(' ')
+        return [
+          this.selected && 'blue',
+          this.green && 'green',
+          this.lightBlue && 'light-blue',
+          this.clickable && 'clickable',
+          this.outlined && 'outlined',
+          this.red && 'red',
+        ]
+          .filter(value => !!value)
+          .join(' ')
       },
     },
   }
@@ -28,7 +47,7 @@
 
 <style scoped lang="scss">
   .chip {
-    @apply inline-block;
+    @apply inline-flex;
     @apply mx-1 px-3 py-1;
     @apply text-white text-sm whitespace-no-wrap text-center;
     @apply bg-gray-500;
@@ -51,6 +70,19 @@
       &:focus {
         @apply bg-blue-600;
       }
+    }
+
+    &.green {
+      @apply bg-green-500;
+    }
+
+    &.light-blue {
+      @apply bg-blue-400;
+    }
+
+    &.outlined.red {
+      @apply bg-white text-red-600;
+      @apply border border-solid border-red-600;
     }
 
     .count {

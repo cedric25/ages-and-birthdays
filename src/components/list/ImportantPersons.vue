@@ -170,17 +170,6 @@
 </script>
 
 <style scoped lang="scss">
-  .admin-actions {
-    display: none;
-  }
-
-  @media (min-width: 700px) {
-    .admin-actions {
-      display: flex;
-      justify-content: flex-end;
-    }
-  }
-
   .list-header > div {
     display: flex;
     align-items: center;
@@ -241,25 +230,8 @@
     position: absolute;
   }
 
-  .chip >>> span {
-    cursor: pointer;
-  }
-
-  .chip--selected {
-    box-shadow: none;
-    border-color: rgb(25, 118, 210) !important;
-
-    &:focus >>> span {
-      background: rgb(25, 118, 210);
-    }
-
-    &::after {
-      background: rgb(25, 118, 210);
-      opacity: 1;
-    }
-  }
-
   .persons-grid {
+    @apply mt-5;
     display: grid;
     grid-template-columns: 1fr;
     justify-items: center;
