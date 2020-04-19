@@ -224,7 +224,10 @@
         }
       },
       deletePerson() {
-        importantPersons.deletePerson(this.$store, this.id)
+        this.$emit('wantToDelete', {
+          id: this.id,
+          name: this.name,
+        })
       },
       cancelEdit() {
         this.isEditMode = false

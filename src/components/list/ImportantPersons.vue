@@ -42,9 +42,17 @@
           :age="person.age"
           :days-until-birthday="person.daysUntilBirthday"
           :person-groups="person.groups"
+          @wantToDelete="askForConfirmation"
         />
       </div>
     </transition-group>
+
+    <ConfirmDeleteModal
+      :show-modal="showConfirmDeleteModal"
+      :person-id="personIdToDelete"
+      :person-name="personNameToDelete"
+      @confirm="confirmDeletePerson"
+    />
   </div>
 </template>
 
@@ -61,6 +69,8 @@
   import OrderBy from './OrderBy'
   import OnePerson from './OnePerson'
   import Chip from '../Chip'
+  import ConfirmDeleteModal from './ConfirmDeleteModal'
+  import * as importantPersons from '../../helpers/importantPersons'
 
   const today = new Date()
 
@@ -71,11 +81,15 @@
       OrderBy,
       OnePerson,
       Chip,
+      ConfirmDeleteModal,
     },
     data: () => ({
       showAdminActions: false,
       selectedOrder: 'daysUntilBirthday',
       selectedGroups: [],
+      showConfirmDeleteModal: 0,
+      personIdToDelete: '',
+      personNameToDelete: '',
     }),
     computed: {
       ...mapGetters(['importantPersons', 'groups']),
@@ -164,6 +178,14 @@
         return this.importantPersons.filter(person => {
           return person.groups && person.groups.includes(group)
         }).length
+      },
+      askForConfirmation({ id, name }) {
+        this.personIdToDelete = id
+        this.personNameToDelete = name
+        this.showConfirmDeleteModal++
+      },
+      confirmDeletePerson(personId) {
+        importantPersons.deletePerson(this.$store, personId)
       },
     },
   }
