@@ -56,13 +56,13 @@
           @keyup.esc="cancelEdit()"
         />
       </div>
-      <div v-if="!isEditMode" class="flex-1 text-right" :class="{ 'text-center': !isYearKnown }">
+      <div v-if="!isEditMode" class="flex-1" :class="isYearKnown ? 'text-right' : 'text-center'">
         <Chip green class="mr-1" @dblclick="$event => switchToEditMode($event, 'dob')">
           {{ readableBirthday }}
         </Chip>
       </div>
       <div class="text-left" v-if="!isEditMode && isYearKnown" style="flex: 1;">
-        <Chip light-blue class="ml-1"> {{ ageValue.value }}{{ ageValue.unit }}&nbsp;old </Chip>
+        <Chip light-blue class="ml-1"> {{ ageValue.value }}{{ ageValue.unit }}</Chip>
       </div>
     </div>
 
@@ -140,9 +140,15 @@
         return this.isYearKnown && (this.age.unit === 'months' || this.age.value < 3)
       },
       ageValue() {
-        let unit = 'y'
+        let unit = 'y old'
         if (this.age.unit === 'months') {
-          unit = ' months'
+          if (this.age.value === 0) {
+            return {
+              value: 'New born!',
+              unit: null,
+            }
+          }
+          unit = ' months old'
         }
         return {
           value: this.age.value,
