@@ -1,6 +1,6 @@
 <template>
   <transition name="slide">
-    <div class="p-6">
+    <div class="home-wrap">
       <h2 class="subtitle">
         Can't remember ages and birthdays? Me neither...
       </h2>
@@ -9,7 +9,7 @@
 
       <ManageGroupsPanel />
 
-      <hr />
+      <hr class="mt-6 mb-5" />
 
       <important-persons />
     </div>
@@ -30,7 +30,16 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  .home-wrap {
+    @apply p-6 mx-auto;
+    max-width: 1000px;
+
+    @media (min-width: 1200px) {
+      max-width: 1185px;
+    }
+  }
+
   .subtitle {
     @apply text-center;
     font-size: 22px;
@@ -44,10 +53,6 @@
     .subtitle {
       font-size: 32px;
     }
-  }
-
-  hr {
-    margin: 20px 0;
   }
 
   .slide-enter-active {

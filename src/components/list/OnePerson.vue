@@ -240,9 +240,8 @@
 <style scoped lang="scss">
   .one-person {
     @apply bg-white;
-    @apply pb-6 pt-2 px-2;
+    @apply pb-5 pt-2 px-2;
     @apply relative;
-    width: 350px;
     box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
       0 1px 5px 0 rgba(0, 0, 0, 0.12);
 
