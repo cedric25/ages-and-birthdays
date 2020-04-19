@@ -1,18 +1,16 @@
 <template>
   <div>
-    <!--    <v-tooltip v-if="!user" v-model="showSigninTooltip" bottom open-delay="50" close-delay="100">-->
-    <!--      <template v-slot:activator="{ on }">-->
-    <!--        <a v-on="on" @click.prevent="googleSignin">-->
-    <!--          <i size="36" class="fa fa-smile" style="margin-right: 10px;" />-->
-    <!--        </a>-->
-    <!--      </template>-->
-    <!--      <span>Signin</span>-->
-    <!--    </v-tooltip>-->
+    <div v-if="!user" class="tooltip">
+      <button type="button" class="flex" @click="googleSignin">
+        <i class="fas text-3xl" :class="`fa-${smileType}`" style="margin-right: 10px;" />
+      </button>
+      <span class="tooltip-text">
+        Signin
+      </span>
+    </div>
 
-    <!--    <v-tooltip v-if="user" v-model="showSignoutTooltip" bottom open-delay="50" close-delay="100">-->
-    <!--      <template v-slot:activator="{ on }">-->
-    <a v-if="user" @click.prevent="signout">
-      <div style="width: 36px; height: 36px;">
+    <div v-if="user" class="tooltip">
+      <button type="button" class="flex" style="width: 36px; height: 36px;" @click="signout">
         <img v-if="user.photoUrl" :src="user.photoUrl" :alt="user.name" class="rounded-full" />
         <div
           v-else
@@ -20,11 +18,11 @@
         >
           {{ user.name.substr(0, 1) }}
         </div>
-      </div>
-    </a>
-    <!--      </template>-->
-    <!--      <span>Signout</span>-->
-    <!--    </v-tooltip>-->
+        <span class="tooltip-text">
+          Signout
+        </span>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -33,14 +31,21 @@
 
   export default {
     name: 'GoogleSignin',
-    data() {
-      return {
-        showSigninTooltip: false,
-        showSignoutTooltip: false,
-      }
-    },
+    data: () => ({
+      smileType: 'smile',
+      showSigninTooltip: false,
+      showSignoutTooltip: false,
+    }),
     computed: {
       ...mapGetters(['user']),
+    },
+    mounted() {
+      setInterval(() => {
+        this.smileType = 'smile-wink'
+        setTimeout(() => {
+          this.smileType = 'smile'
+        }, 500)
+      }, 20000)
     },
     methods: {
       googleSignin() {
@@ -56,3 +61,21 @@
     },
   }
 </script>
+
+<style scoped>
+  .tooltip .tooltip-text {
+    @apply absolute opacity-0 invisible;
+    @apply text-center text-sm;
+    @apply bg-gray-600 rounded;
+    @apply px-4 py-1;
+    @apply transition duration-300 ease-out;
+    z-index: 100;
+    right: 6px;
+    top: 47px;
+  }
+  .tooltip:hover .tooltip-text {
+    @apply visible;
+    @apply transform translate-y-1;
+    opacity: 0.95;
+  }
+</style>
