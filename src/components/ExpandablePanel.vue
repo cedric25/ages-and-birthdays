@@ -7,7 +7,7 @@
       <div ref="panelHeaderTitle">
         {{ panelHeaderTitle }}
       </div>
-      <i ref="chevron" class="fa fa-chevron-up text-sm text-gray-600" />
+      <i ref="chevron" class="fa fa-chevron-down text-sm text-gray-600" />
     </div>
     <div :ref="panelContentRef" :class="panelContentRef" class="panel-content z-10">
       <div class="px-6 py-5">
@@ -48,7 +48,7 @@
       },
     },
     mounted() {
-      this.collapse()
+      this.panelContentDomElement.style.height = 0
     },
     methods: {
       changeExpandedState() {
@@ -80,7 +80,7 @@
           .add(
             {
               targets: this.$refs.chevron,
-              rotate: 0,
+              rotate: 180,
               easing: 'easeOutQuart',
             },
             0
@@ -109,7 +109,7 @@
           .add(
             {
               targets: this.$refs.chevron,
-              rotate: 180,
+              rotate: 0,
               easing: 'easeOutQuart',
             },
             0
