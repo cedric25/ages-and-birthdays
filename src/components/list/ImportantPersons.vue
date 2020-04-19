@@ -25,14 +25,11 @@
           :key="group"
           :selected="isGroupSelected(group)"
           clickable
+          :count="nbPersonsWithinGroup(group)"
           class="mr-2 mb-2"
           @click.native="filterByGroup(group)"
+          >{{ group }}</Chip
         >
-          <span>
-            {{ nbPersonsWithinGroup(group) }}
-          </span>
-          {{ group }}
-        </Chip>
       </div>
     </div>
 
