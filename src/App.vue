@@ -2,11 +2,11 @@
   <div>
     <TopMenu />
 
-    <transition name="slide" mode="out-in">
-      <div style="padding-top: 56px;">
+    <div style="padding-top: 56px;">
+      <transition name="slide" mode="out-in">
         <router-view />
-      </div>
-    </transition>
+      </transition>
+    </div>
   </div>
 </template>
 
