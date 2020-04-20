@@ -7,8 +7,8 @@
     "build": "vue-cli-service build",
     "test": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "deploy": "npm run build; push-dir --dir=dist --branch=gh-pages --cleanup",
-    "export-tailwind-config": "tailwindcss-export-config --config=tailwind.config.js --destination=src/assets/tailwind-variables --format=scss"
+    "build-report": "vue-cli-service build --report",
+    "deploy": "npm run build; push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
     "animejs": "3.2.0",
@@ -42,7 +42,6 @@
     "sass": "^1.19.0",
     "sass-loader": "8.0.2",
     "tailwindcss": "1.2.0",
-    "tailwindcss-export-config": "2.0.2",
     "vue-template-compiler": "2.6.11"
   },
   "gitHooks": {
