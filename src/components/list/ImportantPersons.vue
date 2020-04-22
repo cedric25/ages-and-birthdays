@@ -19,7 +19,7 @@
         </div>
       </div>
 
-      <div class="mt-3">
+      <div class="mt-2 md:mt-0">
         <Chip
           v-for="group in groups"
           :key="group"
