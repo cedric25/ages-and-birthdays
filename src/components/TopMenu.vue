@@ -1,19 +1,17 @@
 <template>
-  <v-app-bar app dark color="primary" class="my-app-bar">
-    <router-link to="/">
-      <v-toolbar-title class="white--text header-title">
-        Ages and Birthdays
-      </v-toolbar-title>
+  <div class="top-menu">
+    <router-link to="/" class="text-xl">
+      Ages and Birthdays
     </router-link>
-    <v-spacer />
-    <v-toolbar-items>
-      <v-btn text to="/about">
-        About
-      </v-btn>
-      <ab-google-signin />
-      <ab-sync-loader v-if="user" />
-    </v-toolbar-items>
-  </v-app-bar>
+
+    <div class="flex items-center h-full">
+      <router-link to="/about" class="top-menu-link" style="padding-top: 2px;">
+        ABOUT
+      </router-link>
+      <GoogleSignin />
+      <SyncLoader v-if="user" />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -21,13 +19,13 @@
 
   // Components
   import GoogleSignin from './GoogleSignin'
-  import SyncLoader from './SyncLoader.js'
+  import SyncLoader from './SyncLoader'
 
   export default {
     name: 'TopMenu',
     components: {
-      'ab-google-signin': GoogleSignin,
-      'ab-sync-loader': SyncLoader,
+      GoogleSignin,
+      SyncLoader,
     },
     computed: {
       ...mapGetters(['user']),
@@ -35,8 +33,25 @@
   }
 </script>
 
-<style>
-  .my-app-bar a {
-    text-decoration: none;
+<style scoped lang="scss">
+  .top-menu {
+    @apply fixed w-full z-30;
+    height: 56px;
+    @apply flex items-center justify-between;
+    @apply px-4;
+    @apply bg-blue-600 text-white;
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+      0 1px 10px 0 rgba(0, 0, 0, 0.12);
+
+    .top-menu-link {
+      @apply h-full flex items-center;
+      @apply mr-3 px-4;
+      @apply text-sm font-medium tracking-widest;
+      @apply transition-colors duration-200 ease-in-out;
+
+      &:hover {
+        @apply bg-blue-500;
+      }
+    }
   }
 </style>

@@ -16,13 +16,28 @@ Project generated with @vue/cli 4.3.1.
 
 ## Tech details
 
-Storage:
+### Keywords
 
-- Within the browser (localStorage)
-- Login with Google and syncing with Firebase
+`Vue.js`, `Firebase`, `tailwindcss`, `animejs`
+
+### Storage
+
+- Within the browser (**localStorage**)
+- Login with Google and syncing with **Firebase**
+
+### Useful links
+
+**tailwindcss** documentation:  
+https://tailwindcss.com/docs/
 
 Icons set: **Font Awesome** via CDN  
 https://fontawesome.com/icons?d=gallery
+
+Inspiration for tailwind components:  
+https://tailwindcomponents.com/components
+
+**animejs** documentation:  
+https://animejs.com/documentation/
 
 ## Project setup
 

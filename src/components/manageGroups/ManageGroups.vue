@@ -1,33 +1,38 @@
 <template>
   <div>
-    <div class="group-chip mr-2 mb-2" v-for="group in groupsList" :key="group.name">
-      <div v-if="group.isEditMode" class="group-name-input-wrap">
-        <v-text-field
-          ref="newGroupName"
-          :value="newGroupName"
-          @input="event => inputGroupName(event, group.name)"
-          name="group"
-          hide-details
-          append-icon="mdi-check"
-          @click:append="() => submitNewGroupName(group)"
-          @keyup.enter="submitNewGroupName(group)"
-          class="group-name-input mt-0 pt-0"
-          :style="'width: ' + groupNameInputSize + 'px'"
-          :error="inputHasError"
-          @keyup.esc="cancelEdit"
-        />
-        <div class="to-get-text-width">
-          {{ newGroupName }}
+    <div class="flex flex-row flex-wrap items-center">
+      <div class="flex flex-wrap justify-center mb-2" v-for="group in groupsList" :key="group.name">
+        <div v-if="group.isEditMode">
+          <form>
+            <input
+              ref="newGroupName"
+              :value="newGroupName"
+              @input="event => inputGroupName(event, group.name)"
+              name="group"
+              class="ipt ml-2"
+              :style="'width: ' + groupNameInputSize + 'px'"
+              :error="inputHasError"
+              @keyup.esc="cancelEdit"
+            />
+            <button
+              type="submit"
+              class="mr-2 inline-flex justify-center rounded-full hover:bg-gray-200"
+              style="width: 29px; height: 29px;"
+              @click="submitNewGroupName(group)"
+            >
+              <i class="fa fa-check" />
+            </button>
+            <div class="to-get-text-width">{{ newGroupName }}</div>
+          </form>
         </div>
+        <Chip v-if="!group.isEditMode" closable @close="deleteGroup(group)">
+          {{ group.name }}
+          <button type="button" class="ml-1 hover:text-gray-300" @click="editGroup(group)">
+            <i class="fa fa-pencil-alt" />
+          </button>
+        </Chip>
       </div>
-      <v-chip v-if="!group.isEditMode" color="secondary" close @click:close="deleteGroup(group)">
-        {{ group.name }}
-        <v-btn icon depressed color="white" class="edit-icon" @click="editGroup(group)">
-          <v-icon size="18">fa-pencil-alt</v-icon>
-        </v-btn>
-      </v-chip>
     </div>
-    <div class="clear-fix"></div>
 
     <AddGroup :is-group-form-open="isGroupsFormOpen" />
   </div>
@@ -36,24 +41,27 @@
 <script>
   import { mapGetters } from 'vuex'
   import * as groups from '../../helpers/groups'
-  import AddGroup from './AddGroup.vue'
+
+  // Components
+  import AddGroup from './AddGroup'
+  import Chip from '../Chip'
 
   export default {
     name: 'ManageGroups',
     components: {
       AddGroup,
+      Chip,
     },
     props: {
       isGroupsFormOpen: { type: Boolean, required: true },
     },
-    data() {
-      return {
-        groupsList: [],
-        newGroupName: '',
-        groupNameInputSize: 0,
-        inputHasError: false,
-      }
-    },
+    data: () => ({
+      // Initialise with these two groups for height of content to be the good one...
+      groupsList: ['Family', 'Friends'],
+      newGroupName: '',
+      groupNameInputSize: 0,
+      inputHasError: false,
+    }),
     computed: {
       ...mapGetters(['groups']),
     },
@@ -95,11 +103,12 @@
         })
 
         this.$nextTick(() => {
-          this.inputGroupName(this.newGroupName, this.newGroupName)
+          this.inputGroupName({ target: { value: this.newGroupName } }, this.newGroupName)
           this.$refs['newGroupName'][0].focus()
         })
       },
       submitNewGroupName(groupToEdit) {
+        console.log('submitNewGroupName')
         if (this.inputHasError) {
           return
         }
@@ -115,7 +124,8 @@
         })
         groups.renameGroup(this.$store, groupToEdit.name, this.newGroupName)
       },
-      inputGroupName(newName, originalName) {
+      inputGroupName($event, originalName) {
+        const newName = $event.target.value
         this.newGroupName = newName
 
         const groupsMinusEditingOne = this.groups.filter(group => {
@@ -128,7 +138,7 @@
 
         setTimeout(() => {
           const textWidthDiv = this.$el.querySelector('.to-get-text-width')
-          this.groupNameInputSize = textWidthDiv.clientWidth + 60
+          this.groupNameInputSize = textWidthDiv.clientWidth + 20
         })
       },
       cancelEdit() {
@@ -141,36 +151,11 @@
 </script>
 
 <style scoped>
-  .group-chip {
-    float: left;
-  }
-
-  .clear-fix {
-    float: none;
-    clear: both;
-  }
-
-  .edit-icon {
-    margin-left: 5px;
-    margin-right: -3px;
-  }
-
-  .group-name-input-wrap {
-    padding-left: 12px;
-    padding-right: 5px;
-  }
-
   .to-get-text-width {
     width: auto;
     display: inline-block;
     visibility: hidden;
     position: fixed;
     overflow: auto;
-  }
-</style>
-
-<style>
-  .group-name-input input {
-    padding-bottom: 4px;
   }
 </style>

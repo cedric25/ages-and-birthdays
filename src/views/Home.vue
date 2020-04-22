@@ -1,29 +1,28 @@
 <template>
   <transition name="slide">
-    <FixedWidthContainer class="pa-4">
+    <div class="home-wrap">
       <h2 class="subtitle">
         Can't remember ages and birthdays? Me neither...
       </h2>
 
       <AddBirthDatePanel />
+
       <ManageGroupsPanel />
 
-      <hr />
+      <hr class="mt-6 mb-5" />
 
       <important-persons />
-    </FixedWidthContainer>
+    </div>
   </transition>
 </template>
 
 <script>
-  import FixedWidthContainer from '../components/containers/FixedWidthContainer.vue'
   import AddBirthDatePanel from '../components/addBirthDate/AddBirthDatePanel.vue'
   import ManageGroupsPanel from '../components/manageGroups/ManageGroupsPanel.vue'
   import ImportantPersons from '../components/list/ImportantPersons.vue'
 
   export default {
     components: {
-      FixedWidthContainer,
       AddBirthDatePanel,
       ManageGroupsPanel,
       ImportantPersons,
@@ -31,8 +30,18 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  .home-wrap {
+    @apply p-6 mx-auto;
+    max-width: 1000px;
+
+    @media (min-width: 1200px) {
+      max-width: 1185px;
+    }
+  }
+
   .subtitle {
+    @apply text-center;
     font-size: 22px;
     font-weight: 300;
     color: #526488;
@@ -44,10 +53,6 @@
     .subtitle {
       font-size: 32px;
     }
-  }
-
-  hr {
-    margin: 20px 0;
   }
 
   .slide-enter-active {

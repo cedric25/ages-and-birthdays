@@ -1,17 +1,17 @@
 <template>
-  <v-app>
+  <div>
     <TopMenu />
 
-    <v-content>
+    <div style="padding-top: 56px;">
       <transition name="slide" mode="out-in">
-        <router-view class="child-view" />
+        <router-view />
       </transition>
-    </v-content>
-  </v-app>
+    </div>
+  </div>
 </template>
 
 <script>
-  import TopMenu from './components/TopMenu.vue'
+  import TopMenu from './components/TopMenu'
 
   export default {
     components: {
@@ -20,8 +20,6 @@
   }
 </script>
 
-<style scoped lang="scss">
-  .theme--light.v-application {
-    background-color: #fafafa;
-  }
+<style lang="scss">
+  @import 'assets/styles/global.scss';
 </style>

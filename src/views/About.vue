@@ -1,39 +1,35 @@
 <template>
   <transition name="slide">
     <div class="background-image">
-      <v-container fill-height>
-        <v-layout align-center>
-          <v-flex text-xs-center>
-            <h2 class="display-2">
-              Thanks for visiting!
-            </h2>
+      <div class="flex flex-col h-full justify-center max-w-4xl mx-auto">
+        <h2 class="text-5xl">
+          Thanks for visiting!
+        </h2>
 
-            <v-divider class="my-3" />
+        <hr class="border-gray-500 my-4" />
 
-            <div class="title mb-3">
-              Privacy
-            </div>
-            <p>
-              No data is being shared.<br />
-              Your list of birthdays sits within your browser only, or in Firebase if you log in.
-            </p>
+        <div class="mb-3 text-xl font-bold">
+          Privacy
+        </div>
+        <p>
+          No data is being shared.<br />
+          Your list of birthdays sits within your browser only, or in Firebase if you log in.
+        </p>
 
-            <v-divider class="my-3" />
+        <hr class="border-gray-500 my-4" />
 
-            <p>
-              Code is open source, check it out!
-            </p>
-            <a href="https://github.com/cedric25/ages-and-birthdays" target="_blank">
-              <v-btn large color="primary" class="mx-0">
-                <img src="../assets/github-icon.svg" class="github-icon" />
-                Github
-              </v-btn>
-            </a>
+        <p>
+          Code is open source, check it out!
+        </p>
+        <a href="https://github.com/cedric25/ages-and-birthdays" target="_blank">
+          <button class="btn btn-blue flex mx-auto mt-2">
+            <img src="../assets/github-icon.svg" class="github-icon" />
+            Github
+          </button>
+        </a>
 
-            <p class="mt-3">v{{ appVersion }}</p>
-          </v-flex>
-        </v-layout>
-      </v-container>
+        <p class="mt-3">v{{ appVersion }}</p>
+      </div>
     </div>
   </transition>
 </template>
@@ -51,7 +47,7 @@
 
 <style scoped>
   .background-image {
-    height: 93vh;
+    height: 94vh;
     background-image: url('../assets/material2-bw.jpg');
     text-align: center;
   }

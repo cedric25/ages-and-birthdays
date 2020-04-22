@@ -1,90 +1,106 @@
 <template>
-  <form class="add-person">
-    <div class="name-input md">
-      <v-text-field ref="name" v-model="name" name="name" placeholder="Name" class="name-input" />
+  <form class="flex flex-col items-center">
+    <ConfirmationToast :show-confirmation="showConfirmation" :added-name="addedName" />
+
+    <div class="name-input mb-6">
+      <input ref="name" v-model="name" name="name" placeholder="Name" class="ipt text-center" />
     </div>
 
-    <div class="group-choice">
-      <v-chip
+    <div class="flex flex-wrap justify-center mb-2">
+      <Chip
         v-for="group in groups"
         :key="group"
-        :color="isGroupSelected(group) ? 'primary' : 'secondary'"
-        :ripple="false"
+        :selected="isGroupSelected(group)"
+        clickable
         class="mr-2 mb-2"
         tabindex="0"
-        @click="selectGroup(group)"
-        @keyup.enter="selectGroup(group)"
-        @keydown.space.prevent="selectGroup(group)"
+        @click.native="selectGroup(group)"
+        @keyup.native.enter="selectGroup(group)"
+        @keydown.native.space.prevent="selectGroup(group)"
+        >{{ group }}</Chip
       >
-        {{ group }}
-      </v-chip>
     </div>
 
-    <div>
+    <div class="mb-6">
       <AddGroup />
     </div>
 
-    <div class="day-input" style="width: 30px;">
-      <v-text-field type="tel" ref="day" v-model="day" name="day" placeholder="DD" />
-    </div>
-
-    <div class="month">
-      <select-month
-        v-for="(month, index) in months"
-        :key="month"
-        :month-index="index"
-        :month-label="month"
-        :selected="monthNo === index"
-        @select="selectMonth($event)"
+    <div class="mb-6">
+      <input
+        type="tel"
+        ref="day"
+        v-model="day"
+        name="day"
+        placeholder="DD"
+        class="ipt text-center"
+        style="width: 30px;"
       />
     </div>
 
-    <div class="years-wrap">
-      <div class="year">
-        <div class="year-prefix">
+    <div class="grid grid-cols-6 col-gap-1 row-gap-2 mb-6">
+      <Chip
+        v-for="(month, index) in months"
+        :key="month"
+        :selected="monthNo === index"
+        clickable
+        tabindex="0"
+        @click.native="selectMonth(index)"
+        @keyup.native.enter="selectMonth(index)"
+        @keydown.native.space.prevent="selectMonth(index)"
+        >{{ month }}</Chip
+      >
+    </div>
+
+    <div class="flex mb-6">
+      <div class="flex mr-4">
+        <div class="tracking-wider">
           19
         </div>
         <div style="width: 24px;">
-          <v-text-field
+          <input
             type="tel"
             ref="year1"
+            name="year1"
             v-model="year1"
             :disabled="!!year2"
-            name="year1"
             placeholder="YY"
             maxlength="2"
+            class="ipt tracking-widest"
+            style="width: 24px; margin-left: 1px;"
           />
         </div>
       </div>
 
-      <div class="year">
-        <div class="year-prefix">
+      <div class="flex ml-4">
+        <div class="tracking-wider">
           20
         </div>
         <div style="width: 24px;">
-          <v-text-field
+          <input
             type="tel"
             ref="year2"
+            name="year2"
             v-model="year2"
             :disabled="!!year1"
-            name="year2"
             placeholder="YY"
             maxlength="2"
+            class="ipt tracking-widest"
+            style="width: 24px; margin-left: 1px;"
           />
         </div>
       </div>
     </div>
 
     <div>
-      <v-btn :disabled="!isFormValid" type="submit" color="primary" @click.prevent="addBirthDate()">
+      <button
+        :disabled="!isFormValid"
+        type="submit"
+        class="btn btn-blue"
+        @click.prevent="addBirthDate()"
+      >
         Add
-      </v-btn>
+      </button>
     </div>
-
-    <v-alert :value="showConfirmation" type="success" class="success-alert text-left mt-6">
-      You've added <strong>{{ addedName }}</strong
-      >!
-    </v-alert>
   </form>
 </template>
 
@@ -92,59 +108,50 @@
   import { mapGetters } from 'vuex'
   import uuid from 'uuid/v4'
   import * as importantPersons from '../../helpers/importantPersons'
-  import AddGroup from '../manageGroups/AddGroup.vue'
-  import SelectMonth from './SelectMonth.vue'
+
+  // Components
+  import AddGroup from '../manageGroups/AddGroup'
+  import Chip from '../Chip'
+  import ConfirmationToast from './ConfirmationToast'
 
   export default {
     name: 'AddBirthDate',
     components: {
       AddGroup,
-      SelectMonth,
+      Chip,
+      ConfirmationToast,
     },
     props: {
       isBirthdayFormOpen: { type: Boolean, required: true },
     },
-    data() {
-      return {
-        months: [
-          'Jan',
-          'Feb',
-          'Mar',
-          'Apr',
-          'May',
-          'Jun',
-          'Jul',
-          'Aug',
-          'Sep',
-          'Oct',
-          'Nov',
-          'Dec',
-        ],
-        name: '',
-        day: '',
-        monthNo: -1,
-        monthLabel: '',
-        year1: '',
-        year2: '',
-        selectedGroups: [],
-        showConfirmation: false,
-        addedName: '',
-      }
-    },
+    data: () => ({
+      months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      name: '',
+      day: '',
+      monthNo: -1,
+      monthLabel: '',
+      year1: '',
+      year2: '',
+      selectedGroups: [],
+      showConfirmation: false,
+      addedName: 'Tom',
+    }),
     computed: {
       ...mapGetters(['importantPersons', 'groups']),
       isFormValid() {
         return this.name && this.day && this.monthNo !== -1
       },
     },
-    created() {
-      if (this.isBirthdayFormOpen) {
-        this.focusNameInputDelay()
-      }
-    },
     watch: {
-      isBirthdayFormOpen(value) {
-        value && this.focusNameInputDelay()
+      isBirthdayFormOpen: {
+        handler(isExpanded) {
+          if (isExpanded) {
+            setTimeout(() => {
+              this.focusNameInputDelay()
+            }, 100)
+          }
+        },
+        immediate: true,
       },
     },
     methods: {
@@ -167,7 +174,8 @@
         this.addedName = this.name
         this.showConfirmation = true
         setTimeout(() => {
-          this.showConfirmation = false
+          document.getElementById('footertoast').click()
+          setTimeout(() => (this.showConfirmation = false), 1000)
         }, 2000)
         this.resetForm()
         this.focusNameInput()
@@ -208,120 +216,3 @@
     },
   }
 </script>
-
-<style scoped lang="scss">
-  .add-person {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 25px 25px;
-
-    .md {
-      max-width: 175px;
-    }
-
-    .xs {
-      > input {
-        letter-spacing: 2px;
-        max-width: 30px;
-        text-align: center;
-      }
-    }
-
-    .name-input > input {
-      text-align: center;
-    }
-
-    .group-choice {
-      text-align: center;
-    }
-
-    .years-wrap {
-      display: flex;
-      align-content: space-around;
-
-      .year {
-        display: flex;
-        align-items: center;
-
-        &:first-child {
-          margin-right: 50px;
-        }
-
-        .year-prefix {
-          font-size: 16px;
-          top: -4px;
-          position: relative;
-          margin-right: 3px;
-        }
-      }
-    }
-
-    .month {
-      text-align: center;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-
-      .chip {
-        justify-content: center;
-
-        &:focus {
-          background-color: #555 !important;
-        }
-
-        > .chip__content {
-          cursor: pointer;
-        }
-      }
-
-      .chip--selected {
-        box-shadow: none;
-        border-color: rgb(25, 118, 210) !important;
-
-        &::after {
-          background: rgb(25, 118, 210);
-          opacity: 1;
-        }
-      }
-    }
-
-    @media (min-width: 450px) {
-      .month {
-        grid-template-columns: repeat(6, 1fr);
-      }
-    }
-  }
-
-  .success-alert {
-    width: 100%;
-  }
-</style>
-
-<style>
-  .name-input input,
-  .day-input input {
-    text-align: center;
-  }
-
-  .group-choice .v-chip,
-  .month .v-chip {
-    box-sizing: border-box;
-    border: 2px solid #b0bec5 !important;
-  }
-
-  .theme--light.v-chip:focus {
-    background-color: #8e989e !important;
-    border: 2px solid #1976d2 !important;
-  }
-
-  .theme--light.v-chip.primary:focus {
-    background-color: #1976d2 !important;
-    border: 2px solid #b0bec5 !important;
-  }
-
-  .years-wrap input {
-    padding-bottom: 4px;
-    padding-top: 2px;
-    letter-spacing: 2px;
-  }
-</style>
