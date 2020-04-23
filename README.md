@@ -18,12 +18,12 @@ Project generated with @vue/cli 4.3.1.
 
 ### Keywords
 
-`Vue.js`, `Firebase`, `tailwindcss`, `animejs`
+`Vue.js`, `Firebase database`, `Firebase auth`, `tailwindcss`, `animejs`, `Github pages`
 
 ### Storage
 
 - Within the browser (**localStorage**)
-- Login with Google and syncing with **Firebase**
+- Through **Firebase** if logged with Google 
 
 ### Useful links
 
