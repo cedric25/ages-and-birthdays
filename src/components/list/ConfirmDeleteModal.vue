@@ -30,7 +30,7 @@
         <!--Title-->
         <div class="flex justify-between items-center pb-3">
           <p class="text-2xl">
-            Delete <strong>{{ personName }}</strong
+            Remove birthday of <strong>{{ personName }}</strong
             >?
           </p>
           <div class="modal-close cursor-pointer z-50">
