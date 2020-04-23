@@ -71,6 +71,8 @@
         </div>
       </div>
 
+      <div class="mx-2">OR</div>
+
       <div class="flex ml-4">
         <div class="tracking-wider">
           20
