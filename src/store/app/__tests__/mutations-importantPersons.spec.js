@@ -32,10 +32,12 @@ describe('addNewImportantPerson()', () => {
 
 describe('updatePerson()', () => {
   test('it should update the person', () => {
-    state.importantPersons = [{
-      id: '123',
-      name: 'Bob',
-    }]
+    state.importantPersons = [
+      {
+        id: '123',
+        name: 'Bob',
+      },
+    ]
     updatePerson(state, {
       id: '123',
       name: 'Bobby',
@@ -47,43 +49,51 @@ describe('updatePerson()', () => {
 })
 
 describe('addGroupToPerson()', () => {
-  describe('When adding the \'Family\' group to the person', () => {
+  describe("When adding the 'Family' group to the person", () => {
     test('it should, well, add it to its list of groups', () => {
-      state.importantPersons = [{
-        id: '123',
-        name: 'Bob',
-        groups: []
-      }]
+      state.importantPersons = [
+        {
+          id: '123',
+          name: 'Bob',
+          groups: [],
+        },
+      ]
       addGroupToPerson(state, {
         personId: '123',
-        groupToAdd: 'Family'
+        groupToAdd: 'Family',
       })
-      expect(state.importantPersons).toEqual([{
-        id: '123',
-        name: 'Bob',
-        groups: ['Family']
-      }])
+      expect(state.importantPersons).toEqual([
+        {
+          id: '123',
+          name: 'Bob',
+          groups: ['Family'],
+        },
+      ])
     })
   })
 })
 
 describe('removeGroupFromPerson()', () => {
-  describe('When removing the \'Family\' group from the person', () => {
+  describe("When removing the 'Family' group from the person", () => {
     test('it should, well, remove it from its list of groups', () => {
-      state.importantPersons = [{
-        id: '123',
-        name: 'Bob',
-        groups: ['Friends', 'Family']
-      }]
+      state.importantPersons = [
+        {
+          id: '123',
+          name: 'Bob',
+          groups: ['Friends', 'Family'],
+        },
+      ]
       removeGroupFromPerson(state, {
         personId: '123',
-        groupToRemove: 'Family'
+        groupToRemove: 'Family',
       })
-      expect(state.importantPersons).toEqual([{
-        id: '123',
-        name: 'Bob',
-        groups: ['Friends']
-      }])
+      expect(state.importantPersons).toEqual([
+        {
+          id: '123',
+          name: 'Bob',
+          groups: ['Friends'],
+        },
+      ])
     })
   })
 })
@@ -91,20 +101,24 @@ describe('removeGroupFromPerson()', () => {
 describe('deletePerson()', () => {
   describe('When deleting the only person in the list', () => {
     test('it should give an empty list at the end', () => {
-      state.importantPersons = [{
-        id: '123',
-        name: 'Bob',
-      }]
+      state.importantPersons = [
+        {
+          id: '123',
+          name: 'Bob',
+        },
+      ]
       deletePerson(state, '123')
       expect(state.importantPersons.length).toBe(0)
     })
   })
   describe('When giving a non-existing person ID', () => {
     test('it should not change the list', () => {
-      state.importantPersons = [{
-        id: '123',
-        name: 'Bob',
-      }]
+      state.importantPersons = [
+        {
+          id: '123',
+          name: 'Bob',
+        },
+      ]
       deletePerson(state, {
         id: '456',
       })
@@ -116,13 +130,16 @@ describe('deletePerson()', () => {
 describe('removeAllPersons()', () => {
   describe('When there is 2 persons in the list', () => {
     test('it should give an empty list at the end', () => {
-      state.importantPersons = [{
-        id: '123',
-        name: 'Bob',
-      }, {
-        id: '345',
-        name: 'Lucy',
-      }]
+      state.importantPersons = [
+        {
+          id: '123',
+          name: 'Bob',
+        },
+        {
+          id: '345',
+          name: 'Lucy',
+        },
+      ]
       expect(state.importantPersons.length).toBe(2)
       removeAllPersons(state)
       expect(state.importantPersons.length).toBe(0)

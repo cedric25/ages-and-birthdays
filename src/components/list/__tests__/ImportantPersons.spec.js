@@ -12,33 +12,32 @@ import ImportantPersons from '../ImportantPersons.vue'
 // And still a warning in the console about unknown Vuetify components
 // Also needed 'stage-2 in .babelrc, otherwise ...mapGetters([...]) was making it fail
 
-Vue.config.ignoredElements = [
-  /^v-/
-]
+Vue.config.ignoredElements = [/^v-/]
 
 Vue.use(Vuex)
 
 describe('ImportantPersons component', () => {
-
   describe('nbPersonsWithinGroup()', () => {
     test('nbPersonsWithinGroup()', () => {
-
       const localVue = createLocalVue()
 
       const store = new Vuex.Store({
         state: {
-          importantPersons: [{
-            id: '123',
-            name: 'Franck',
-            birthday: new Date('2000-05-01'),
-            groups: ['Friends'],
-          }, {
-            id: '456',
-            name: 'Sophie',
-            birthday: new Date('1998-03-15'),
-            groups: ['Friends']
-          }],
-          groups: ['Friends']
+          importantPersons: [
+            {
+              id: '123',
+              name: 'Franck',
+              birthday: new Date('2000-05-01'),
+              groups: ['Friends'],
+            },
+            {
+              id: '456',
+              name: 'Sophie',
+              birthday: new Date('1998-03-15'),
+              groups: ['Friends'],
+            },
+          ],
+          groups: ['Friends'],
         },
         getters: {
           importantPersons(state) {
@@ -47,7 +46,7 @@ describe('ImportantPersons component', () => {
           groups(state) {
             return state.groups
           },
-        }
+        },
       })
 
       const wrapper = shallowMount(ImportantPersons, {
@@ -60,5 +59,4 @@ describe('ImportantPersons component', () => {
       expect(nbPersons).toBe(2)
     })
   })
-
 })

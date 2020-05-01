@@ -23,7 +23,9 @@ export default function comparePersons(personOne, personTwo, sortingAttribute) {
     if (personTwoValue.unit === '') {
       return -1
     }
-    console.warn(`Different and unknown units: '${personOneValue.unit}' and '${personTwoValue.unit}'`)
+    console.warn(
+      `Different and unknown units: '${personOneValue.unit}' and '${personTwoValue.unit}'`
+    )
     return personOneValue.value - personTwoValue.value
   }
   return personOne.daysUntilBirthday - personTwo.daysUntilBirthday

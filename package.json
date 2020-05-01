@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint",
+    "lint": "prettier --check src",
+    "lint:fix": "prettier --write src",
     "build-report": "vue-cli-service build --report",
     "deploy": "npm run build; push-dir --dir=dist --branch=gh-pages --cleanup"
   },

@@ -8,10 +8,7 @@ export function getPersons() {
 }
 
 export function setPersons(persons) {
-  window.localStorage.setItem(
-    importantPersonsKey,
-    JSON.stringify(persons)
-  )
+  window.localStorage.setItem(importantPersonsKey, JSON.stringify(persons))
 }
 
 export function getGroups() {
@@ -19,10 +16,7 @@ export function getGroups() {
 }
 
 export function setGroups(groups) {
-  window.localStorage.setItem(
-    groupsKey,
-    JSON.stringify(groups)
-  )
+  window.localStorage.setItem(groupsKey, JSON.stringify(groups))
 }
 
 export function getListOrder() {

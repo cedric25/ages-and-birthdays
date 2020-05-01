@@ -2,10 +2,7 @@
 
 import { mutations } from '../app-mutations.js'
 
-const {
-  addGroup,
-  deleteGroup,
-} = mutations
+const { addGroup, deleteGroup } = mutations
 
 let state
 
@@ -35,33 +32,41 @@ describe('deleteGroup()', () => {
 
   describe('when 2 persons are associated to this group', () => {
     test('it should remove the group label from these 2 persons and delete the group from the list', () => {
-      state.importantPersons = [{
-        id: '123',
-        name: 'Bob',
-        groups: ['Friends'],
-      }, {
-        id: '456',
-        name: 'Marie',
-        groups: ['Family'],
-      }, {
-        id: '789',
-        name: 'Lucy',
-        groups: ['Friends'],
-      }]
+      state.importantPersons = [
+        {
+          id: '123',
+          name: 'Bob',
+          groups: ['Friends'],
+        },
+        {
+          id: '456',
+          name: 'Marie',
+          groups: ['Family'],
+        },
+        {
+          id: '789',
+          name: 'Lucy',
+          groups: ['Friends'],
+        },
+      ]
       deleteGroup(state, 'Friends')
-      expect(state.importantPersons).toEqual([{
-        id: '123',
-        name: 'Bob',
-        groups: [],
-      }, {
-        id: '456',
-        name: 'Marie',
-        groups: ['Family'],
-      }, {
-        id: '789',
-        name: 'Lucy',
-        groups: [],
-      }])
+      expect(state.importantPersons).toEqual([
+        {
+          id: '123',
+          name: 'Bob',
+          groups: [],
+        },
+        {
+          id: '456',
+          name: 'Marie',
+          groups: ['Family'],
+        },
+        {
+          id: '789',
+          name: 'Lucy',
+          groups: [],
+        },
+      ])
     })
   })
 })

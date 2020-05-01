@@ -3,7 +3,6 @@
 import { containsYear } from '../date'
 
 describe('containsYear()', () => {
-
   describe('when giving 01/01/2000', () => {
     test('should answer true', () => {
       const result = containsYear('01/01/2000')
@@ -24,5 +23,4 @@ describe('containsYear()', () => {
       expect(result).toBe(false)
     })
   })
-
 })

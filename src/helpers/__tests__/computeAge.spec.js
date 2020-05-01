@@ -3,7 +3,6 @@
 import { computeAge } from '../computeAge'
 
 describe('computeAge()', () => {
-
   describe('when there is only 5 days in between the two dates', () => {
     test('should answer 0 and unit = months', () => {
       const age = computeAge(new Date('2018-05-06'), new Date('2018-05-01'))
@@ -43,5 +42,4 @@ describe('computeAge()', () => {
       })
     })
   })
-
 })
