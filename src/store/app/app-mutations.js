@@ -1,7 +1,6 @@
 import Vue from 'vue'
 
 export const mutations = {
-
   // ------------------------- IMPORTANT PERSONS -------------------------
 
   setAllPersons(state, allPersons) {
@@ -15,7 +14,9 @@ export const mutations = {
   updatePerson(state, newInfo) {
     state.importantPersons.forEach((person, index) => {
       if (person.id === newInfo.id) {
-        const updatedPerson = Object.assign({}, person,
+        const updatedPerson = Object.assign(
+          {},
+          person,
           { name: newInfo.name },
           { birthday: newInfo.birthday }
         )
@@ -25,14 +26,11 @@ export const mutations = {
   },
 
   addGroupToPerson(state, { personId, groupToAdd }) {
-
     const personToUpdate = state.importantPersons.find(person => person.id === personId)
 
     let newGroupsList = (personToUpdate.groups || []).concat([groupToAdd])
 
-    const updatedPerson = Object.assign({}, personToUpdate,
-      { groups: newGroupsList },
-    )
+    const updatedPerson = Object.assign({}, personToUpdate, { groups: newGroupsList })
 
     let newPersonsList = state.importantPersons.filter(person => {
       return person.id !== personId
@@ -73,7 +71,6 @@ export const mutations = {
   },
 
   deleteGroup(state, groupToDelete) {
-
     // Remove group from all persons having it
     state.importantPersons.forEach(person => {
       if (person.groups && person.groups.includes(groupToDelete)) {
@@ -107,5 +104,4 @@ export const mutations = {
   syncingDb(state, isSyncing) {
     state.isSyncingDb = isSyncing
   },
-
 }

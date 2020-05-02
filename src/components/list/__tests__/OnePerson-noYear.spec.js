@@ -5,16 +5,13 @@ import Vuex from 'vuex'
 import { shallowMount } from '@vue/test-utils'
 import OnePerson from '../OnePerson.vue'
 
-Vue.config.ignoredElements = [
-  /^v-/
-]
+Vue.config.ignoredElements = [/^v-/]
 
 Vue.use(Vuex)
 
 Vue.directive('click-outside', jest.fn())
 
 describe('OnePerson component', () => {
-
   let person
   let wrapper
 
@@ -47,7 +44,6 @@ describe('OnePerson component', () => {
   })
 
   describe('Computed props', () => {
-
     test(`readableBirthday, should give '25 Feb'`, () => {
       expect(wrapper.vm.readableBirthday).toBe('25 Feb')
     })
@@ -55,7 +51,7 @@ describe('OnePerson component', () => {
     test('ageValue, should give null', () => {
       expect(wrapper.vm.ageValue).toEqual({
         value: null,
-        unit: 'y'
+        unit: 'y',
       })
     })
 
@@ -70,7 +66,5 @@ describe('OnePerson component', () => {
     test(`textBeforeDays, should give 'Birthday in'`, () => {
       expect(wrapper.vm.textBeforeDays).toBe('Birthday in')
     })
-
   })
-
 })

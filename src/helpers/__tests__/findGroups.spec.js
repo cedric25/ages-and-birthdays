@@ -3,21 +3,16 @@
 import { findGroups } from '../findGroups'
 
 describe('findGroups()', () => {
-
   describe('when there is only one person with one group', () => {
     test('should answer with this group', () => {
       const persons = [
         {
           name: 'Eric',
-          groups: [
-            'Friends'
-          ]
-        }
+          groups: ['Friends'],
+        },
       ]
       const groups = findGroups(persons)
-      expect(groups).toEqual([
-        'Friends'
-      ])
+      expect(groups).toEqual(['Friends'])
     })
   })
 
@@ -26,21 +21,15 @@ describe('findGroups()', () => {
       const persons = [
         {
           name: 'Eric',
-          groups: [
-            'Friends'
-          ]
+          groups: ['Friends'],
         },
         {
           name: 'François',
-          groups: [
-            'Friends'
-          ]
-        }
+          groups: ['Friends'],
+        },
       ]
       const groups = findGroups(persons)
-      expect(groups).toEqual([
-        'Friends'
-      ])
+      expect(groups).toEqual(['Friends'])
     })
   })
 
@@ -49,32 +38,26 @@ describe('findGroups()', () => {
       const persons = [
         {
           name: 'Eric',
-          groups: [
-            'Friends',
-            'Spain',
-          ]
+          groups: ['Friends', 'Spain'],
         },
         {
           name: 'François',
-          groups: [
-            'Friends',
-            'University',
-            'Uni second year',
-          ]
+          groups: ['Friends', 'University', 'Uni second year'],
         },
         {
           name: 'Tim',
-          groups: [
-            'Family',
-            'Babies',
-          ]
-        }
+          groups: ['Family', 'Babies'],
+        },
       ]
       const groups = findGroups(persons)
       expect(groups).toEqual([
-        'Friends', 'Spain', 'University', 'Uni second year', 'Family', 'Babies'
+        'Friends',
+        'Spain',
+        'University',
+        'Uni second year',
+        'Family',
+        'Babies',
       ])
     })
   })
-
 })

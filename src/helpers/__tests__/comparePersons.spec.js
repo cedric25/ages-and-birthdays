@@ -3,7 +3,6 @@
 import comparePersons from '../comparePersons'
 
 describe('comparePersons()', () => {
-
   describe('when comparing names', () => {
     test('should answer -1', () => {
       const result = comparePersons({ name: 'Arthur' }, { name: 'Bob' }, 'name')
@@ -21,7 +20,9 @@ describe('comparePersons()', () => {
   describe('when comparing days until birthday', () => {
     test('should answer > 0', () => {
       const result = comparePersons(
-        { daysUntilBirthday: 295 }, { daysUntilBirthday: 266 }, 'daysUntilBirthday'
+        { daysUntilBirthday: 295 },
+        { daysUntilBirthday: 266 },
+        'daysUntilBirthday'
       )
       expect(result).toBeGreaterThan(0)
     })
@@ -112,17 +113,20 @@ describe('comparePersons()', () => {
 
   describe('when giving an invalid sorting attribute', () => {
     test('should sort by upcoming birthdays by default', () => {
-      const result = comparePersons({
-        name: 'Cédric',
-        age: 30,
-        daysUntilBirthday: 295,
-      }, {
-        name: 'Christelle',
-        age: 28,
-        daysUntilBirthday: 266,
-      }, 'invalidSortingAttribute')
+      const result = comparePersons(
+        {
+          name: 'Cédric',
+          age: 30,
+          daysUntilBirthday: 295,
+        },
+        {
+          name: 'Christelle',
+          age: 28,
+          daysUntilBirthday: 266,
+        },
+        'invalidSortingAttribute'
+      )
       expect(result).toBeGreaterThan(-1)
     })
   })
-
 })

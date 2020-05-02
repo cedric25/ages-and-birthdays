@@ -1,5 +1,5 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import firebase from 'firebase/app'
+import 'firebase/auth'
 import * as db from '../../helpers/db'
 import { checkUserData } from '../../helpers/checkUserData'
 
@@ -30,19 +30,21 @@ export default {
         id: payload.uid,
         name: payload.displayName,
         email: payload.email,
-        photoUrl: payload.photoURL
+        photoUrl: payload.photoURL,
       })
       dispatch('signinDone')
     },
     signUserInGoogle({ commit, dispatch }) {
-      firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      firebase
+        .auth()
+        .signInWithPopup(new firebase.auth.GoogleAuthProvider())
         .then(result => {
           const user = result.user
           commit('setUser', {
             id: user.uid,
             name: user.displayName,
             email: user.email,
-            photoUrl: user.photoURL
+            photoUrl: user.photoURL,
           })
           dispatch('signinDone')
         })
@@ -93,11 +95,12 @@ export default {
 }
 
 function uploadLocalStateToDb(user, importantPersons, groups) {
-  return db.setUserData(user.id, {
-    user,
-    importantPersons,
-    groups,
-  })
+  return db
+    .setUserData(user.id, {
+      user,
+      importantPersons,
+      groups,
+    })
     .then(() => console.log('Firebase write all good'))
     .catch(err => console.error('Firebase write failed...', err))
 }
@@ -114,11 +117,9 @@ function useDbState(userData, commit) {
 }
 
 function watchForDbChanges(userId, commit) {
-
   const MIN_LOADING_TIME = 250
 
-  db.getImportantPersonsRef(userId).on('value', function(personsSnapshot) {
-
+  db.getImportantPersonsRef(userId).on('value', function (personsSnapshot) {
     commit('syncingDb', true)
 
     if (!personsSnapshot.val()) {
@@ -136,7 +137,7 @@ function watchForDbChanges(userId, commit) {
     }, MIN_LOADING_TIME)
   })
 
-  db.getGroupsRef(userId).on('value', function(groupsSnapshot) {
+  db.getGroupsRef(userId).on('value', function (groupsSnapshot) {
     commit('syncingDb', true)
     commit('setAllGroups', groupsSnapshot.val() || [])
     setTimeout(() => {

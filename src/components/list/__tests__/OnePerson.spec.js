@@ -5,16 +5,13 @@ import Vuex from 'vuex'
 import { shallowMount } from '@vue/test-utils'
 import OnePerson from '../OnePerson.vue'
 
-Vue.config.ignoredElements = [
-  /^v-/
-]
+Vue.config.ignoredElements = [/^v-/]
 
 Vue.use(Vuex)
 
 Vue.directive('click-outside', jest.fn())
 
 describe('OnePerson component', () => {
-
   let person
   let wrapper
 
@@ -51,7 +48,6 @@ describe('OnePerson component', () => {
   })
 
   describe('Computed props', () => {
-
     test('hasGroups, should be true', () => {
       expect(wrapper.vm.hasGroups).toBe(true)
     })
@@ -71,7 +67,7 @@ describe('OnePerson component', () => {
     test('ageValue, should give 30y', () => {
       expect(wrapper.vm.ageValue).toEqual({
         value: 30,
-        unit: 'y'
+        unit: 'y',
       })
     })
 
@@ -90,7 +86,6 @@ describe('OnePerson component', () => {
     test(`textBeforeDays, should give 'Will turn 31 in'`, () => {
       expect(wrapper.vm.textBeforeDays).toBe('Will turn 31 in')
     })
-
   })
 
   describe('Methods', () => {
@@ -101,11 +96,9 @@ describe('OnePerson component', () => {
       expect(wrapper.vm.isInGroup('Friends')).toBe(false)
     })
   })
-
 })
 
 describe('OnePerson component - Less than 1y old', () => {
-
   let person
   let wrapper
 
@@ -127,7 +120,6 @@ describe('OnePerson component - Less than 1y old', () => {
   })
 
   describe('Computed props', () => {
-
     test('isBaby, should be true', () => {
       expect(wrapper.vm.isBaby).toBe(true)
     })
@@ -135,20 +127,17 @@ describe('OnePerson component - Less than 1y old', () => {
     test('ageValue, should give 4 months', () => {
       expect(wrapper.vm.ageValue).toEqual({
         value: 4,
-        unit: ' months'
+        unit: ' months',
       })
     })
 
     test('nextAge, should give 1', () => {
       expect(wrapper.vm.nextAge).toBe(1)
     })
-
   })
-
 })
 
 describe('OnePerson component - Birthday is today', () => {
-
   let person
   let wrapper
 
@@ -169,17 +158,13 @@ describe('OnePerson component - Birthday is today', () => {
   })
 
   describe('Computed props', () => {
-
     test(`textBeforeDays, should give 'Turning 30 today!'`, () => {
       expect(wrapper.vm.textBeforeDays).toBe('Turning 30 today!')
     })
-
   })
-
 })
 
 describe('OnePerson component - Birthday today AND year unknown', () => {
-
   let person
   let wrapper
 
@@ -200,11 +185,8 @@ describe('OnePerson component - Birthday today AND year unknown', () => {
   })
 
   describe('Computed props', () => {
-
     test(`textBeforeDays, should give 'Birthday in'`, () => {
       expect(wrapper.vm.textBeforeDays).toBe('Birthday today!')
     })
-
   })
-
 })
