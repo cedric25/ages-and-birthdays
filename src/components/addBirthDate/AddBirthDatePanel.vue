@@ -30,7 +30,7 @@
       ...mapGetters(['loginTriedOrFinished', 'importantPersons']),
       panelHeaderTitle() {
         if (this.loginTriedOrFinished && this.importantPersons.length === 0) {
-          return `Add your first person's birthday to the list`
+          return `Add your first person's birthday`
         }
         return `Add someone's birthday`
       },
