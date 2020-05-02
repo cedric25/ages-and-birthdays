@@ -6,7 +6,7 @@
       OR
     </div>
 
-    <button type="button" class="btn-import" @click="askForConsent">
+    <button type="button" class="btn-import" @click="showImportGoogleContactsModal++">
       <span class="svg-wrap">
         <img src="../assets/google-icon.svg" style="max-height: 100%;" />
       </span>
@@ -17,18 +17,28 @@
         Import your contacts
       </span>
     </button>
+
+    <ImportGoogleContactsModal
+      :show-modal="showImportGoogleContactsModal"
+      @confirm="askForConsent"
+    />
   </div>
 </template>
 
 <script>
-  import AddBirthDatePanel from '../components/addBirthDate/AddBirthDatePanel.vue'
+  import AddBirthDatePanel from './addBirthDate/AddBirthDatePanel'
+  import ImportGoogleContactsModal from './ImportGoogleContactsModal'
   import { askForConsent } from '../helpers/googlePeopleSync'
 
   export default {
     name: 'AddPersonChoices',
     components: {
       AddBirthDatePanel,
+      ImportGoogleContactsModal,
     },
+    data: () => ({
+      showImportGoogleContactsModal: 0,
+    }),
     methods: {
       askForConsent() {
         askForConsent()
@@ -45,6 +55,7 @@
       0 1px 5px 0 rgba(0, 0, 0, 0.12);
     @apply flex items-center;
     @apply text-lg;
+    @apply outline-none;
     @apply transition duration-200 ease-in-out;
 
     &:hover {
