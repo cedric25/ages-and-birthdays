@@ -14,7 +14,7 @@
         <img src="../assets/android-icon.svg" style="max-height: 100%;" />
       </span>
       <span>
-        Import your contacts?
+        Import your contacts
       </span>
     </button>
   </div>
@@ -22,6 +22,7 @@
 
 <script>
   import AddBirthDatePanel from '../components/addBirthDate/AddBirthDatePanel.vue'
+  import { askForConsent } from '../helpers/googlePeopleSync'
 
   export default {
     name: 'AddPersonChoices',
@@ -30,7 +31,7 @@
     },
     methods: {
       askForConsent() {
-        window.gapi.auth2.getAuthInstance().signIn()
+        askForConsent()
       },
     },
   }
@@ -44,6 +45,11 @@
       0 1px 5px 0 rgba(0, 0, 0, 0.12);
     @apply flex items-center;
     @apply text-lg;
+    @apply transition duration-200 ease-in-out;
+
+    &:hover {
+      @apply bg-blue-600;
+    }
 
     $icon-size: 38px;
 

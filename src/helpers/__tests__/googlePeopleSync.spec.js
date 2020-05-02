@@ -1,0 +1,71 @@
+import { buildBirthdayFromConnection } from '../googlePeopleSync'
+import format from 'date-fns/format'
+
+describe('buildBirthdayFromConnection', () => {
+  describe('When only the date object', () => {
+    it('should return correct date', () => {
+      const peopleBirthday = buildBirthdayFromConnection({
+        birthdays: [
+          {
+            date: { year: 1990, month: 10, day: 1 },
+          },
+        ],
+      })
+      expect(format(peopleBirthday, 'dd/MM/yyyy')).toBe('01/10/1990')
+    })
+  })
+
+  describe('When only the text', () => {
+    it('should return correct date', () => {
+      const peopleBirthday = buildBirthdayFromConnection({
+        birthdays: [
+          {
+            text: 'January 28th, 1989',
+          },
+        ],
+      })
+      expect(format(peopleBirthday, 'dd/MM/yyyy')).toBe('28/01/1989')
+    })
+  })
+
+  describe('When both date object and text', () => {
+    it('should return correct date', () => {
+      const peopleBirthday = buildBirthdayFromConnection({
+        birthdays: [
+          {
+            date: { year: 1988, month: 3, day: 29 },
+            text: 'March 29, 1988',
+          },
+        ],
+      })
+      expect(format(peopleBirthday, 'dd/MM/yyyy')).toBe('29/03/1988')
+    })
+  })
+
+  describe('When no year', () => {
+    it('should return correct date with default year', () => {
+      const peopleBirthday = buildBirthdayFromConnection({
+        birthdays: [
+          {
+            date: { month: 10, day: 24 },
+            text: 'October 24',
+          },
+        ],
+      })
+      expect(format(peopleBirthday, 'dd/MM/yyyy')).toBe('24/10/1900')
+    })
+  })
+
+  describe('When no year and only text', () => {
+    it('should return correct date with default year', () => {
+      const peopleBirthday = buildBirthdayFromConnection({
+        birthdays: [
+          {
+            text: 'October 24',
+          },
+        ],
+      })
+      expect(format(peopleBirthday, 'dd/MM/yyyy')).toBe('24/10/1900')
+    })
+  })
+})
