@@ -5,7 +5,7 @@
         Can't remember ages and birthdays? Me neither...
       </h2>
 
-      <AddBirthDatePanel />
+      <AddPersonChoices />
 
       <ManageGroupsPanel />
 
@@ -17,13 +17,13 @@
 </template>
 
 <script>
-  import AddBirthDatePanel from '../components/addBirthDate/AddBirthDatePanel.vue'
+  import AddPersonChoices from '../components/AddPersonChoices.vue'
   import ManageGroupsPanel from '../components/manageGroups/ManageGroupsPanel.vue'
   import ImportantPersons from '../components/list/ImportantPersons.vue'
 
   export default {
     components: {
-      AddBirthDatePanel,
+      AddPersonChoices,
       ManageGroupsPanel,
       ImportantPersons,
     },

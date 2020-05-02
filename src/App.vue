@@ -2,10 +2,6 @@
   <div>
     <TopMenu />
 
-    <button type="button" @click="askForConsent" class="mt-24 ml-8">
-      Import from Google?
-    </button>
-
     <div style="padding-top: 56px;">
       <transition name="slide" mode="out-in">
         <router-view />
@@ -20,11 +16,6 @@
   export default {
     components: {
       TopMenu,
-    },
-    methods: {
-      askForConsent() {
-        window.gapi.auth2.getAuthInstance().signIn()
-      },
     },
   }
 </script>

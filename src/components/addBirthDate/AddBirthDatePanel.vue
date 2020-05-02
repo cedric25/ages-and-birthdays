@@ -34,19 +34,19 @@
         return `Add someone's birthday`
       },
     },
-    watch: {
-      loginTriedOrFinished() {
-        if (this.importantPersons.length === 0) {
-          this.isPanelExpanded = true
-        }
-      },
-      'importantPersons.length': {
-        handler() {
-          if (this.importantPersons.length === 0) {
-            this.isPanelExpanded = true
-          }
-        },
-      },
-    },
+    // watch: {
+    //   loginTriedOrFinished() {
+    //     if (this.importantPersons.length === 0) {
+    //       this.isPanelExpanded = true
+    //     }
+    //   },
+    //   'importantPersons.length': {
+    //     handler() {
+    //       if (this.importantPersons.length === 0) {
+    //         this.isPanelExpanded = true
+    //       }
+    //     },
+    //   },
+    // },
   }
 </script>
