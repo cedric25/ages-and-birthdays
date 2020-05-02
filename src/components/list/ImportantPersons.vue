@@ -227,7 +227,7 @@
     justify-items: center;
 
     .one-person {
-      width: 350px;
+      width: 300px;
     }
   }
   @media (min-width: 665px) {
