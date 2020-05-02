@@ -1,7 +1,7 @@
 <template>
   <div class="mt-0 md:mt-6">
-    <div class="admin-actions px-2" v-if="showAdminActions">
-      <ImportExport />
+    <div class="admin-actions px-2 mb-2" v-if="showAdminActions">
+      <!--      <ImportExport />-->
 
       <div v-if="importantPersons.length > 0" class="ml-3">
         <ClearList />
@@ -64,8 +64,8 @@
   import * as localStorageHelper from '../../helpers/localStorageHelper'
 
   // Components
-  import ImportExport from './ImportExport'
-  import ClearList from './ClearList'
+  // import ImportExport from './ImportExport'
+  import ClearList from './admin/ClearList'
   import OrderBy from './OrderBy'
   import OnePerson from './OnePerson'
   import Chip from '../Chip'
@@ -76,7 +76,7 @@
 
   export default {
     components: {
-      ImportExport,
+      // ImportExport,
       ClearList,
       OrderBy,
       OnePerson,
@@ -84,7 +84,7 @@
       ConfirmDeleteModal,
     },
     data: () => ({
-      showAdminActions: false,
+      showAdminActions: true,
       selectedOrder: 'daysUntilBirthday',
       selectedGroups: [],
       showConfirmDeleteModal: 0,
