@@ -66,7 +66,10 @@ async function getConnectionsAndAddPersons(pageToken) {
 
   const nextPageToken = pageResults?.result?.nextPageToken
   if (nextPageToken) {
-    await getConnectionsAndAddPersons(nextPageToken)
+    // Add fake delay
+    setTimeout(() => {
+      getConnectionsAndAddPersons(nextPageToken)
+    }, 500)
   }
 }
 
