@@ -102,7 +102,7 @@
   import { containsYear } from '../../helpers/date'
 
   // Components
-  import Chip from '../Chip'
+  import Chip from '../kit/Chip'
 
   export default {
     components: {

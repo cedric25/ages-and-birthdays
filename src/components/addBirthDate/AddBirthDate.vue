@@ -113,7 +113,7 @@
 
   // Components
   import AddGroup from '../manageGroups/AddGroup'
-  import Chip from '../Chip'
+  import Chip from '../kit/Chip'
   import ConfirmationToast from './ConfirmationToast'
 
   export default {

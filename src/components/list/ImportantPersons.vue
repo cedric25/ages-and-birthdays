@@ -68,7 +68,7 @@
   import ClearList from './admin/ClearList'
   import OrderBy from './OrderBy'
   import OnePerson from './OnePerson'
-  import Chip from '../Chip'
+  import Chip from '../kit/Chip'
   import ConfirmDeleteModal from './ConfirmDeleteModal'
   import * as importantPersons from '../../helpers/importantPersons'
 
