@@ -1,6 +1,7 @@
 <template>
   <ExpandablePanel
     :panel-header-title="panelHeaderTitle"
+    :prefix-icon="'fa fa-user-plus'"
     :show-content="isPanelExpanded"
     @isExpanded="isExpanded => (isPanelExpanded = isExpanded)"
     class="mb-1"

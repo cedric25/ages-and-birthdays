@@ -5,6 +5,7 @@
       @click="changeExpandedState"
     >
       <div ref="panelHeaderTitle">
+        <i v-if="prefixIcon" :class="prefixIcon" class="mr-2 text-blue-600" />
         {{ panelHeaderTitle }}
       </div>
       <i ref="chevron" class="fa fa-chevron-down text-sm text-gray-600" />
@@ -25,6 +26,7 @@
     name: 'ExpandablePanel',
     props: {
       panelHeaderTitle: { type: String, required: true },
+      prefixIcon: { type: String, required: false },
       showContent: { type: Boolean, default: false },
     },
     data: () => ({
