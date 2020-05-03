@@ -5,6 +5,11 @@ const gapi = window.gapi
 
 const GOOGLE_API_BASE_URL = 'https://people.googleapis.com/v1/people'
 
+const MOCK_PEOPLE_API_CALL = true
+import pageOneResults from './mockPageOneResults'
+import pageTwoResults from './mockPageTwoResults'
+import pageThreeResults from './mockPageThreeResults'
+
 export function loadGoogleApiClient() {
   return new Promise((resolve, reject) => {
     gapi.load('client:auth2', resolve)
@@ -26,9 +31,22 @@ export function initGoogleClient() {
 }
 
 export async function getConnectionNamesAndBirthdays(pageToken) {
+  if (MOCK_PEOPLE_API_CALL) {
+    console.log('USING GOOGLE PEOPLE API MOCKS')
+    if (!pageToken) {
+      return pageOneResults
+    }
+    if (pageToken === 'xxx') {
+      return pageTwoResults
+    }
+    if (pageToken === 'yyy') {
+      return pageThreeResults
+    }
+  }
   try {
     // Aide pour la requête :
     // https://developers.google.com/people/api/rest/v1/people.connections/list
+    console.log('CALL GOOGLE PEOPLE API')
     return await window.gapi.client.request({
       path: `${GOOGLE_API_BASE_URL}/me/connections`,
       params: {
