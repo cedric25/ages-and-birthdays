@@ -14,7 +14,7 @@
   import { mapGetters } from 'vuex'
 
   // Components
-  import ExpandablePanel from '../ExpandablePanel'
+  import ExpandablePanel from '../kit/ExpandablePanel'
   import AddBirthDate from './AddBirthDate'
 
   export default {

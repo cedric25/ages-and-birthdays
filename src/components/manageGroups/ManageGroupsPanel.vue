@@ -6,7 +6,7 @@
 
 <script>
   // Components
-  import ExpandablePanel from '../ExpandablePanel'
+  import ExpandablePanel from '../kit/ExpandablePanel'
   import ManageGroups from './ManageGroups.vue'
 
   export default {
