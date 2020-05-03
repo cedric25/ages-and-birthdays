@@ -5,6 +5,8 @@ export default {
     importantPersons: [],
     groups: ['Family', 'Friends'],
     isSyncingDb: false,
+    doingImportFromGoogle: false,
+    isImportFromGoogleDone: false,
   },
   mutations,
   getters: {

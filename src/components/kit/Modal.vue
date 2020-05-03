@@ -91,6 +91,9 @@
         this.visible = !this.visible
         const body = document.querySelector('body')
         body.classList.toggle('modal-active')
+        if (!this.visible) {
+          this.$emit('close')
+        }
       },
       registerEscapeKeyEvent() {
         document.addEventListener('keydown', this.handleEscapeKey)

@@ -43,6 +43,10 @@ async function updateSigninStatusCallback(isSignedIn) {
 }
 
 async function getConnectionsAndAddPersons(pageToken) {
+  // Reset any previous import state
+  store.commit('setImportFromGoogleDone', false)
+
+  store.commit('setDoingImportFromGoogle', true)
   // Aide pour la requête :
   // https://developers.google.com/people/api/rest/v1/people.connections/list
   let pageResults
@@ -70,6 +74,9 @@ async function getConnectionsAndAddPersons(pageToken) {
     setTimeout(() => {
       getConnectionsAndAddPersons(nextPageToken)
     }, 500)
+  } else {
+    store.commit('setDoingImportFromGoogle', false)
+    store.commit('setImportFromGoogleDone', true)
   }
 }
 
@@ -99,6 +106,9 @@ function addFromGoogleConnection(connection) {
       id: uuid(),
       name: displayName,
       birthday,
+      meta: {
+        from: 'google',
+      },
     })
   } catch (err) {
     err.message = `${err.message} for "${displayName}"`
