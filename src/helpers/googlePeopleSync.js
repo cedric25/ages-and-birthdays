@@ -2,15 +2,17 @@ import uuid from 'uuid/v4'
 import parse from 'date-fns/parse'
 import isValid from 'date-fns/isValid'
 import store from '../store'
-import { initGoogleClient } from '../services/googlePeopleApi/googlePeopleApi.functions'
+import {
+  loadGoogleApiClient,
+  initGoogleClient,
+  getConnectionNamesAndBirthdays,
+} from '../services/googlePeopleApi/googlePeopleApi.functions'
 import { addNewPerson } from './importantPersons'
 
 export async function askForConsent() {
   // 1. Load the JavaScript client library.
   console.log('1. Load the JavaScript client library.')
-  await new Promise((resolve, reject) => {
-    window.gapi.load('client:auth2', resolve)
-  })
+  await loadGoogleApiClient()
 
   // 2. Initialize the JavaScript client library.
   console.log('2. Initialize the JavaScript client library.')
@@ -42,26 +44,14 @@ async function updateSigninStatusCallback(isSignedIn) {
   }
 }
 
-async function getConnectionsAndAddPersons(pageToken) {
+export async function getConnectionsAndAddPersons(pageToken) {
   // Reset any previous import state
   store.commit('setImportFromGoogleDone', false)
 
   store.commit('setDoingImportFromGoogle', true)
-  // Aide pour la requête :
-  // https://developers.google.com/people/api/rest/v1/people.connections/list
-  let pageResults
-  try {
-    pageResults = await window.gapi.client.request({
-      path: 'https://people.googleapis.com/v1/people/me/connections',
-      params: {
-        personFields: 'names,birthdays',
-        pageSize: 100,
-        pageToken: pageToken || undefined,
-      },
-    })
-  } catch (err) {
-    console.error('getConnections()', err)
-  }
+
+  const pageResults = await getConnectionNamesAndBirthdays(pageToken)
+
   try {
     addPersonsFromConnections(pageResults)
   } catch (err) {

@@ -1,5 +1,43 @@
-import { buildBirthdayFromConnection } from '../googlePeopleSync'
+import parseISO from 'date-fns/parseISO'
 import format from 'date-fns/format'
+import * as googlePeopleApi from '../../services/googlePeopleApi/googlePeopleApi.functions'
+import store from '../../store'
+import { getConnectionsAndAddPersons, buildBirthdayFromConnection } from '../googlePeopleSync'
+
+describe('getConnectionsAndAddPersons', () => {
+  it('should add one person', async () => {
+    expect(store.state.app.importantPersons).toEqual([])
+    jest.spyOn(googlePeopleApi, 'getConnectionNamesAndBirthdays').mockResolvedValue({
+      result: {
+        connections: [
+          {
+            names: [
+              {
+                displayName: 'Tommy',
+              },
+            ],
+            birthdays: [
+              {
+                date: { year: 1990, month: 10, day: 1 },
+              },
+            ],
+          },
+        ],
+      },
+    })
+    await getConnectionsAndAddPersons()
+    expect(store.state.app.importantPersons).toMatchObject([
+      {
+        id: expect.any(String),
+        name: 'Tommy',
+        birthday: parseISO('1990-10-01T00:00:00.000Z'),
+        meta: {
+          from: 'google',
+        },
+      },
+    ])
+  })
+})
 
 describe('buildBirthdayFromConnection', () => {
   describe('When only the date object', () => {
