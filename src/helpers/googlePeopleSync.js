@@ -53,38 +53,49 @@ export async function getConnectionsAndAddPersons(pageToken) {
   const pageResults = await getConnectionNamesAndBirthdays(pageToken)
 
   try {
-    addPersonsFromConnections(pageResults)
+    await addPersonsFromConnections(pageResults)
   } catch (err) {
     console.error('addPersonsFromConnections()', err)
   }
 
   const nextPageToken = pageResults?.result?.nextPageToken
   if (nextPageToken) {
-    // Add fake delay
-    setTimeout(() => {
-      getConnectionsAndAddPersons(nextPageToken)
-    }, 500)
+    getConnectionsAndAddPersons(nextPageToken)
   } else {
     store.commit('setDoingImportFromGoogle', false)
     store.commit('setImportFromGoogleDone', true)
   }
 }
 
-function addPersonsFromConnections(googlePeopleResponse) {
-  console.log('addPersonsFromConnections...')
+async function addPersonsFromConnections(googlePeopleResponse) {
   if (!googlePeopleResponse?.result?.connections) {
     throw new Error(`Invalid Google People API answer: ${googlePeopleResponse?.result}`)
   }
 
+  const addConnectionCallStack = []
+
   googlePeopleResponse.result.connections
     .filter(connection => !!connection.birthdays && connection.birthdays.length > 0)
     .forEach(connection => {
-      try {
-        addFromGoogleConnection(connection)
-      } catch (err) {
-        console.error(err)
-      }
+      addConnectionCallStack.push({ addFromGoogleConnection, connection })
     })
+
+  // Add fake delay...
+  return new Promise(async resolve => {
+    for (const { addFromGoogleConnection, connection } of addConnectionCallStack) {
+      await new Promise(resolveOneCall => {
+        setTimeout(() => {
+          addFromGoogleConnection(connection)
+          resolveOneCall()
+        }, randomIntFromInterval(50, 450))
+      })
+    }
+    resolve()
+  })
+}
+
+function randomIntFromInterval(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
 function addFromGoogleConnection(connection) {

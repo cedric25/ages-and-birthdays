@@ -1,14 +1,19 @@
 <template>
-  <Modal :show-modal="showModal" :hide-modal="hideModal" @close="resetImportState">
+  <Modal
+    id="importGoogleContactsModal"
+    :show-modal="showModal"
+    :hide-modal="hideModal"
+    @close="resetImportState"
+  >
     <!--Title-->
     <template v-slot:title>
       <template v-if="doingImportFromGoogle">
         Syncing...
       </template>
-      <template v-if="isImportFromGoogleDone">
+      <template v-else-if="isImportFromGoogleDone">
         Import done!
       </template>
-      <template>
+      <template v-else>
         We'll need your consent!
       </template>
     </template>
@@ -17,13 +22,16 @@
     <template v-slot:content>
       <div v-if="doingImportFromGoogle || isImportFromGoogleDone">
         <p>
-          Looking for friends, family, colleagues... with birthdays
-          <i class="fa fa-search" />
-          <i class="fa fa-birthday-cake" />
+          Looking for contacts with birthdays...
+          <i class="fa fa-search ml-1 text-blue-500" />
+          <i class="fa fa-birthday-cake ml-3 text-blue-500" />
         </p>
 
-        <p>
-          <strong>{{ importantPersons.length }}</strong> new birthdays!
+        <p class="text-center mt-6 mb-5 text-xl">
+          <span ref="imported-count" class="imported-count inline-block mr-3">{{
+            importantPersonsCount
+          }}</span>
+          new birthdays!
         </p>
       </div>
     </template>
@@ -52,6 +60,7 @@
 </template>
 
 <script>
+  import anime from 'animejs'
   import { mapState } from 'vuex'
   import Modal from './kit/Modal'
 
@@ -72,11 +81,31 @@
         doingImportFromGoogle: state => state.app.doingImportFromGoogle,
         isImportFromGoogleDone: state => state.app.isImportFromGoogleDone,
       }),
+      importantPersonsCount() {
+        return this.importantPersons.length
+      },
+    },
+    watch: {
+      importantPersonsCount: {
+        handler() {
+          if (this.$refs['imported-count']) {
+            this.$refs['imported-count'].style.transform = 'none'
+            anime({
+              targets: '.imported-count',
+              scale: 1.5,
+              duration: 500,
+              easing: 'easeOutBack',
+            })
+          }
+        },
+      },
     },
     methods: {
       resetImportState() {
-        this.$store.commit('setDoingImportFromGoogle', false)
-        this.$store.commit('setImportFromGoogleDone', false)
+        setTimeout(() => {
+          this.$store.commit('setDoingImportFromGoogle', false)
+          this.$store.commit('setImportFromGoogleDone', false)
+        }, 200)
       },
     },
   }
