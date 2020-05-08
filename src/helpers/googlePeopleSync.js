@@ -51,6 +51,7 @@ export async function getConnectionsAndAddPersons(pageToken) {
   store.commit('setDoingImportFromGoogle', true)
 
   const pageResults = await getConnectionNamesAndBirthdays(pageToken)
+  store.commit('setTotalConnections', pageResults?.result?.totalItems)
 
   try {
     await addPersonsFromConnections(pageResults)

@@ -7,6 +7,7 @@ export default {
     isSyncingDb: false,
     doingImportFromGoogle: false,
     isImportFromGoogleDone: false,
+    totalConnections: null,
   },
   mutations,
   getters: {

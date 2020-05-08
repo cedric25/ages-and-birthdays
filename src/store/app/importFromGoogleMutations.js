@@ -5,4 +5,7 @@ export const importFromGoogleMutations = {
   setImportFromGoogleDone(state, isDone) {
     state.isImportFromGoogleDone = isDone
   },
+  setTotalConnections(state, totalConnections) {
+    state.totalConnections = totalConnections
+  },
 }

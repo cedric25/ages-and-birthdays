@@ -14,7 +14,7 @@
         Import done!
       </template>
       <template v-else>
-        We'll need your consent!
+        We'll need your consent
       </template>
     </template>
 
@@ -26,6 +26,8 @@
           <i class="fa fa-search ml-1 text-blue-500" />
           <i class="fa fa-birthday-cake ml-3 text-blue-500" />
         </p>
+
+        <p v-if="totalConnections" class="mt-2">{{ totalConnections }} contacts.</p>
 
         <p class="text-center mt-6 mb-5 text-xl">
           <span ref="imported-count" class="imported-count inline-block mr-3">{{
@@ -53,7 +55,7 @@
         :disabled="doingImportFromGoogle"
         @click="$emit('confirm')"
       >
-        Yes, I agree!
+        Yes, let's do it!
       </button>
     </template>
   </Modal>
@@ -80,6 +82,7 @@
         importantPersons: state => state.app.importantPersons,
         doingImportFromGoogle: state => state.app.doingImportFromGoogle,
         isImportFromGoogleDone: state => state.app.isImportFromGoogleDone,
+        totalConnections: state => state.app.totalConnections,
       }),
       importantPersonsCount() {
         return this.importantPersons.length
