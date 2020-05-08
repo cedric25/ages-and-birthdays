@@ -84,7 +84,7 @@
       ConfirmDeleteModal,
     },
     data: () => ({
-      showAdminActions: true,
+      showAdminActions: false,
       selectedOrder: 'daysUntilBirthday',
       selectedGroups: [],
       showConfirmDeleteModal: 0,
