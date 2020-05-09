@@ -3,6 +3,11 @@
     <TopMenu />
 
     <div style="padding-top: 56px;">
+      <div class="text-right mt-4 mr-4">
+        <button type="button" class="btn" @click="displayNotification">
+          Test notif
+        </button>
+      </div>
       <transition name="slide" mode="out-in">
         <router-view />
       </transition>
