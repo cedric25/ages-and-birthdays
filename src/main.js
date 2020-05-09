@@ -20,11 +20,7 @@ new Vue({
     firebase.initializeApp(firebaseConfig)
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log('--> user', user)
         this.$store.dispatch('autoSignIn', user)
-
-        // 1. Load the JavaScript client library.
-        // window.gapi.load('client:auth2', start);
       } else {
         this.getStateFromLocalStorage()
         this.$store.commit('setLoginTriedOrFinished')
