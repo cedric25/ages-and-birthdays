@@ -6,9 +6,9 @@ const gapi = window.gapi
 const GOOGLE_API_BASE_URL = 'https://people.googleapis.com/v1/people'
 
 // const MOCK_PEOPLE_API_CALL = true
-// import pageOneResults from './mockPageOneResults'
-// import pageTwoResults from './mockPageTwoResults'
-// import pageThreeResults from './mockPageThreeResults'
+// import pageOneResults from './mocks/mockPageOneResults'
+// import pageTwoResults from './mocks/mockPageTwoResults'
+// import pageThreeResults from './mocks/mockPageThreeResults'
 
 export function loadGoogleApiClient() {
   return new Promise((resolve, reject) => {
