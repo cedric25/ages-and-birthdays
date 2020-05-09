@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/e9b41512-6a6f-4fac-818d-59c647708925/deploy-status)](https://app.netlify.com/sites/ages-and-birthdays/deploys)
+
 # Ages and Birthdays
 
 > Can't remember ages and birthdays? Me neither...

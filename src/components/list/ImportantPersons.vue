@@ -1,7 +1,7 @@
 <template>
   <div class="mt-0 md:mt-6">
-    <div class="admin-actions px-2" v-if="showAdminActions">
-      <ImportExport />
+    <div class="admin-actions px-2 mb-2" v-if="showAdminActions">
+      <!--      <ImportExport />-->
 
       <div v-if="importantPersons.length > 0" class="ml-3">
         <ClearList />
@@ -64,11 +64,11 @@
   import * as localStorageHelper from '../../helpers/localStorageHelper'
 
   // Components
-  import ImportExport from './ImportExport'
-  import ClearList from './ClearList'
+  // import ImportExport from './ImportExport'
+  import ClearList from './admin/ClearList'
   import OrderBy from './OrderBy'
   import OnePerson from './OnePerson'
-  import Chip from '../Chip'
+  import Chip from '../kit/Chip'
   import ConfirmDeleteModal from './ConfirmDeleteModal'
   import * as importantPersons from '../../helpers/importantPersons'
 
@@ -76,7 +76,7 @@
 
   export default {
     components: {
-      ImportExport,
+      // ImportExport,
       ClearList,
       OrderBy,
       OnePerson,
@@ -227,7 +227,7 @@
     justify-items: center;
 
     .one-person {
-      width: 350px;
+      width: 300px;
     }
   }
   @media (min-width: 665px) {

@@ -102,7 +102,7 @@
   import { containsYear } from '../../helpers/date'
 
   // Components
-  import Chip from '../Chip'
+  import Chip from '../kit/Chip'
 
   export default {
     components: {
@@ -272,11 +272,6 @@
       }
     }
     .edit-btn,
-    .delete-btn {
-      @apply opacity-0;
-      @apply transition duration-300;
-    }
-    .edit-btn,
     .submit-btn {
       top: 6px;
     }
@@ -285,10 +280,17 @@
       top: 43px;
     }
 
-    &:hover {
+    @media (min-width: 768px) {
       .edit-btn,
       .delete-btn {
-        @apply opacity-100;
+        @apply opacity-0;
+        @apply transition duration-300;
+      }
+      &:hover {
+        .edit-btn,
+        .delete-btn {
+          @apply opacity-100;
+        }
       }
     }
   }

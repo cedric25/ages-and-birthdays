@@ -1,6 +1,10 @@
 import Vue from 'vue'
 
+import { importFromGoogleMutations } from './importFromGoogleMutations'
+
 export const mutations = {
+  ...importFromGoogleMutations,
+
   // ------------------------- IMPORTANT PERSONS -------------------------
 
   setAllPersons(state, allPersons) {

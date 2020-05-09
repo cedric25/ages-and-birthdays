@@ -44,7 +44,7 @@
 
   // Components
   import AddGroup from './AddGroup'
-  import Chip from '../Chip'
+  import Chip from '../kit/Chip'
 
   export default {
     name: 'ManageGroups',
