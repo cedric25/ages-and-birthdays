@@ -23,14 +23,14 @@ self.addEventListener('message', event => {
 
 self.addEventListener('notificationclick', function (e) {
   console.log('ici ! (notificationclick)')
-  var notification = e.notification
-  var primaryKey = notification.data.primaryKey
-  var action = e.action
+  const notification = e.notification
+  // var primaryKey = notification.data.primaryKey
+  const action = e.action
 
   if (action === 'close') {
     notification.close()
   } else {
-    clients.openWindow('http://www.example.com')
+    clients.openWindow('https://ages-and-birthdays.netlify.app/')
     notification.close()
   }
 })
