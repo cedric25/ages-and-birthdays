@@ -16,11 +16,19 @@
 </template>
 
 <script>
+  import {
+    getOrUpdateBrowserPushServiceSubscription,
+    subscribeUser,
+  } from './helpers/pushApi/pushApi'
+
   import TopMenu from './components/TopMenu/TopMenu'
 
   export default {
     components: {
       TopMenu,
+    },
+    created() {
+      getOrUpdateBrowserPushServiceSubscription()
     },
     mounted() {
       console.log('mounted, Notification.permission:', Notification.permission)
@@ -28,9 +36,14 @@
         Notification.requestPermission(status => {
           console.log('Notification permission status:', status)
 
-          setTimeout(() => {
-            this.displayNotification()
-          }, 1000)
+          // Test
+          // setTimeout(() => {
+          //   this.displayNotification()
+          // }, 1000)
+
+          if (status === 'granted') {
+            subscribeUser()
+          }
         })
       } else {
         this.displayNotification()

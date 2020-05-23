@@ -21,6 +21,30 @@ self.addEventListener('message', event => {
   }
 })
 
+// --- Handle PUSH NOTIFICATIONS
+// https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications
+
+// 1- Subscribe to the browser "push service"
+
+// 2- When receiving a push notification from the browser "push service"
+self.addEventListener('push', function (e) {
+  const options = {
+    body: 'This notification was generated from a push!',
+    icon: 'images/example.png',
+    vibrate: [100, 50, 100],
+    data: {
+      dateOfArrival: Date.now(),
+      primaryKey: '2',
+    },
+    actions: [
+      { action: 'explore', title: 'Explore this new world', icon: 'images/checkmark.png' },
+      { action: 'close', title: 'Close', icon: 'images/xmark.png' },
+    ],
+  }
+  e.waitUntil(self.registration.showNotification('Hello world!', options))
+})
+
+// 3- When a push notification is clicked
 self.addEventListener('notificationclick', function (e) {
   console.log('ici ! (notificationclick)')
   const notification = e.notification
