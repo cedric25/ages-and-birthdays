@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --modern",
+    "// build": "vue-cli-service build --modern",
+    "build": "vue-cli-service build",
     "test": "vue-cli-service test:unit",
     "lint": "prettier --check src",
     "lint:fix": "prettier --write src",
