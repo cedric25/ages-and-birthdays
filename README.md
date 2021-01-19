@@ -4,9 +4,20 @@
 
 ![Alt text](screenshot-readme.png?raw=true 'App screenshot')
 
-## Boilerplate
+## What's this project?
 
-Project generated with @vue/cli 4.3.1.
+This is my **playground project**, where I like to try things.
+
+> A project not too small to be closer to real life,
+> and not too big either to be able to rewrite everything
+> if needed!
+
+## Stacks overtime
+
+- Nuxt
+- Vue 2 / vue-cli / Vuetify
+- Vue 2 / vue-cli / tailwindcss
+- Vue 3 / vite
 
 ## Features
 
@@ -21,39 +32,10 @@ Storage:
 - Within the browser (localStorage)
 - Login with Google and syncing with Firebase
 
-Icons set: **Font Awesome** via CDN  
+Icons set:
+
+At first with **Font Awesome** via CDN  
 https://fontawesome.com/icons?d=gallery
 
-## Project setup
-
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-
-```
-yarn build
-```
-
-### Run your unit tests
-
-```
-yarn test:unit
-```
-
-### Lints and fixes files
-
-```
-yarn lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Now switching to **heroicons**.  
+https://heroicons.com/
