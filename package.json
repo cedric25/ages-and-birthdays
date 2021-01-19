@@ -3,11 +3,18 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "lint": "prettier src --check",
+    "lint:fix": "prettier src --write"
   },
   "dependencies": {
+    "animejs": "3.2.1",
+    "date-fns": "2.16.1",
+    "firebase": "8.2.3",
+    "nanoid": "3.1.20",
     "vue": "^3.0.5",
-    "vue-router": "4.0.3"
+    "vue-router": "4.0.3",
+    "vuex": "4.0.0-rc.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.0.4",

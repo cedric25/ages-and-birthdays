@@ -1,16 +1,41 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + Vite" />
-  <p>
-    <!-- use the router-link component for navigation. -->
-    <!-- specify the link by passing the `to` prop. -->
-    <!-- `<router-link>` will render an `<a>` tag with the correct `href` attribute -->
-    <router-link to="/" class="mr-2">Go to Home</router-link>
-    <router-link to="/about">Go to About</router-link>
-  </p>
-  <router-view></router-view>
+  <TopMenu />
+  <div style="padding-top: 56px">
+    <router-view></router-view>
+  </div>
 </template>
 
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import firebase from 'firebase/app'
+import 'firebase/auth'
+import firebaseConfig from './firebase-config.js'
+import { store } from './store'
+import * as localStorageHelper from './helpers/localStorageHelper.js'
+
+// Components
+import TopMenu from './components/TopMenu/TopMenu.vue'
+
+try {
+  firebase.initializeApp(firebaseConfig)
+} catch {}
+
+firebase.auth().onAuthStateChanged(user => {
+  if (user) {
+    store.dispatch('autoSignIn', user)
+  } else {
+    getStateFromLocalStorage()
+    store.commit('setLoginTriedOrFinished')
+  }
+})
+
+function getStateFromLocalStorage() {
+  const importantPersons = localStorageHelper.getPersons()
+  const groups = localStorageHelper.getGroups()
+  if (importantPersons) {
+    store.commit('setAllPersons', JSON.parse(importantPersons))
+  }
+  if (groups) {
+    store.commit('setAllGroups', JSON.parse(groups))
+  }
+}
 </script>

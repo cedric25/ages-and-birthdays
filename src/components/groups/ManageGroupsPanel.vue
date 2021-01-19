@@ -1,0 +1,22 @@
+<template>
+  <ExpandablePanel panel-header-title="Manage groups">
+    <ManageGroups :is-groups-form-open="isPanelExpanded" />
+  </ExpandablePanel>
+</template>
+
+<script>
+// Components
+import ExpandablePanel from '../ExpandablePanel.vue'
+import ManageGroups from './ManageGroups.vue'
+
+export default {
+  name: 'ManageGroupsPanel',
+  components: {
+    ExpandablePanel,
+    ManageGroups,
+  },
+  data: () => ({
+    isPanelExpanded: false,
+  }),
+}
+</script>
