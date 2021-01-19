@@ -2,6 +2,8 @@
  
  - Login / logout Firebase
  
+ - Reprendre ce qu'il manque de l'app actuelle
+ 
  - Remettre le bouton d'import depuis Google
  
  - Revoir les couleurs
