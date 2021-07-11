@@ -15,7 +15,7 @@
         class="btn btn-blue"
         @click.prevent="addGroup"
       >
-        Add group
+        <i class="fa fa-plus text-xs" />
       </button>
       <div v-if="showError" class="text-red-600 ml-4">
         {{ errorMessage }}
