@@ -7,7 +7,7 @@
     <button
       type="button"
       class="btn-import"
-      :class="shouldMinimizeGoogleImport ? 'transform scale-75' : 'mt-3'"
+      :class="shouldMinimizeGoogleImport ? '' : 'scale-100 mt-3'"
       @click="showImportGoogleContactsModal++"
     >
       <span class="svg-wrap">
@@ -61,6 +61,7 @@ export default {
   @apply text-lg;
   @apply outline-none;
   @apply transition duration-200 ease-in-out;
+  @apply mt-0 transform scale-75;
 
   &:hover {
     @apply bg-blue-600;
