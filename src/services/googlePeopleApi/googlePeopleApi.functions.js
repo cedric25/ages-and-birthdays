@@ -1,6 +1,5 @@
-const GOOGLE_API_KEY = import.meta.env.VITE_APP_GOOGLE_API_KEY
+// const GOOGLE_API_KEY = import.meta.env.VITE_APP_GOOGLE_API_KEY
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID
-console.log('GOOGLE_CLIENT_ID', GOOGLE_CLIENT_ID)
 
 const gapi = window.gapi
 

@@ -1,5 +1,5 @@
-import firebase from 'firebase/app'
-import 'firebase/auth'
+import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
+import { onValue } from 'firebase/database'
 import * as db from '../../helpers/db'
 import { checkUserData } from '../../helpers/checkUserData'
 
@@ -35,9 +35,7 @@ export default {
       dispatch('signinDone')
     },
     signUserInGoogle({ commit, dispatch }) {
-      firebase
-        .auth()
-        .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      signInWithPopup(getAuth(), new GoogleAuthProvider())
         .then(result => {
           const user = result.user
           commit('setUser', {
@@ -86,7 +84,7 @@ export default {
         })
     },
     signout({ commit }) {
-      firebase.auth().signOut()
+      getAuth().signOut()
       commit('setUser', null)
       commit('setAllPersons', [])
       commit('setAllGroups', ['Family', 'Friends'])
@@ -119,7 +117,8 @@ function useDbState(userData, commit) {
 function watchForDbChanges(userId, commit) {
   const MIN_LOADING_TIME = 250
 
-  db.getImportantPersonsRef(userId).on('value', function (personsSnapshot) {
+  const importantPersonsRef = db.getImportantPersonsRef(userId)
+  onValue(importantPersonsRef, personsSnapshot => {
     commit('syncingDb', true)
 
     if (!personsSnapshot.val()) {
@@ -139,7 +138,8 @@ function watchForDbChanges(userId, commit) {
     }, MIN_LOADING_TIME)
   })
 
-  db.getGroupsRef(userId).on('value', function (groupsSnapshot) {
+  const groupsRef = db.getGroupsRef(userId)
+  onValue(groupsRef, groupsSnapshot => {
     commit('syncingDb', true)
     commit('setAllGroups', groupsSnapshot.val() || [])
     setTimeout(() => {

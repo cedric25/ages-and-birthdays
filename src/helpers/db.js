@@ -1,40 +1,35 @@
-import firebase from 'firebase/app'
-import 'firebase/database'
+import { getDatabase, ref, child, get, set } from 'firebase/database'
 
 export function setImportantPersons(userId, importantPersons) {
-  return firebase
-    .database()
-    .ref()
-    .update({
-      [`users/${userId}/importantPersons`]: importantPersons,
-    })
+  const db = getDatabase()
+  return set(ref(db, `users/${userId}/importantPersons`), importantPersons)
 }
 
 export function setGroups(userId, groups) {
-  return firebase
-    .database()
-    .ref()
-    .update({
-      [`users/${userId}/groups`]: groups,
-    })
+  const db = getDatabase()
+  return set(ref(db, `users/${userId}/groups`), groups)
 }
 
 export function readUserDataOnce(userId) {
-  return firebase.database().ref(`users/${userId}`).once('value')
+  const dbRef = ref(getDatabase())
+  return get(child(dbRef, `users/${userId}`))
 }
 
 export function setUserData(userId, { user, importantPersons, groups }) {
-  const userUpdates = {}
-  userUpdates[`/users/${userId}/user`] = user
-  userUpdates[`/users/${userId}/importantPersons`] = importantPersons
-  userUpdates[`/users/${userId}/groups`] = groups
-  return firebase.database().ref().update(userUpdates)
+  const db = getDatabase()
+  return set(ref(db, `users/${userId}`), {
+    user,
+    importantPersons,
+    groups,
+  })
 }
 
 export function getImportantPersonsRef(userId) {
-  return firebase.database().ref(`users/${userId}/importantPersons`)
+  const db = getDatabase()
+  return ref(db, `users/${userId}/importantPersons`)
 }
 
 export function getGroupsRef(userId) {
-  return firebase.database().ref(`users/${userId}/groups`)
+  const db = getDatabase()
+  return ref(db, `users/${userId}/groups`)
 }

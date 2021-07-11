@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import firebase from 'firebase/app'
-import 'firebase/auth'
+import { initializeApp } from 'firebase/app'
+import { getAuth } from 'firebase/auth'
 import { registerSW } from 'virtual:pwa-register'
 import firebaseConfig from './firebase-config'
 import App from './App.vue'
@@ -20,8 +20,8 @@ new Vue({
   store,
   render: h => h(App),
   created() {
-    firebase.initializeApp(firebaseConfig)
-    firebase.auth().onAuthStateChanged(user => {
+    initializeApp(firebaseConfig)
+    getAuth().onAuthStateChanged(user => {
       if (user) {
         this.$store.dispatch('autoSignIn', user)
       } else {

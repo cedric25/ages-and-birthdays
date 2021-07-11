@@ -236,7 +236,7 @@ export default {
         importantPersons.updatePerson(this.$store, {
           id: this.id,
           name: this.newName,
-          birthday: newBirthday,
+          birthday: newBirthday.toISOString(),
         })
       }
     },
