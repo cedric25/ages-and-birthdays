@@ -77,6 +77,7 @@
           @keyup.enter="updatePerson()"
           @keyup.esc="cancelEdit()"
         />
+        <div class="text-center text-xs mt-1 text-gray-400">DD/MM/YYYY</div>
       </div>
       <div
         v-if="!isEditMode"
