@@ -1,14 +1,17 @@
 import Vue from 'vue'
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import { registerSW } from 'virtual:pwa-register'
 import firebaseConfig from './firebase-config'
 import App from './App.vue'
-import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import * as localStorageHelper from './helpers/localStorageHelper'
 
 import './assets/styles/tailwind.css'
+import './assets/styles/global.css'
+
+registerSW()
 
 Vue.config.productionTip = false
 

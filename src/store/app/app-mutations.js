@@ -30,11 +30,15 @@ export const mutations = {
   },
 
   addGroupToPerson(state, { personId, groupToAdd }) {
-    const personToUpdate = state.importantPersons.find(person => person.id === personId)
+    const personToUpdate = state.importantPersons.find(
+      person => person.id === personId
+    )
 
     let newGroupsList = (personToUpdate.groups || []).concat([groupToAdd])
 
-    const updatedPerson = Object.assign({}, personToUpdate, { groups: newGroupsList })
+    const updatedPerson = Object.assign({}, personToUpdate, {
+      groups: newGroupsList,
+    })
 
     let newPersonsList = state.importantPersons.filter(person => {
       return person.id !== personId
@@ -45,8 +49,12 @@ export const mutations = {
   },
 
   removeGroupFromPerson(state, { personId, groupToRemove }) {
-    const personToUpdate = state.importantPersons.find(person => person.id === personId)
-    personToUpdate.groups = personToUpdate.groups.filter(group => group !== groupToRemove)
+    const personToUpdate = state.importantPersons.find(
+      person => person.id === personId
+    )
+    personToUpdate.groups = personToUpdate.groups.filter(
+      group => group !== groupToRemove
+    )
   },
 
   deletePerson(state, personId) {

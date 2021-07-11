@@ -51,7 +51,7 @@ describe('OnePerson component', () => {
     test('ageValue, should give null', () => {
       expect(wrapper.vm.ageValue).toEqual({
         value: null,
-        unit: 'y',
+        unit: 'y old',
       })
     })
 

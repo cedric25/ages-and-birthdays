@@ -126,7 +126,9 @@ function watchForDbChanges(userId, commit) {
       commit('setAllPersons', [])
     } else {
       // Check that all persons got a birthday prop, otherwise it might be a local Firebase value...
-      const allPersonsFine = personsSnapshot.val().every(person => !!person.birthday)
+      const allPersonsFine = personsSnapshot
+        .val()
+        .every(person => !!person.birthday)
       if (allPersonsFine) {
         commit('setAllPersons', personsSnapshot.val())
       }

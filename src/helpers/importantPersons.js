@@ -34,7 +34,11 @@ export function removeAllPersons({ state, commit }) {
   updateDbPersons(state, commit)
 }
 
-export function removeGroupFromPerson({ state, commit }, personId, groupToRemove) {
+export function removeGroupFromPerson(
+  { state, commit },
+  personId,
+  groupToRemove
+) {
   commit('removeGroupFromPerson', {
     personId,
     groupToRemove,

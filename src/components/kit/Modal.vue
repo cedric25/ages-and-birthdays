@@ -2,17 +2,51 @@
   <div
     :ref="id"
     :class="visible ? '' : 'opacity-0 pointer-events-none'"
-    class="modal fixed w-full h-full top-0 left-0 flex items-center justify-center z-40"
+    class="
+      modal
+      fixed
+      w-full
+      h-full
+      top-0
+      left-0
+      flex
+      items-center
+      justify-center
+      z-40
+    "
   >
-    <div class="absolute w-full h-full bg-gray-900 opacity-50" @click="toggleModal"></div>
+    <div
+      class="absolute w-full h-full bg-gray-900 opacity-50"
+      @click="toggleModal"
+    ></div>
 
     <div
-      class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto"
+      class="
+        modal-container
+        bg-white
+        w-11/12
+        md:max-w-md
+        mx-auto
+        rounded
+        shadow-lg
+        z-50
+        overflow-y-auto
+      "
     >
       <button
         type="button"
-        class="absolute right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50"
-        style="top: 56px;"
+        class="
+          absolute
+          right-0
+          cursor-pointer
+          flex flex-col
+          items-center
+          mt-4
+          mr-4
+          text-white text-sm
+          z-50
+        "
+        style="top: 56px"
         @click="toggleModal"
       >
         <svg
@@ -35,7 +69,11 @@
           <p class="text-2xl">
             <slot name="title"></slot>
           </p>
-          <button type="button" class="cursor-pointer z-50" @click="toggleModal">
+          <button
+            type="button"
+            class="cursor-pointer z-50"
+            @click="toggleModal"
+          >
             <svg
               class="fill-current text-black"
               xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +91,11 @@
         <slot name="content"></slot>
 
         <div class="flex justify-end pt-2">
-          <button type="button" class="px-4 py-3 rounded hover:bg-gray-100" @click="toggleModal">
+          <button
+            type="button"
+            class="px-4 py-3 rounded hover:bg-gray-100"
+            @click="toggleModal"
+          >
             Close
           </button>
           <slot name="action"></slot>
@@ -64,65 +106,65 @@
 </template>
 
 <script>
-  import uuid from 'uuid/v4'
+import { nanoid } from 'nanoid'
 
-  export default {
-    name: 'Modal',
-    props: {
-      id: { type: String, default: uuid() },
-      showModal: { type: Number, default: 0 },
-      hideModal: { type: Number, default: 0 },
+export default {
+  name: 'Modal',
+  props: {
+    id: { type: String, default: nanoid() },
+    showModal: { type: Number, default: 0 },
+    hideModal: { type: Number, default: 0 },
+  },
+  data: () => ({
+    visible: false,
+  }),
+  watch: {
+    showModal() {
+      this.toggleModal()
+      this.registerEscapeKeyEvent()
     },
-    data: () => ({
-      visible: false,
-    }),
-    watch: {
-      showModal() {
+    hideModal() {
+      this.toggleModal()
+      this.unregisterEscapeKeyEvent()
+    },
+  },
+  methods: {
+    toggleModal() {
+      this.visible = !this.visible
+      const body = document.querySelector('body')
+      body.classList.toggle('modal-active')
+      if (!this.visible) {
+        this.$emit('close')
+      }
+    },
+    registerEscapeKeyEvent() {
+      document.addEventListener('keydown', this.handleEscapeKey)
+    },
+    unregisterEscapeKeyEvent() {
+      document.removeEventListener('keydown', this.handleEscapeKey)
+    },
+    handleEscapeKey(evt) {
+      evt = evt || window.event
+      let isEscape = false
+      if ('key' in evt) {
+        isEscape = evt.key === 'Escape' || evt.key === 'Esc'
+      } else {
+        isEscape = evt.keyCode === 27
+      }
+      if (isEscape && this.visible) {
         this.toggleModal()
-        this.registerEscapeKeyEvent()
-      },
-      hideModal() {
-        this.toggleModal()
-        this.unregisterEscapeKeyEvent()
-      },
+      }
     },
-    methods: {
-      toggleModal() {
-        this.visible = !this.visible
-        const body = document.querySelector('body')
-        body.classList.toggle('modal-active')
-        if (!this.visible) {
-          this.$emit('close')
-        }
-      },
-      registerEscapeKeyEvent() {
-        document.addEventListener('keydown', this.handleEscapeKey)
-      },
-      unregisterEscapeKeyEvent() {
-        document.removeEventListener('keydown', this.handleEscapeKey)
-      },
-      handleEscapeKey(evt) {
-        evt = evt || window.event
-        let isEscape = false
-        if ('key' in evt) {
-          isEscape = evt.key === 'Escape' || evt.key === 'Esc'
-        } else {
-          isEscape = evt.keyCode === 27
-        }
-        if (isEscape && this.visible) {
-          this.toggleModal()
-        }
-      },
-    },
-  }
+  },
+}
 </script>
 
 <style scoped>
-  .modal {
-    transition: opacity 0.25s ease;
-  }
-  body.modal-active {
-    overflow-x: hidden;
-    overflow-y: visible !important;
-  }
+.modal {
+  transition: opacity 0.25s ease;
+}
+body.modal-active {
+  overflow-x: hidden;
+  overflow-y: visible !important;
+}
 </style>

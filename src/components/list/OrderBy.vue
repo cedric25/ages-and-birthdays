@@ -18,36 +18,36 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      selectedOrder: String,
-    },
-    data: () => ({
-      orders: [
-        {
-          prop: 'daysUntilBirthday',
-          label: 'Upcoming birthday',
-        },
-        {
-          prop: 'name',
-          label: 'Name',
-        },
-        {
-          prop: 'age',
-          label: 'Age',
-        },
-      ],
-    }),
-    methods: {
-      selectOrder(order) {
-        this.$emit('order', order)
+export default {
+  props: {
+    selectedOrder: String,
+  },
+  data: () => ({
+    orders: [
+      {
+        prop: 'daysUntilBirthday',
+        label: 'Upcoming birthday',
       },
+      {
+        prop: 'name',
+        label: 'Name',
+      },
+      {
+        prop: 'age',
+        label: 'Age',
+      },
+    ],
+  }),
+  methods: {
+    selectOrder(order) {
+      this.$emit('order', order)
     },
-  }
+  },
+}
 </script>
 
 <style scoped lang="scss">
-  button {
-    @apply text-sm font-medium tracking-widest uppercase;
-  }
+button {
+  @apply text-sm font-medium tracking-widest uppercase;
+}
 </style>

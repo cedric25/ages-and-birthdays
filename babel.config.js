@@ -1,3 +1,15 @@
 module.exports = {
-  presets: ["@vue/cli-plugin-babel/preset"]
-};
+  presets: [['@babel/preset-env', { targets: { node: 'current' } }]],
+  // For Jest not to be annoyed by 'import.meta.xxx'
+  plugins: [
+    function () {
+      return {
+        visitor: {
+          MetaProperty(path) {
+            path.replaceWithSourceString('process')
+          },
+        },
+      }
+    },
+  ],
+}

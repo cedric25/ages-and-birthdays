@@ -7,18 +7,18 @@
 </template>
 
 <script>
-  import * as importantPersons from '@/helpers/importantPersons'
+import * as importantPersons from '@/helpers/importantPersons'
 
-  export default {
-    name: 'ClearList',
-    data: () => ({
-      confirmClearDialog: false,
-    }),
-    methods: {
-      clearList() {
-        importantPersons.removeAllPersons(this.$store)
-        this.confirmClearDialog = false
-      },
+export default {
+  name: 'ClearList',
+  data: () => ({
+    confirmClearDialog: false,
+  }),
+  methods: {
+    clearList() {
+      importantPersons.removeAllPersons(this.$store)
+      this.confirmClearDialog = false
     },
-  }
+  },
+}
 </script>

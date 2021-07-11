@@ -11,43 +11,35 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
-  // Components
-  import ExpandablePanel from '../kit/ExpandablePanel'
-  import AddBirthDate from './AddBirthDate'
-
-  export default {
-    name: 'AddBirthDatePanel',
-    components: {
-      ExpandablePanel,
-      AddBirthDate,
+export default {
+  name: 'AddBirthDatePanel',
+  data: () => ({
+    isPanelExpanded: false,
+  }),
+  computed: {
+    ...mapGetters(['loginTriedOrFinished', 'importantPersons']),
+    panelHeaderTitle() {
+      if (this.loginTriedOrFinished && this.importantPersons.length === 0) {
+        return `Add your first person's birthday`
+      }
+      return `Add someone's birthday`
     },
-    data: () => ({
-      isPanelExpanded: false,
-    }),
-    computed: {
-      ...mapGetters(['loginTriedOrFinished', 'importantPersons']),
-      panelHeaderTitle() {
-        if (this.loginTriedOrFinished && this.importantPersons.length === 0) {
-          return `Add your first person's birthday`
-        }
-        return `Add someone's birthday`
-      },
-    },
-    // watch: {
-    //   loginTriedOrFinished() {
-    //     if (this.importantPersons.length === 0) {
-    //       this.isPanelExpanded = true
-    //     }
-    //   },
-    //   'importantPersons.length': {
-    //     handler() {
-    //       if (this.importantPersons.length === 0) {
-    //         this.isPanelExpanded = true
-    //       }
-    //     },
-    //   },
-    // },
-  }
+  },
+  // watch: {
+  //   loginTriedOrFinished() {
+  //     if (this.importantPersons.length === 0) {
+  //       this.isPanelExpanded = true
+  //     }
+  //   },
+  //   'importantPersons.length': {
+  //     handler() {
+  //       if (this.importantPersons.length === 0) {
+  //         this.isPanelExpanded = true
+  //       }
+  //     },
+  //   },
+  // },
+}
 </script>

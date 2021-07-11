@@ -67,7 +67,7 @@ describe('OnePerson component', () => {
     test('ageValue, should give 30y', () => {
       expect(wrapper.vm.ageValue).toEqual({
         value: 30,
-        unit: 'y',
+        unit: 'y old',
       })
     })
 
@@ -127,7 +127,7 @@ describe('OnePerson component - Less than 1y old', () => {
     test('ageValue, should give 4 months', () => {
       expect(wrapper.vm.ageValue).toEqual({
         value: 4,
-        unit: ' months',
+        unit: ' months old',
       })
     })
 

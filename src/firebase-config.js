@@ -1,9 +1,9 @@
 export default {
-  apiKey: 'AIzaSyCyhBHHmtRypmBwh_Af13Jt3GVw1FRpk1M',
-  authDomain: 'ages-and-birthdays.firebaseapp.com',
-  databaseURL: 'https://ages-and-birthdays.firebaseio.com',
-  projectId: 'ages-and-birthdays',
-  storageBucket: 'ages-and-birthdays.appspot.com',
-  messagingSenderId: '302369470244',
-  appId: '1:302369470244:web:136c4bce61b1af702ae5b1',
+  apiKey: import.meta.env.VITE_APP_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_APP_FIREBASE_AUTH_DOMAIN,
+  databaseURL: import.meta.env.VITE_APP_FIREBASE_DATABASE_URL,
+  projectId: import.meta.env.VITE_APP_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_FIREBASE_APP_ID,
 }

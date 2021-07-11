@@ -1,4 +1,4 @@
-import uuid from 'uuid/v4'
+import { nanoid } from 'nanoid'
 import parse from 'date-fns/parse'
 import isValid from 'date-fns/isValid'
 import store from '../store'
@@ -18,8 +18,12 @@ export async function askForConsent() {
   console.log('2. Initialize the JavaScript client library.')
   await initGoogleClient()
 
+  console.log(window.gapi.auth2.getAuthInstance())
+
   // Listen for sign-in state changes.
-  window.gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatusCallback)
+  window.gapi.auth2
+    .getAuthInstance()
+    .isSignedIn.listen(updateSigninStatusCallback)
 
   // Handle the initial sign-in state.
   const isSignedIn = window.gapi.auth2.getAuthInstance().isSignedIn.get()
@@ -70,20 +74,27 @@ export async function getConnectionsAndAddPersons(pageToken) {
 
 async function addPersonsFromConnections(googlePeopleResponse) {
   if (!googlePeopleResponse?.result?.connections) {
-    throw new Error(`Invalid Google People API answer: ${googlePeopleResponse?.result}`)
+    throw new Error(
+      `Invalid Google People API answer: ${googlePeopleResponse?.result}`
+    )
   }
 
   const addConnectionCallStack = []
 
   googlePeopleResponse.result.connections
-    .filter(connection => !!connection.birthdays && connection.birthdays.length > 0)
+    .filter(
+      connection => !!connection.birthdays && connection.birthdays.length > 0
+    )
     .forEach(connection => {
       addConnectionCallStack.push({ addFromGoogleConnection, connection })
     })
 
   // Add fake delay...
   return new Promise(async resolve => {
-    for (const { addFromGoogleConnection, connection } of addConnectionCallStack) {
+    for (const {
+      addFromGoogleConnection,
+      connection,
+    } of addConnectionCallStack) {
       await new Promise(resolveOneCall => {
         setTimeout(() => {
           addFromGoogleConnection(connection)
@@ -105,7 +116,7 @@ function addFromGoogleConnection(connection) {
   try {
     birthday = buildBirthdayFromConnection(connection)
     addNewPerson(store, {
-      id: uuid(),
+      id: nanoid(),
       name: displayName,
       birthday,
       meta: {

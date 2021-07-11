@@ -19,26 +19,21 @@
 </template>
 
 <script>
-  import Modal from '../kit/Modal'
-
-  export default {
-    name: 'ConfirmDeleteModal',
-    components: {
-      Modal,
+export default {
+  name: 'ConfirmDeleteModal',
+  props: {
+    personId: { type: String, required: true },
+    personName: { type: String, required: true },
+    showModal: { type: Number, required: true },
+  },
+  data: () => ({
+    hideModal: 0,
+  }),
+  methods: {
+    yes() {
+      this.$emit('confirm', this.personId)
+      this.hideModal++
     },
-    props: {
-      personId: { type: String, required: true },
-      personName: { type: String, required: true },
-      showModal: { type: Number, required: true },
-    },
-    data: () => ({
-      hideModal: 0,
-    }),
-    methods: {
-      yes() {
-        this.$emit('confirm', this.personId)
-        this.hideModal++
-      },
-    },
-  }
+  },
+}
 </script>

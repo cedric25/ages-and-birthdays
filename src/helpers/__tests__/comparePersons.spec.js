@@ -12,7 +12,11 @@ describe('comparePersons()', () => {
 
   describe('when comparing names with accents', () => {
     test('should answer -1', () => {
-      const result = comparePersons({ name: 'Cédric' }, { name: 'Christelle' }, 'name')
+      const result = comparePersons(
+        { name: 'Cédric' },
+        { name: 'Christelle' },
+        'name'
+      )
       expect(result).toBe(-1)
     })
   })

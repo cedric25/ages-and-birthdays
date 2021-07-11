@@ -10,7 +10,11 @@
 
     <div v-if="importantPersons.length > 0">
       <div class="order-and-total">
-        <OrderBy class="flex-1" :selected-order="selectedOrder" @order="selectOrder" />
+        <OrderBy
+          class="flex-1"
+          :selected-order="selectedOrder"
+          @order="selectOrder"
+        />
 
         <div class="total-persons">
           <strong>{{ importantPersons.length }}</strong> important person{{
@@ -57,205 +61,191 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
-  import { computeAge } from '../../helpers/computeAge'
-  import comparePersons from '../../helpers/comparePersons'
-  import * as localStorageHelper from '../../helpers/localStorageHelper'
+import { mapGetters } from 'vuex'
+import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
+import { computeAge } from '../../helpers/computeAge'
+import comparePersons from '../../helpers/comparePersons'
+import * as localStorageHelper from '../../helpers/localStorageHelper'
+import * as importantPersons from '../../helpers/importantPersons'
 
-  // Components
-  // import ImportExport from './ImportExport'
-  import ClearList from './admin/ClearList'
-  import OrderBy from './OrderBy'
-  import OnePerson from './OnePerson'
-  import Chip from '../kit/Chip'
-  import ConfirmDeleteModal from './ConfirmDeleteModal'
-  import * as importantPersons from '../../helpers/importantPersons'
+const today = new Date()
 
-  const today = new Date()
-
-  export default {
-    components: {
-      // ImportExport,
-      ClearList,
-      OrderBy,
-      OnePerson,
-      Chip,
-      ConfirmDeleteModal,
-    },
-    data: () => ({
-      showAdminActions: false,
-      selectedOrder: 'daysUntilBirthday',
-      selectedGroups: [],
-      showConfirmDeleteModal: 0,
-      personIdToDelete: '',
-      personNameToDelete: '',
-    }),
-    computed: {
-      ...mapGetters(['importantPersons', 'groups']),
-      persons() {
-        // Apply filters and sort persons from state
-        let personsList = this.buildPersons(this.importantPersons)
-        if (this.selectedGroups.length > 0) {
-          personsList = personsList.filter(person => {
-            const commonGroups = this.selectedGroups.filter(group => {
-              return person.groups && person.groups.includes(group)
-            })
-            return commonGroups.length > 0
+export default {
+  data: () => ({
+    showAdminActions: false,
+    selectedOrder: 'daysUntilBirthday',
+    selectedGroups: [],
+    showConfirmDeleteModal: 0,
+    personIdToDelete: '',
+    personNameToDelete: '',
+  }),
+  computed: {
+    ...mapGetters(['importantPersons', 'groups']),
+    persons() {
+      // Apply filters and sort persons from state
+      let personsList = this.buildPersons(this.importantPersons)
+      if (this.selectedGroups.length > 0) {
+        personsList = personsList.filter(person => {
+          const commonGroups = this.selectedGroups.filter(group => {
+            return person.groups && person.groups.includes(group)
           })
-        }
-        return this.sortPersons(personsList, this.selectedOrder)
-      },
+          return commonGroups.length > 0
+        })
+      }
+      return this.sortPersons(personsList, this.selectedOrder)
     },
-    created() {
-      this.selectedOrder = this.getOrderFromLocalStorage() || 'daysUntilBirthday'
+  },
+  created() {
+    this.selectedOrder = this.getOrderFromLocalStorage() || 'daysUntilBirthday'
+  },
+  methods: {
+    getOrderFromLocalStorage() {
+      return localStorageHelper.getListOrder()
     },
-    methods: {
-      getOrderFromLocalStorage() {
-        return localStorageHelper.getListOrder()
-      },
-      buildPersons(serverPersons) {
-        return (
-          serverPersons &&
-          Object.values(serverPersons).map(person => {
-            return {
-              id: person.id,
-              name: person.name,
-              birthday: new Date(person.birthday),
-              age: computeAge(new Date(), new Date(person.birthday)),
-              daysUntilBirthday: this.daysUntilBirthday(person.birthday),
-              groups: person.groups && person.groups.sort(),
-            }
-          })
+    buildPersons(serverPersons) {
+      return (
+        serverPersons &&
+        Object.values(serverPersons).map(person => {
+          return {
+            id: person.id,
+            name: person.name,
+            birthday: new Date(person.birthday),
+            age: computeAge(new Date(), new Date(person.birthday)),
+            daysUntilBirthday: this.daysUntilBirthday(person.birthday),
+            groups: person.groups && person.groups.sort(),
+          }
+        })
+      )
+    },
+    daysUntilBirthday(birthday) {
+      let nextBirthday
+      if (typeof birthday === 'string') {
+        nextBirthday = new Date(birthday)
+      } else {
+        nextBirthday = new Date(birthday.getTime())
+      }
+      nextBirthday.setFullYear(today.getFullYear())
+      if (
+        this.isDayMonthLater(
+          { day1: nextBirthday.getDate(), month1: nextBirthday.getMonth() },
+          { day2: today.getDate(), month2: today.getMonth() }
         )
-      },
-      daysUntilBirthday(birthday) {
-        let nextBirthday
-        if (typeof birthday === 'string') {
-          nextBirthday = new Date(birthday)
-        } else {
-          nextBirthday = new Date(birthday.getTime())
-        }
+      ) {
         nextBirthday.setFullYear(today.getFullYear())
-        if (
-          this.isDayMonthLater(
-            { day1: nextBirthday.getDate(), month1: nextBirthday.getMonth() },
-            { day2: today.getDate(), month2: today.getMonth() }
-          )
-        ) {
-          nextBirthday.setFullYear(today.getFullYear())
-          return differenceInCalendarDays(nextBirthday, today.getTime())
-        }
-        nextBirthday.setFullYear(today.getFullYear() + 1)
         return differenceInCalendarDays(nextBirthday, today.getTime())
-      },
-      isDayMonthLater({ day1, month1 }, { day2, month2 }) {
-        return month1 > month2 || (month1 === month2 && day1 >= day2)
-      },
-      sortPersons(personsList, selectedOrder) {
-        if (selectedOrder) {
-          return personsList.sort((p1, p2) => comparePersons(p1, p2, selectedOrder))
-        }
-        return personsList
-      },
-      selectOrder(order) {
-        this.selectedOrder = order
-        localStorageHelper.saveListOrder(order)
-      },
-      isGroupSelected(groupLabel) {
-        return this.selectedGroups.indexOf(groupLabel) !== -1
-      },
-      filterByGroup(groupLabel) {
-        if (this.selectedGroups.indexOf(groupLabel) !== -1) {
-          this.selectedGroups = this.selectedGroups.filter(group => {
-            return group !== groupLabel
-          })
-        } else {
-          this.selectedGroups.push(groupLabel)
-        }
-      },
-      nbPersonsWithinGroup(group) {
-        return this.importantPersons.filter(person => {
-          return person.groups && person.groups.includes(group)
-        }).length
-      },
-      askForConfirmation({ id, name }) {
-        this.personIdToDelete = id
-        this.personNameToDelete = name
-        this.showConfirmDeleteModal++
-      },
-      confirmDeletePerson(personId) {
-        importantPersons.deletePerson(this.$store, personId)
-      },
+      }
+      nextBirthday.setFullYear(today.getFullYear() + 1)
+      return differenceInCalendarDays(nextBirthday, today.getTime())
     },
-  }
+    isDayMonthLater({ day1, month1 }, { day2, month2 }) {
+      return month1 > month2 || (month1 === month2 && day1 >= day2)
+    },
+    sortPersons(personsList, selectedOrder) {
+      if (selectedOrder) {
+        return personsList.sort((p1, p2) =>
+          comparePersons(p1, p2, selectedOrder)
+        )
+      }
+      return personsList
+    },
+    selectOrder(order) {
+      this.selectedOrder = order
+      localStorageHelper.saveListOrder(order)
+    },
+    isGroupSelected(groupLabel) {
+      return this.selectedGroups.indexOf(groupLabel) !== -1
+    },
+    filterByGroup(groupLabel) {
+      if (this.selectedGroups.indexOf(groupLabel) !== -1) {
+        this.selectedGroups = this.selectedGroups.filter(group => {
+          return group !== groupLabel
+        })
+      } else {
+        this.selectedGroups.push(groupLabel)
+      }
+    },
+    nbPersonsWithinGroup(group) {
+      return this.importantPersons.filter(person => {
+        return person.groups && person.groups.includes(group)
+      }).length
+    },
+    askForConfirmation({ id, name }) {
+      this.personIdToDelete = id
+      this.personNameToDelete = name
+      this.showConfirmDeleteModal++
+    },
+    confirmDeletePerson(personId) {
+      importantPersons.deletePerson(this.$store, personId)
+    },
+  },
+}
 </script>
 
 <style scoped lang="scss">
-  .order-and-total {
-    @apply flex flex-col-reverse;
-    @apply p-2;
+.order-and-total {
+  @apply flex flex-col-reverse;
+  @apply p-2;
 
-    .total-persons {
-      @apply pr-2 mb-3 text-right;
-    }
-
-    @media (min-width: 675px) {
-      @apply flex-row;
-    }
+  .total-persons {
+    @apply pr-2 mb-3 text-right;
   }
 
-  .flip-list-item {
-    transition: all 0.5s;
-    display: inline-block;
+  @media (min-width: 675px) {
+    @apply flex-row;
   }
-  .flip-list-move {
-    transition: transform 0.8s;
-  }
-  .flip-list-enter,
-  .flip-list-leave-to {
-    opacity: 0;
-  }
-  .flip-list-leave-active {
-    position: absolute;
-  }
+}
 
+.flip-list-item {
+  transition: all 0.5s;
+  display: inline-block;
+}
+.flip-list-move {
+  transition: transform 0.8s;
+}
+.flip-list-enter,
+.flip-list-leave-to {
+  opacity: 0;
+}
+.flip-list-leave-active {
+  position: absolute;
+}
+
+.persons-grid {
+  @apply mt-5;
+  @apply grid grid-cols-1 gap-6;
+  grid-template-columns: 1fr;
+  justify-items: center;
+
+  .one-person {
+    width: 300px;
+  }
+}
+@media (min-width: 665px) {
   .persons-grid {
-    @apply mt-5;
-    @apply grid grid-cols-1 gap-6;
-    grid-template-columns: 1fr;
-    justify-items: center;
+    @apply grid grid-cols-2;
 
     .one-person {
       width: 300px;
     }
   }
-  @media (min-width: 665px) {
-    .persons-grid {
-      @apply grid grid-cols-2;
+}
+@media (min-width: 768px) {
+  .persons-grid .one-person {
+    width: 350px;
+  }
+}
+@media (min-width: 1065px) {
+  .persons-grid {
+    @apply grid grid-cols-3;
 
-      .one-person {
-        width: 300px;
-      }
+    .one-person {
+      width: 300px;
     }
   }
-  @media (min-width: 768px) {
-    .persons-grid .one-person {
-      width: 350px;
-    }
+}
+@media (min-width: 1265px) {
+  .persons-grid .one-person {
+    width: 350px;
   }
-  @media (min-width: 1065px) {
-    .persons-grid {
-      @apply grid grid-cols-3;
-
-      .one-person {
-        width: 300px;
-      }
-    }
-  }
-  @media (min-width: 1265px) {
-    .persons-grid .one-person {
-      width: 350px;
-    }
-  }
+}
 </style>
