@@ -32,13 +32,28 @@
       v-model="newName"
       name="name"
       placeholder="Name"
-      class="input mt-4 px-10 text-xl text-center block mx-auto"
+      class="input mt-4 w-full text-center block mx-auto"
+      :class="
+        newName.length > 20
+          ? 'text-base'
+          : newName.length > 10
+          ? 'text-lg'
+          : 'text-xl'
+      "
+      style="max-width: 85%"
       @keyup.enter="updatePerson"
       @keyup.esc="cancelEdit"
     />
     <h3
       v-if="!isEditMode"
-      class="mt-3 text-center text-xl"
+      class="mt-3 text-center"
+      :class="
+        newName.length > 20
+          ? 'text-base'
+          : newName.length > 10
+          ? 'text-lg'
+          : 'text-xl'
+      "
       @dblclick="switchToEditMode"
     >
       {{ name }}

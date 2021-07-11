@@ -2,11 +2,12 @@
   <div class="mb-8">
     <AddBirthDatePanel />
 
-    <div class="text-center font-xl my-3">OR</div>
+    <div class="text-center font-xl mt-3">OR</div>
 
     <button
       type="button"
       class="btn-import"
+      :class="shouldMinimizeGoogleImport ? 'transform scale-75' : 'mt-3'"
       @click="showImportGoogleContactsModal++"
     >
       <span class="svg-wrap">
@@ -26,6 +27,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { askForConsent } from '../helpers/googlePeopleSync'
 
 export default {
@@ -33,6 +35,14 @@ export default {
   data: () => ({
     showImportGoogleContactsModal: 0,
   }),
+  computed: {
+    ...mapState({
+      importantPersons: state => state.app.importantPersons,
+    }),
+    shouldMinimizeGoogleImport() {
+      return this.importantPersons?.length > 0
+    },
+  },
   methods: {
     askForConsent() {
       askForConsent()
