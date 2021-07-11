@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="showConfirmation"
-    class="alert-toast fixed top-0 right-0 m-8 w-1/3 max-w-sm"
-  >
+  <div v-if="showConfirmation" class="alert-toast fixed top-0 right-0 m-8">
     <input type="checkbox" class="hidden" id="footertoast" />
 
     <label
