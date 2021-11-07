@@ -24,6 +24,7 @@
                 mr-2
                 inline-flex
                 justify-center
+                items-center
                 rounded-full
                 hover:bg-gray-200
               "

@@ -181,7 +181,11 @@ export default {
             unit: null,
           }
         }
-        unit = ' months old'
+        if (this.age.value === 1) {
+          unit = ' month old'
+        } else {
+          unit = ' months old'
+        }
       }
       return {
         value: this.age.value,

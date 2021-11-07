@@ -13,6 +13,7 @@
         type="submit"
         :disabled="!newGroupName"
         class="btn btn-blue"
+        style="padding-right: 0.9rem"
         @click.prevent="addGroup"
       >
         <i class="fa fa-plus text-xs" />
