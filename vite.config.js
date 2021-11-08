@@ -1,7 +1,7 @@
 import path from 'path'
 import { defineConfig } from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
-import ViteComponents from 'vite-plugin-components'
+import Components from 'unplugin-vue-components/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import visualizer from 'rollup-plugin-visualizer'
 
@@ -11,8 +11,7 @@ import visualizer from 'rollup-plugin-visualizer'
 export default defineConfig({
   plugins: [
     createVuePlugin(),
-    ViteComponents({
-      transformer: 'vue2',
+    Components({
       dirs: ['src/components'],
     }),
     VitePWA({
