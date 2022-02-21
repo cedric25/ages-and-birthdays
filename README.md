@@ -9,7 +9,7 @@
 ## Features
 
 - Add a person and its birthday (year optional)
-- Manage groups
+- Manage groups of people
 - List all persons with group filters and sorts
 
 ## Tech details
@@ -21,7 +21,7 @@
 ### Storage
 
 - Within the browser (**localStorage**)
-- Through **Firebase** if logged with Google 
+- Through **Firebase** if logged in with Google 
 
 ### Useful links
 
