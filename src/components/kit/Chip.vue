@@ -7,7 +7,7 @@
     <button
       v-if="closable"
       type="button"
-      class="inline-flex ml-2 hover:text-gray-300"
+      class="ml-2 inline-flex hover:text-gray-300"
       style="margin-right: -5px"
       @click="$emit('close')"
     >
@@ -49,7 +49,7 @@ export default {
 .chip {
   @apply inline-flex items-center justify-center;
   @apply mx-1 px-3 py-1;
-  @apply text-white text-sm whitespace-nowrap text-center;
+  @apply whitespace-nowrap text-center text-sm text-white;
   @apply bg-gray-400;
   @apply rounded-full;
   @apply outline-none;
@@ -87,7 +87,7 @@ export default {
 
   .count {
     @apply inline-flex items-center justify-center;
-    @apply bg-gray-700 rounded-full;
+    @apply rounded-full bg-gray-700;
     @apply mr-2;
     width: 24px;
     height: 24px;

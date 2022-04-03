@@ -11,7 +11,7 @@
 
     <!--Footer-->
     <template v-slot:action>
-      <button type="button" class="btn btn-blue px-4 py-3 ml-2" @click="yes">
+      <button type="button" class="btn btn-blue ml-2 px-4 py-3" @click="yes">
         Yes, do it!
       </button>
     </template>

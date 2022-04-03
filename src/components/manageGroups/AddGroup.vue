@@ -6,7 +6,7 @@
         v-model="newGroupName"
         name="group"
         placeholder="Add new..."
-        class="input new-group-input pt-0 mr-2"
+        class="input new-group-input mr-2 pt-0"
         :error="hasError"
       />
       <button
@@ -18,7 +18,7 @@
       >
         <i class="fa fa-plus text-xs" />
       </button>
-      <div v-if="showError" class="text-red-600 ml-4">
+      <div v-if="showError" class="ml-4 text-red-600">
         {{ errorMessage }}
       </div>
     </form>

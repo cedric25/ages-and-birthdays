@@ -15,7 +15,7 @@
       />
     </div>
 
-    <div class="flex flex-wrap justify-center mb-2">
+    <div class="mb-2 flex flex-wrap justify-center">
       <Chip
         v-for="group in groups"
         :key="group"
@@ -46,7 +46,7 @@
       />
     </div>
 
-    <div class="grid grid-cols-6 gap-x-1 gap-y-2 mb-6">
+    <div class="mb-6 grid grid-cols-6 gap-x-1 gap-y-2">
       <Chip
         v-for="(month, index) in months"
         :key="month"
@@ -60,8 +60,8 @@
       >
     </div>
 
-    <div class="flex mb-6">
-      <div class="flex mr-4">
+    <div class="mb-6 flex">
+      <div class="mr-4 flex">
         <div class="tracking-wider">19</div>
         <div style="width: 24px">
           <input
@@ -80,7 +80,7 @@
 
       <div class="mx-2">OR</div>
 
-      <div class="flex ml-4">
+      <div class="ml-4 flex">
         <div class="tracking-wider">20</div>
         <div style="width: 24px">
           <input

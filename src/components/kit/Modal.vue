@@ -1,51 +1,20 @@
 <template>
   <div
     :ref="id"
-    :class="visible ? '' : 'opacity-0 pointer-events-none'"
-    class="
-      modal
-      fixed
-      w-full
-      h-full
-      top-0
-      left-0
-      flex
-      items-center
-      justify-center
-      z-40
-    "
+    :class="visible ? '' : 'pointer-events-none opacity-0'"
+    class="modal fixed top-0 left-0 z-40 flex h-full w-full items-center justify-center"
   >
     <div
-      class="absolute w-full h-full bg-gray-900 opacity-50"
+      class="absolute h-full w-full bg-gray-900 opacity-50"
       @click="toggleModal"
     ></div>
 
     <div
-      class="
-        modal-container
-        bg-white
-        w-11/12
-        md:max-w-md
-        mx-auto
-        rounded
-        shadow-lg
-        z-50
-        overflow-y-auto
-      "
+      class="modal-container z-50 mx-auto w-11/12 overflow-y-auto rounded bg-white shadow-lg md:max-w-md"
     >
       <button
         type="button"
-        class="
-          absolute
-          right-0
-          cursor-pointer
-          flex flex-col
-          items-center
-          mt-4
-          mr-4
-          text-white text-sm
-          z-50
-        "
+        class="absolute right-0 z-50 mt-4 mr-4 flex cursor-pointer flex-col items-center text-sm text-white"
         style="top: 56px"
         @click="toggleModal"
       >
@@ -64,14 +33,14 @@
       </button>
 
       <!-- Add margin if you want to see some of the overlay behind the modal-->
-      <div class="modal-content py-4 text-left px-6">
-        <div class="flex justify-between items-center pb-3">
+      <div class="modal-content py-4 px-6 text-left">
+        <div class="flex items-center justify-between pb-3">
           <p class="text-2xl">
             <slot name="title"></slot>
           </p>
           <button
             type="button"
-            class="cursor-pointer z-50"
+            class="z-50 cursor-pointer"
             @click="toggleModal"
           >
             <svg
@@ -93,7 +62,7 @@
         <div class="flex justify-end pt-2">
           <button
             type="button"
-            class="px-4 py-3 rounded hover:bg-gray-100"
+            class="rounded px-4 py-3 hover:bg-gray-100"
             @click="toggleModal"
           >
             Close

@@ -2,12 +2,12 @@
   <div class="mb-8">
     <AddBirthDatePanel />
 
-    <div class="text-center font-xl mt-3">OR</div>
+    <div class="font-xl mt-3 text-center">OR</div>
 
     <button
       type="button"
       class="btn-import"
-      :class="shouldMinimizeGoogleImport ? '' : 'scale-100 mt-3'"
+      :class="shouldMinimizeGoogleImport ? '' : 'mt-3 scale-100'"
       @click="showImportGoogleContactsModal++"
     >
       <span class="svg-wrap">
@@ -53,15 +53,15 @@ export default {
 
 <style scoped lang="scss">
 .btn-import {
-  @apply pl-3 pr-5 py-2 mx-auto;
-  @apply text-white bg-blue-500 rounded-full;
+  @apply mx-auto py-2 pl-3 pr-5;
+  @apply rounded-full bg-blue-500 text-white;
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
     0 1px 5px 0 rgba(0, 0, 0, 0.12);
   @apply flex items-center;
   @apply text-lg;
   @apply outline-none;
   @apply transition duration-200 ease-in-out;
-  @apply mt-0 transform scale-75;
+  @apply mt-0 scale-75 transform;
 
   &:hover {
     @apply bg-blue-600;
@@ -70,7 +70,7 @@ export default {
   $icon-size: 38px;
 
   .svg-wrap {
-    @apply block bg-white rounded-full;
+    @apply block rounded-full bg-white;
     @apply mr-3 p-1;
     width: $icon-size;
     height: $icon-size;

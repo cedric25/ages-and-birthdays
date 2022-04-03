@@ -1,10 +1,10 @@
 <template>
   <transition name="slide">
     <div class="background-image">
-      <div class="flex flex-col h-full justify-center max-w-4xl mx-auto">
+      <div class="mx-auto flex h-full max-w-4xl flex-col justify-center">
         <h2 class="text-5xl">Thanks for visiting!</h2>
 
-        <hr class="border-gray-500 my-4" />
+        <hr class="my-4 border-gray-500" />
 
         <div class="mb-3 text-xl font-bold">Privacy</div>
         <p>
@@ -13,14 +13,14 @@
           if you log in.
         </p>
 
-        <hr class="border-gray-500 my-4" />
+        <hr class="my-4 border-gray-500" />
 
         <p>Code is open source, check it out!</p>
         <a
           href="https://github.com/cedric25/ages-and-birthdays"
           target="_blank"
         >
-          <button class="btn btn-blue flex mx-auto mt-2">
+          <button class="btn btn-blue mx-auto mt-2 flex">
             <img src="../assets/github-icon.svg" class="github-icon" />
             Github
           </button>

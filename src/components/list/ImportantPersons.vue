@@ -1,6 +1,6 @@
 <template>
   <div class="mt-0 md:mt-6">
-    <div class="admin-actions px-2 mb-2" v-if="showAdminActions">
+    <div class="admin-actions mb-2 px-2" v-if="showAdminActions">
       <!--      <ImportExport />-->
 
       <div v-if="importantPersons.length > 0" class="ml-3">
@@ -187,7 +187,7 @@ export default {
   @apply p-2;
 
   .total-persons {
-    @apply pr-2 mb-3 text-right;
+    @apply mb-3 pr-2 text-right;
   }
 
   @media (min-width: 675px) {

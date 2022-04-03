@@ -25,8 +25,8 @@
           {{ totalConnections }} contacts.
         </p>
 
-        <p class="text-center mt-6 mb-5 text-xl">
-          <span ref="imported-count" class="imported-count inline-block mr-3">{{
+        <p class="mt-6 mb-5 text-center text-xl">
+          <span ref="imported-count" class="imported-count mr-3 inline-block">{{
             importantPersonsCount
           }}</span>
           new birthdays!
@@ -39,7 +39,7 @@
       <button
         v-if="isImportFromGoogleDone"
         type="button"
-        class="btn btn-blue px-4 py-3 ml-2"
+        class="btn btn-blue ml-2 px-4 py-3"
         @click="hideModal++"
       >
         OK 👍
@@ -47,7 +47,7 @@
       <button
         v-else
         type="button"
-        class="btn btn-blue px-4 py-3 ml-2"
+        class="btn btn-blue ml-2 px-4 py-3"
         :disabled="doingImportFromGoogle"
         @click="$emit('confirm')"
       >

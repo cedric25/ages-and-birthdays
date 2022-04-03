@@ -16,7 +16,7 @@
 
 <style scoped lang="scss">
 .home-wrap {
-  @apply p-6 mx-auto mb-24;
+  @apply mx-auto mb-24 p-6;
   max-width: 1000px;
 
   @media (min-width: 1200px) {

@@ -1,6 +1,6 @@
 <template>
   <div class="one-person">
-    <div v-if="hasGroups" class="text-left pr-8">
+    <div v-if="hasGroups" class="pr-8 text-left">
       <Chip
         v-for="group in personGroups"
         :key="group"
@@ -32,7 +32,7 @@
       v-model="newName"
       name="name"
       placeholder="Name"
-      class="input mt-4 w-full text-center block mx-auto"
+      class="input mx-auto mt-4 block w-full text-center"
       :class="
         newName.length > 20
           ? 'text-base'
@@ -60,10 +60,10 @@
       <span v-if="isBaby" class="baby-icon">👶</span>
     </h3>
 
-    <div class="flex justify-center mt-2 mb-2">
-      <div v-if="isEditMode" class="mx-auto mt-3 relative">
+    <div class="mt-2 mb-2 flex justify-center">
+      <div v-if="isEditMode" class="relative mx-auto mt-3">
         <i
-          class="fa fa-calendar-week text-sm absolute left-0"
+          class="fa fa-calendar-week absolute left-0 text-sm"
           style="top: 4px"
         />
         <input
@@ -71,13 +71,13 @@
           v-model="dob"
           name="dob"
           placeholder="DD/MM/YYYY"
-          class="input text-center pl-3"
+          class="input pl-3 text-center"
           style="max-width: 130px"
           :error="wrongDateEntered"
           @keyup.enter="updatePerson()"
           @keyup.esc="cancelEdit()"
         />
-        <div class="text-center text-xs mt-1 text-gray-400">DD/MM/YYYY</div>
+        <div class="mt-1 text-center text-xs text-gray-400">DD/MM/YYYY</div>
       </div>
       <div
         v-if="!isEditMode"
@@ -286,7 +286,7 @@ export default {
 <style scoped lang="scss">
 .one-person {
   @apply bg-white;
-  @apply pb-5 pt-2 px-2;
+  @apply px-2 pb-5 pt-2;
   @apply relative;
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
     0 1px 5px 0 rgba(0, 0, 0, 0.12);
@@ -298,7 +298,7 @@ export default {
     @apply text-gray-700;
     @apply absolute;
     @apply flex items-center justify-center;
-    @apply bg-white rounded-full;
+    @apply rounded-full bg-white;
     @apply outline-none;
     right: 6px;
     width: 36px;

@@ -26,15 +26,7 @@
         />
         <div
           v-else
-          class="
-            bg-blue-700
-            rounded-full
-            h-full
-            flex
-            items-center
-            justify-center
-            text-xl
-          "
+          class="flex h-full items-center justify-center rounded-full bg-blue-700 text-xl"
         >
           {{ user.name.substr(0, 1) }}
         </div>
@@ -82,9 +74,9 @@ export default {
 
 <style scoped>
 .tooltip .tooltip-text {
-  @apply absolute opacity-0 invisible;
+  @apply invisible absolute opacity-0;
   @apply text-center text-sm;
-  @apply bg-gray-600 rounded;
+  @apply rounded bg-gray-600;
   @apply px-4 py-1;
   @apply transition duration-300 ease-out;
   z-index: 100;
@@ -93,7 +85,7 @@ export default {
 }
 .tooltip:hover .tooltip-text {
   @apply visible;
-  @apply transform translate-y-1;
+  @apply translate-y-1 transform;
   opacity: 0.95;
 }
 </style>

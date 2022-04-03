@@ -1,17 +1,7 @@
 <template>
-  <div class="m-auto bg-white overflow-hidden" style="max-width: 95%">
+  <div class="m-auto overflow-hidden bg-white" style="max-width: 95%">
     <div
-      class="
-        flex
-        items-center
-        justify-between
-        px-6
-        py-3
-        cursor-pointer
-        relative
-        bg-white
-        z-20
-      "
+      class="relative z-20 flex cursor-pointer items-center justify-between bg-white px-6 py-3"
       @click="changeExpandedState"
     >
       <div ref="panelHeaderTitle">

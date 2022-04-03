@@ -2,7 +2,7 @@
   <div class="top-menu">
     <router-link to="/" class="text-xl"> Ages and Birthdays </router-link>
 
-    <div class="flex items-center h-full">
+    <div class="flex h-full items-center">
       <router-link to="/about" class="top-menu-link" style="padding-top: 2px">
         ABOUT
       </router-link>
@@ -25,7 +25,7 @@ export default {
 
 <style scoped lang="scss">
 .top-menu {
-  @apply fixed w-full z-30;
+  @apply fixed z-30 w-full;
   height: 56px;
   @apply flex items-center justify-between;
   @apply px-4;
@@ -34,7 +34,7 @@ export default {
     0 1px 10px 0 rgba(0, 0, 0, 0.12);
 
   .top-menu-link {
-    @apply h-full flex items-center;
+    @apply flex h-full items-center;
     @apply mr-3 px-4;
     @apply text-sm font-medium tracking-widest;
     @apply transition-colors duration-200 ease-in-out;

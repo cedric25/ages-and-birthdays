@@ -2,7 +2,7 @@
   <div>
     <div class="flex flex-row flex-wrap items-center">
       <div
-        class="flex flex-wrap justify-center mb-2"
+        class="mb-2 flex flex-wrap justify-center"
         v-for="group in groupsList"
         :key="group.name"
       >
@@ -20,14 +20,7 @@
             />
             <button
               type="submit"
-              class="
-                mr-2
-                inline-flex
-                justify-center
-                items-center
-                rounded-full
-                hover:bg-gray-200
-              "
+              class="mr-2 inline-flex items-center justify-center rounded-full hover:bg-gray-200"
               style="width: 29px; height: 29px"
               @click="submitNewGroupName(group)"
             >

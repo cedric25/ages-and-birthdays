@@ -6,7 +6,7 @@
       type="button"
       v-for="order in orders"
       :key="order.prop"
-      class="ml-6 focus:outline-none"
+      class="focus:outline-none ml-6"
       :class="{ 'text-blue-600': selectedOrder === order.prop }"
       @click="selectOrder(order.prop)"
       @keyup.enter="selectOrder(order.prop)"
@@ -48,6 +48,6 @@ export default {
 
 <style scoped lang="scss">
 button {
-  @apply text-sm font-medium tracking-widest uppercase;
+  @apply text-sm font-medium uppercase tracking-widest;
 }
 </style>
