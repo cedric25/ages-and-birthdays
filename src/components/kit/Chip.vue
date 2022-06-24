@@ -73,7 +73,7 @@ export default {
   }
 
   &.green {
-    @apply bg-green-500;
+    @apply bg-emerald-500;
   }
 
   &.light-blue {

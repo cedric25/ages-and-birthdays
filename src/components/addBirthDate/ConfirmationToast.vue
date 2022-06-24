@@ -3,7 +3,7 @@
     <input type="checkbox" class="hidden" id="footertoast" />
 
     <label
-      class="close flex cursor-pointer items-center justify-between rounded bg-green-500 py-2 px-3 text-white shadow-lg"
+      class="close flex cursor-pointer items-center justify-between rounded bg-emerald-500 py-2 px-3 text-white shadow-lg"
       title="close"
       for="footertoast"
     >
@@ -12,7 +12,7 @@
         >!</span
       >
       <span
-        class="flex h-6 w-6 items-center justify-center rounded-full hover:bg-green-400"
+        class="flex h-6 w-6 items-center justify-center rounded-full hover:bg-emerald-400"
       >
         <i class="fa fa-times" />
       </span>
