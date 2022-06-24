@@ -1,5 +1,3 @@
-import Vue from 'vue'
-
 import { importFromGoogleMutations } from './importFromGoogleMutations'
 
 export const mutations = {
@@ -24,7 +22,7 @@ export const mutations = {
           { name: newInfo.name },
           { birthday: newInfo.birthday }
         )
-        Vue.set(state.importantPersons, index, updatedPerson)
+        state.importantPersons[index] = updatedPerson
       }
     })
   },

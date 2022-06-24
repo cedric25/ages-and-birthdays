@@ -65,7 +65,7 @@ import { mapGetters } from 'vuex'
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 import { computeAge } from '../../helpers/computeAge'
 import comparePersons from '../../helpers/comparePersons'
-import * as localStorageHelper from '../../helpers/localStorageHelper'
+import * as localStorageHelper from '../../services/localStorage/localStorageHelper.js'
 import * as importantPersons from '../../helpers/importantPersons'
 
 const today = new Date()

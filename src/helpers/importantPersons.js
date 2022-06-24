@@ -1,5 +1,5 @@
 import * as db from './db'
-import * as localStorageHelper from './localStorageHelper'
+import * as localStorageHelper from '../services/localStorage/localStorageHelper.js'
 
 export function setAllPersons({ state, commit }, allPersons) {
   commit('setAllPersons', allPersons)

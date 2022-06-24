@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { nanoid } from 'nanoid'
 import anime from 'animejs'
 import { mapGetters } from 'vuex'
 
@@ -34,6 +35,7 @@ export default {
     showContent: { type: Boolean, default: false },
   },
   data: () => ({
+    _uid: nanoid(),
     isExpanded: false,
   }),
   computed: {

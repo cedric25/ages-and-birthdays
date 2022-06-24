@@ -99,11 +99,8 @@
       </div>
     </div>
 
-    <div v-if="!isEditMode" class="birthday-in-wrap mt-1 text-center">
-      <span>
-        {{ textBeforeDays }}
-      </span>
-      <span v-if="!isBirthdayToday">
+    <div v-if="!isEditMode" class="mt-1 text-center">
+      <span> {{ textBeforeDays }} </span>&nbsp;<span v-if="!isBirthdayToday">
         <strong>{{ daysUntilBirthday }}</strong> day{{
           (daysUntilBirthday > 1 && 's') || ''
         }}
