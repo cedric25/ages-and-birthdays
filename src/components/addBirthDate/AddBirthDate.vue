@@ -5,14 +5,17 @@
       :added-name="addedName"
     />
 
-    <div class="name-input mb-6">
-      <input
-        ref="name"
-        v-model="name"
-        name="name"
-        placeholder="Name"
-        class="input text-center"
-      />
+    <div class="mb-6 flex space-x-8">
+      <label> Name: </label>
+      <div>
+        <input
+          ref="name"
+          v-model="name"
+          name="name"
+          placeholder="Name"
+          class="input"
+        />
+      </div>
     </div>
 
     <div class="mb-2 flex flex-wrap justify-center">
