@@ -33,6 +33,7 @@
       >
       <button
         v-if="!showAddGroupInput"
+        type="button"
         class="ml-3 w-[28px] rounded-full bg-gray-100 hover:bg-gray-200"
         @click.prevent="showAddGroup"
       >
@@ -259,6 +260,7 @@ export default {
       setTimeout(() => this.$refs.group.focus(), 100)
     },
     addGroup() {
+      console.log('addGroup')
       if (!this.newGroupName?.trim()) {
         return
       }
