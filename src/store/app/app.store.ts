@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
 import type { Person } from '@/@types/Person'
 import type { Parent } from '@/@types/Parent'
+import type { Group } from '@/@types/Group'
 
 type State = {
   importantPersons: Person[]
-  groups: String[]
+  groups: Group[]
   isSyncingDb: boolean
   doingImportFromGoogle: boolean
   isImportFromGoogleDone: boolean
@@ -145,7 +146,7 @@ export const useAppStore = defineStore('app', {
 
     // ------------------------- GROUPS -------------------------
 
-    setAllGroups(allGroups: string[]) {
+    setAllGroups(allGroups: Group[]) {
       this.groups = allGroups
     },
 

@@ -1,5 +1,5 @@
 import type { Group } from '@/@types/Group'
-import * as db from './db.js'
+import * as db from './db'
 import * as localStorageHelper from '../services/localStorage/localStorageHelper.js'
 import { useAppStore } from '@/store/app/app.store'
 import { useUserStore } from '@/store/user/user.store'
