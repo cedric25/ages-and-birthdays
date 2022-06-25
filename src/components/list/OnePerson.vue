@@ -18,7 +18,7 @@
       <Chip
         v-for="group in otherGroups"
         :key="group"
-        class="mr-2"
+        class="mr-2 mt-1"
         clickable
         @click.native="addToGroup(group)"
       >
@@ -28,7 +28,7 @@
 
     <div
       v-if="!isEditMode && (person.parentOne || person.parentTwo)"
-      class="text-center text-sm"
+      class="-mb-2 text-center text-sm"
     >
       ({{ person.parentOne?.name ?? '?' }} +
       {{ person.parentTwo?.name ?? '?' }})
