@@ -10,7 +10,7 @@
     </div>
     <!-- ----- ADMIN ----- -->
 
-    <div v-if="importantPersons.length > 0">
+    <div>
       <div class="order-and-total">
         <OrderBy
           class="flex-1"
@@ -39,7 +39,15 @@
       </div>
     </div>
 
-    <transition-group name="flip-list" tag="div" class="persons-grid">
+    <button
+      v-if="importantPersons.length === 0"
+      class="mt-6 w-[400px] rounded-xl border border-[3px] border-dashed bg-white px-2 py-10"
+    >
+      <span class="block text-3xl">🎂</span>
+      <span class="mt-1 block text-lg">Add your first person's birthday</span>
+    </button>
+
+    <transition-group v-else name="flip-list" tag="div" class="persons-grid">
       <div v-for="person in persons" :key="person.id" class="flip-list-item">
         <OnePerson :person="person" @wantToDelete="askForConfirmation" />
       </div>
