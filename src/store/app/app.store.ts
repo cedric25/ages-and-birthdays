@@ -69,7 +69,6 @@ export const useAppStore = defineStore('app', {
       parentTwo?: Parent
       children?: string[]
     }) {
-      console.log('updatePerson, id:', id)
       const personToUpdateIndex = this.importantPersons.findIndex(
         person => person.id === id
       )
@@ -77,7 +76,6 @@ export const useAppStore = defineStore('app', {
         return
       }
       const person = this.importantPersons[personToUpdateIndex]
-      console.log('parentTwo', parentTwo)
       const updatedPerson = Object.assign({}, person, {
         name,
         birthday,
