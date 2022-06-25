@@ -2,7 +2,7 @@
 
 import { createPinia, setActivePinia } from 'pinia'
 import { useAppStore } from '@/store/app/app.store.ts'
-import { addGroup, deleteGroup } from '@/helpers/groups.js'
+import { addGroup, deleteGroup } from '@/helpers/groups.ts'
 
 beforeEach(function () {
   setActivePinia(createPinia())

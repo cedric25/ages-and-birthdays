@@ -18,13 +18,13 @@ describe('OnePerson component', () => {
         unit: 'years',
       },
       daysUntilBirthday: 295,
-      personGroups: ['Family'],
+      groups: ['Family'],
     }
     wrapper = mount(OnePerson, {
       global: {
         plugins: [createTestingPinia()],
       },
-      props: { ...person },
+      props: { person },
     })
   })
 
@@ -100,7 +100,7 @@ describe('OnePerson component - Less than 1y old', () => {
       personGroups: ['Friends'],
     }
     wrapper = mount(OnePerson, {
-      props: { ...person },
+      props: { person },
     })
   })
 
@@ -138,7 +138,7 @@ describe('OnePerson component - Birthday is today', () => {
       daysUntilBirthday: 0,
     }
     wrapper = mount(OnePerson, {
-      props: { ...person },
+      props: { person },
     })
   })
 
@@ -165,7 +165,7 @@ describe('OnePerson component - Birthday today AND year unknown', () => {
       daysUntilBirthday: 0,
     }
     wrapper = mount(OnePerson, {
-      props: { ...person },
+      props: { person },
     })
   })
 

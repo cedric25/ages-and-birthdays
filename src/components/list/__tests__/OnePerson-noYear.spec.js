@@ -26,7 +26,7 @@ describe('OnePerson component', () => {
       global: {
         plugins: [createTestingPinia()],
       },
-      props: { ...person },
+      props: { person },
     })
 
     const appStore = useAppStore()
