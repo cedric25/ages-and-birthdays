@@ -44,8 +44,7 @@
         v-model="day"
         name="day"
         placeholder="DD"
-        class="input text-center"
-        style="width: 30px"
+        class="input w-[29px] text-center"
       />
     </div>
 
@@ -66,7 +65,7 @@
     <div class="mb-6 flex">
       <div class="mr-4 flex">
         <div class="tracking-wider">19</div>
-        <div style="width: 24px">
+        <div>
           <input
             type="tel"
             ref="year1"
@@ -75,8 +74,7 @@
             :disabled="!!year2"
             placeholder="YY"
             maxlength="2"
-            class="input tracking-widest"
-            style="width: 24px; margin-left: 1px"
+            class="input w-[29px] tracking-widest"
           />
         </div>
       </div>
@@ -94,8 +92,7 @@
             :disabled="!!year1"
             placeholder="YY"
             maxlength="2"
-            class="input tracking-widest"
-            style="width: 24px; margin-left: 1px"
+            class="input w-[29px] tracking-widest"
           />
         </div>
       </div>
