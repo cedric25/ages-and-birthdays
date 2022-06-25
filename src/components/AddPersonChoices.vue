@@ -27,8 +27,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import { askForConsent } from '../helpers/googlePeopleSync'
+import { mapState } from 'pinia'
+import { askForConsent } from '@/helpers/googlePeopleSync'
+import { useAppStore } from '@/store/app/app.store.js'
 
 export default {
   name: 'AddPersonChoices',
@@ -36,9 +37,7 @@ export default {
     showImportGoogleContactsModal: 0,
   }),
   computed: {
-    ...mapState({
-      importantPersons: state => state.app.importantPersons,
-    }),
+    ...mapState(useAppStore, ['importantPersons']),
     shouldMinimizeGoogleImport() {
       return this.importantPersons?.length > 0
     },

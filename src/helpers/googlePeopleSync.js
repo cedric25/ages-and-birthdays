@@ -1,12 +1,12 @@
 import { nanoid } from 'nanoid'
 import parse from 'date-fns/parse'
 import isValid from 'date-fns/isValid'
-import store from '../store/store.js'
+import { useAppStore } from '@/store/app/app.store.js'
 import {
   loadGoogleApiClient,
   initGoogleClient,
   getConnectionNamesAndBirthdays,
-} from '../services/googlePeopleApi/googlePeopleApi.functions'
+} from '@/services/googlePeopleApi/googlePeopleApi.functions'
 import { addNewPerson } from './importantPersons'
 
 export async function askForConsent() {
@@ -49,13 +49,15 @@ async function updateSigninStatusCallback(isSignedIn) {
 }
 
 export async function getConnectionsAndAddPersons(pageToken) {
-  // Reset any previous import state
-  store.commit('setImportFromGoogleDone', false)
+  const appStore = useAppStore()
 
-  store.commit('setDoingImportFromGoogle', true)
+  // Reset any previous import state
+  appStore.setImportFromGoogleDone(false)
+
+  appStore.setDoingImportFromGoogle(true)
 
   const pageResults = await getConnectionNamesAndBirthdays(pageToken)
-  store.commit('setTotalConnections', pageResults?.result?.totalItems)
+  appStore.setTotalConnections(pageResults?.result?.totalItems)
 
   try {
     await addPersonsFromConnections(pageResults)
@@ -67,8 +69,8 @@ export async function getConnectionsAndAddPersons(pageToken) {
   if (nextPageToken) {
     getConnectionsAndAddPersons(nextPageToken)
   } else {
-    store.commit('setDoingImportFromGoogle', false)
-    store.commit('setImportFromGoogleDone', true)
+    appStore.setDoingImportFromGoogle(false)
+    appStore.setImportFromGoogleDone(true)
   }
 }
 
@@ -115,7 +117,7 @@ function addFromGoogleConnection(connection) {
   let birthday
   try {
     birthday = buildBirthdayFromConnection(connection)
-    addNewPerson(store, {
+    addNewPerson({
       id: nanoid(),
       name: displayName,
       birthday,

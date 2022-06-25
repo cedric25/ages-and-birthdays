@@ -1,15 +1,8 @@
 // npm t OnePerson.spec
 
-import Vue from 'vue'
-import Vuex from 'vuex'
-import { shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
+import { createTestingPinia } from '@pinia/testing'
 import OnePerson from '../OnePerson.vue'
-
-Vue.config.ignoredElements = [/^v-/]
-
-Vue.use(Vuex)
-
-Vue.directive('click-outside', jest.fn())
 
 describe('OnePerson component', () => {
   let person
@@ -27,19 +20,11 @@ describe('OnePerson component', () => {
       daysUntilBirthday: 295,
       personGroups: ['Family'],
     }
-    wrapper = shallowMount(OnePerson, {
-      propsData: { ...person },
-      store: new Vuex.Store({
-        state: {
-          importantPersons: [],
-          groups: ['Family', 'Friends'],
-        },
-        getters: {
-          groups(state) {
-            return state.groups.sort()
-          },
-        },
-      }),
+    wrapper = mount(OnePerson, {
+      global: {
+        plugins: [createTestingPinia()],
+      },
+      props: { ...person },
     })
   })
 
@@ -114,8 +99,8 @@ describe('OnePerson component - Less than 1y old', () => {
       daysUntilBirthday: 240,
       personGroups: ['Friends'],
     }
-    wrapper = shallowMount(OnePerson, {
-      propsData: { ...person },
+    wrapper = mount(OnePerson, {
+      props: { ...person },
     })
   })
 
@@ -152,8 +137,8 @@ describe('OnePerson component - Birthday is today', () => {
       },
       daysUntilBirthday: 0,
     }
-    wrapper = shallowMount(OnePerson, {
-      propsData: { ...person },
+    wrapper = mount(OnePerson, {
+      props: { ...person },
     })
   })
 
@@ -179,8 +164,8 @@ describe('OnePerson component - Birthday today AND year unknown', () => {
       },
       daysUntilBirthday: 0,
     }
-    wrapper = shallowMount(OnePerson, {
-      propsData: { ...person },
+    wrapper = mount(OnePerson, {
+      props: { ...person },
     })
   })
 

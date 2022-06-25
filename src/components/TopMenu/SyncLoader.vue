@@ -12,12 +12,13 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'pinia'
+import { useAppStore } from '@/store/app/app.store.js'
 
 export default {
   name: 'SyncLoader',
   computed: {
-    ...mapGetters(['isSyncingDb']),
+    ...mapState(useAppStore, ['isSyncingDb']),
   },
 }
 </script>

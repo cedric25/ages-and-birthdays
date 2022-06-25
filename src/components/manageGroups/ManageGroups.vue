@@ -3,20 +3,20 @@
     <div class="flex flex-row flex-wrap items-center">
       <div
         class="mb-2 flex flex-wrap justify-center"
-        v-for="group in groupsList"
-        :key="group.name"
+        v-for="(group, index) in groups"
+        :key="group"
       >
-        <div v-if="group.isEditMode">
+        <div v-if="index === beingEditedGroupIndex">
           <form>
             <input
               ref="newGroupName"
               :value="newGroupName"
-              @input="event => inputGroupName(event, group.name)"
+              @input="event => inputGroupName(event, group)"
               name="group"
               class="input ml-2"
               :style="'width: ' + groupNameInputSize + 'px'"
               :error="inputHasError"
-              @keyup.esc="cancelEdit"
+              @keyup.esc="beingEditedGroupIndex = null"
             />
             <button
               type="submit"
@@ -29,12 +29,12 @@
             <div class="to-get-text-width">{{ newGroupName }}</div>
           </form>
         </div>
-        <Chip v-if="!group.isEditMode" closable @close="deleteGroup(group)">
-          {{ group.name }}
+        <Chip v-else closable @close="deleteGroup(group)">
+          {{ group }}
           <button
             type="button"
             class="ml-1 hover:text-gray-300"
-            @click="editGroup(group)"
+            @click="beingEditedGroupIndex = index"
           >
             <i class="fa fa-pencil-alt" />
           </button>
@@ -47,8 +47,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import * as groups from '../../helpers/groups'
+import { mapState } from 'pinia'
+import { useAppStore } from '@/store/app/app.store.js'
+import * as groups from '@/helpers/groups'
 
 export default {
   name: 'ManageGroups',
@@ -56,42 +57,19 @@ export default {
     isGroupsFormOpen: { type: Boolean, required: true },
   },
   data: () => ({
-    // Initialise with these two groups for height of content to be the good one...
-    groupsList: ['Family', 'Friends'],
+    // Initialize with these two groups for height of content to be the good one...
+    // groupsList: ['Family', 'Friends'],
     newGroupName: '',
+    beingEditedGroupIndex: null,
     groupNameInputSize: 0,
     inputHasError: false,
   }),
   computed: {
-    ...mapGetters(['groups']),
-  },
-  mounted() {
-    const sortedGroups = this.groups.sort((groupOne, groupTwo) => {
-      return groupOne.toLowerCase().localeCompare(groupTwo.toLowerCase())
-    })
-    this.groupsList = sortedGroups.map(group => ({
-      name: group,
-      isEditMode: false,
-    }))
-  },
-  created() {
-    this.$store.watch(
-      () => this.$store.getters.groups,
-      newStoreGroups => {
-        const clonedStoreGroups = [...newStoreGroups]
-        const sortedGroups = clonedStoreGroups.sort((groupOne, groupTwo) => {
-          return groupOne.toLowerCase().localeCompare(groupTwo.toLowerCase())
-        })
-        this.groupsList = sortedGroups.map(group => ({
-          name: group,
-          isEditMode: false,
-        }))
-      }
-    )
+    ...mapState(useAppStore, { groups: 'sortedGroups' }),
   },
   methods: {
     deleteGroup(group) {
-      groups.deleteGroup(this.$store, group.name)
+      groups.deleteGroup(group.name)
     },
     editGroup(groupToEdit) {
       this.groupsList = this.groupsList.map(group => {
@@ -131,7 +109,7 @@ export default {
         }
         return group
       })
-      groups.renameGroup(this.$store, groupToEdit.name, this.newGroupName)
+      groups.renameGroup(groupToEdit.name, this.newGroupName)
     },
     inputGroupName($event, originalName) {
       const newName = $event.target.value
@@ -149,11 +127,6 @@ export default {
       setTimeout(() => {
         const textWidthDiv = this.$el.querySelector('.to-get-text-width')
         this.groupNameInputSize = textWidthDiv.clientWidth + 20
-      })
-    },
-    cancelEdit() {
-      this.groupsList.forEach(group => {
-        group.isEditMode = false
       })
     },
   },

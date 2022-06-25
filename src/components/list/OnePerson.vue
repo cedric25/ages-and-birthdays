@@ -131,9 +131,10 @@
 <script>
 import format from 'date-fns/format'
 import parse from 'date-fns/parse'
-import { mapGetters } from 'vuex'
-import * as importantPersons from '../../helpers/importantPersons'
-import { containsYear } from '../../helpers/date'
+import { mapState } from 'pinia'
+import { useAppStore } from '@/store/app/app.store.js'
+import * as importantPersons from '@/helpers/importantPersons'
+import { containsYear } from '@/helpers/date'
 
 export default {
   props: {
@@ -151,7 +152,7 @@ export default {
     wrongDateEntered: false,
   }),
   computed: {
-    ...mapGetters(['groups']),
+    ...mapState(useAppStore, ['groups']),
     hasGroups() {
       return this.personGroups && this.personGroups.length > 0
     },
@@ -250,7 +251,7 @@ export default {
             newBirthdayDate.getDate()
           )
         )
-        importantPersons.updatePerson(this.$store, {
+        importantPersons.updatePerson({
           id: this.id,
           name: this.newName,
           birthday: newBirthday.toISOString(),
@@ -271,10 +272,10 @@ export default {
       return this.personGroups && this.personGroups.includes(group)
     },
     addToGroup(group) {
-      importantPersons.addGroupToPerson(this.$store, this.id, group)
+      importantPersons.addGroupToPerson(this.id, group)
     },
     removeFromGroup(group) {
-      importantPersons.removeGroupFromPerson(this.$store, this.id, group)
+      importantPersons.removeGroupFromPerson(this.id, group)
     },
   },
 }

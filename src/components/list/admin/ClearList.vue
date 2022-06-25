@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import * as importantPersons from '@/helpers/importantPersons'
+import { removeAllPersons } from '@/helpers/importantPersons.js'
 
 export default {
   name: 'ClearList',
@@ -16,7 +16,7 @@ export default {
   }),
   methods: {
     clearList() {
-      importantPersons.removeAllPersons(this.$store)
+      removeAllPersons()
       this.confirmClearDialog = false
     },
   },

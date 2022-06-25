@@ -115,9 +115,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import { nanoid } from 'nanoid'
-import * as importantPersons from '../../helpers/importantPersons'
+import { mapState } from 'pinia'
+import { useAppStore } from '@/store/app/app.store.js'
+import * as importantPersons from '@/helpers/importantPersons.js'
 
 export default {
   name: 'AddBirthDate',
@@ -150,7 +151,8 @@ export default {
     addedName: 'Tom',
   }),
   computed: {
-    ...mapGetters(['importantPersons', 'groups']),
+    ...mapState(useAppStore, ['importantPersons']),
+    ...mapState(useAppStore, { groups: 'sortedGroups' }),
     isFormValid() {
       return this.name && this.day && this.monthNo !== -1
     },
@@ -183,7 +185,7 @@ export default {
         birthday,
         groups: this.selectedGroups,
       }
-      importantPersons.addNewPerson(this.$store, newPerson)
+      importantPersons.addNewPerson(newPerson)
       this.addedName = this.name
       this.showConfirmation = true
       setTimeout(() => {

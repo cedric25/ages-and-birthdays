@@ -16,7 +16,7 @@
         type="button"
         class="flex"
         style="width: 36px; height: 36px"
-        @click="signout"
+        @click="signOut"
       >
         <img
           v-if="user.photoUrl"
@@ -37,7 +37,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'pinia'
+import { useUserStore } from '@/store/user/user.store.js'
 
 export default {
   name: 'GoogleSignin',
@@ -47,7 +48,7 @@ export default {
     showSignoutTooltip: false,
   }),
   computed: {
-    ...mapGetters(['user']),
+    ...mapState(useUserStore, ['user']),
   },
   mounted() {
     setInterval(() => {
@@ -61,12 +62,14 @@ export default {
     googleSignin() {
       this.showSigninTooltip = false
       this.showSignoutTooltip = false
-      this.$store.dispatch('signUserInGoogle')
+      const userStore = useUserStore()
+      userStore.signUserInGoogle()
     },
-    signout() {
+    signOut() {
       this.showSigninTooltip = false
       this.showSignoutTooltip = false
-      this.$store.dispatch('signout')
+      const userStore = useUserStore()
+      userStore.signOut()
     },
   },
 }

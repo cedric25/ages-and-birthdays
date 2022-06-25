@@ -26,8 +26,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import * as groups from '../../helpers/groups'
+import { mapState } from 'pinia'
+import { useAppStore } from '@/store/app/app.store.js'
+import * as groups from '@/helpers/groups.js'
 
 export default {
   name: 'AddGroup',
@@ -42,7 +43,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['groups']),
+    ...mapState(useAppStore, ['groups']),
     hasError() {
       return this.groups.indexOf(this.newGroupName) !== -1
     },
@@ -64,7 +65,7 @@ export default {
         this.showError = true
         return
       }
-      groups.addGroup(this.$store, this.newGroupName)
+      groups.addGroup(this.newGroupName)
       this.newGroupName = ''
     },
   },

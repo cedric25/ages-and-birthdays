@@ -1,15 +1,9 @@
 // npm t OnePerson-noYear
 
-import Vue from 'vue'
-import Vuex from 'vuex'
-import { shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
+import { createTestingPinia } from '@pinia/testing'
+import { useAppStore } from '@/store/app/app.store.js'
 import OnePerson from '../OnePerson.vue'
-
-Vue.config.ignoredElements = [/^v-/]
-
-Vue.use(Vuex)
-
-Vue.directive('click-outside', jest.fn())
 
 describe('OnePerson component', () => {
   let person
@@ -27,20 +21,17 @@ describe('OnePerson component', () => {
       daysUntilBirthday: 295,
       personGroups: ['Family'],
     }
-    wrapper = shallowMount(OnePerson, {
-      propsData: { ...person },
-      store: new Vuex.Store({
-        state: {
-          importantPersons: [],
-          groups: ['Family', 'Friends'],
-        },
-        getters: {
-          groups(state) {
-            return state.groups.sort()
-          },
-        },
-      }),
+    wrapper = mount(OnePerson, {
+      shallow: true,
+      global: {
+        plugins: [createTestingPinia()],
+      },
+      props: { ...person },
     })
+
+    const appStore = useAppStore()
+    appStore.importantPersons = []
+    appStore.groups = ['Family', 'Friends']
   })
 
   describe('Computed props', () => {

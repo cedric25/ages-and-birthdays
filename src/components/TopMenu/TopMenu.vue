@@ -13,12 +13,13 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'pinia'
+import { useUserStore } from '@/store/user/user.store.js'
 
 export default {
   name: 'TopMenu',
   computed: {
-    ...mapGetters(['user']),
+    ...mapState(useUserStore, ['user']),
   },
 }
 </script>

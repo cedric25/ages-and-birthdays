@@ -1,63 +1,70 @@
 import * as db from './db'
-import * as localStorageHelper from '../services/localStorage/localStorageHelper.js'
+import * as localStorageHelper from '@/services/localStorage/localStorageHelper.js'
+import { useAppStore } from '@/store/app/app.store.js'
+import { useUserStore } from '@/store/user/user.store.js'
 
-export function setAllPersons({ state, commit }, allPersons) {
-  commit('setAllPersons', allPersons)
-  updateDbPersons(state, commit)
+export function setAllPersons(allPersons) {
+  const appStore = useAppStore()
+  appStore.setAllPersons(allPersons)
+  updateDbPersons()
 }
 
-export function addNewPerson({ state, commit }, newPerson) {
-  commit('addNewImportantPerson', newPerson)
-  updateDbPersons(state, commit)
+export function addNewPerson(newPerson) {
+  const appStore = useAppStore()
+  appStore.addNewImportantPerson(newPerson)
+  updateDbPersons()
 }
 
-export function updatePerson({ state, commit }, updatedPerson) {
-  commit('updatePerson', updatedPerson)
-  updateDbPersons(state, commit)
+export function updatePerson(updatedPerson) {
+  const appStore = useAppStore()
+  appStore.updatePerson(updatedPerson)
+  updateDbPersons()
 }
 
-export function deletePerson({ state, commit }, personId) {
-  commit('deletePerson', personId)
-  updateDbPersons(state, commit)
+export function deletePerson(personId) {
+  const appStore = useAppStore()
+  appStore.deletePerson(personId)
+  updateDbPersons()
 }
 
-export function addGroupToPerson({ state, commit }, personId, groupToAdd) {
-  commit('addGroupToPerson', {
+export function addGroupToPerson(personId, groupToAdd) {
+  const appStore = useAppStore()
+  appStore.addGroupToPerson({
     personId,
     groupToAdd,
   })
-  updateDbPersons(state, commit)
+  updateDbPersons()
 }
 
-export function removeAllPersons({ state, commit }) {
-  commit('removeAllPersons')
-  updateDbPersons(state, commit)
+export function removeAllPersons() {
+  const appStore = useAppStore()
+  appStore.removeAllPersons()
+  updateDbPersons()
 }
 
-export function removeGroupFromPerson(
-  { state, commit },
-  personId,
-  groupToRemove
-) {
-  commit('removeGroupFromPerson', {
+export function removeGroupFromPerson(personId, groupToRemove) {
+  const appStore = useAppStore()
+  appStore.removeGroupFromPerson({
     personId,
     groupToRemove,
   })
-  updateDbPersons(state, commit)
+  updateDbPersons()
 }
 
-function updateDbPersons(state, commit) {
-  if (state.user.user) {
-    commit('syncingDb', true)
-    db.setImportantPersons(state.user.user.id, state.app.importantPersons)
+function updateDbPersons() {
+  const userStore = useUserStore()
+  const appStore = useAppStore()
+  if (userStore.user) {
+    appStore.syncingDb(true)
+    db.setImportantPersons(userStore.user.id, appStore.importantPersons)
       .then(() => {
-        commit('syncingDb', false)
+        appStore.syncingDb(false)
       })
       .catch(err => {
         console.error('Sync importantPersons into Firebase', err)
-        commit('syncingDb', false)
+        appStore.syncingDb(false)
       })
   } else {
-    localStorageHelper.setPersons(state.app.importantPersons)
+    localStorageHelper.setPersons(appStore.importantPersons)
   }
 }

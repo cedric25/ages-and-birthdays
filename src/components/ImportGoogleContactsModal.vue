@@ -59,7 +59,8 @@
 
 <script>
 import anime from 'animejs'
-import { mapState } from 'vuex'
+import { mapState } from 'pinia'
+import { useAppStore } from '@/store/app/app.store.js'
 
 export default {
   name: 'ImportGoogleContactsModal',
@@ -70,12 +71,12 @@ export default {
     hideModal: 0,
   }),
   computed: {
-    ...mapState({
-      importantPersons: state => state.app.importantPersons,
-      doingImportFromGoogle: state => state.app.doingImportFromGoogle,
-      isImportFromGoogleDone: state => state.app.isImportFromGoogleDone,
-      totalConnections: state => state.app.totalConnections,
-    }),
+    ...mapState(useAppStore, [
+      'importantPersons',
+      'doingImportFromGoogle',
+      'isImportFromGoogleDone',
+      'totalConnections',
+    ]),
     importantPersonsCount() {
       return this.importantPersons.length
     },
@@ -97,9 +98,10 @@ export default {
   },
   methods: {
     resetImportState() {
+      const appStore = useAppStore()
       setTimeout(() => {
-        this.$store.commit('setDoingImportFromGoogle', false)
-        this.$store.commit('setImportFromGoogleDone', false)
+        appStore.setDoingImportFromGoogle(false)
+        appStore.setImportFromGoogleDone(false)
       }, 200)
     },
   },

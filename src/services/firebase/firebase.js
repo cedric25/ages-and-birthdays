@@ -1,17 +1,18 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
-import firebaseConfig from '../../firebase-config.js'
-import store from '../../store/store.js'
-import { getStateFromLocalStorage } from '../localStorage/getStateFromLocalStorage.js'
+import { useUserStore } from '@/store/user/user.store.js'
+import { getStateFromLocalStorage } from '@/services/localStorage/getStateFromLocalStorage.js'
+import firebaseConfig from '@/services/firebase/firebase-config'
 
 export function initFirebase() {
   initializeApp(firebaseConfig)
   getAuth().onAuthStateChanged(user => {
+    const userStore = useUserStore()
     if (user) {
-      store.dispatch('autoSignIn', user)
+      userStore.autoSignIn(user)
     } else {
       getStateFromLocalStorage()
-      store.commit('setLoginTriedOrFinished')
+      userStore.setLoginTriedOrFinished()
     }
   })
 }

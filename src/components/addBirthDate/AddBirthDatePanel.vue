@@ -11,7 +11,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'pinia'
+import { useUserStore } from '@/store/user/user.store.js'
+import { useAppStore } from '@/store/app/app.store.js'
 
 export default {
   name: 'AddBirthDatePanel',
@@ -19,7 +21,8 @@ export default {
     isPanelExpanded: false,
   }),
   computed: {
-    ...mapGetters(['loginTriedOrFinished', 'importantPersons']),
+    ...mapState(useUserStore, ['loginTriedOrFinished']),
+    ...mapState(useAppStore, ['importantPersons']),
     panelHeaderTitle() {
       if (this.loginTriedOrFinished && this.importantPersons.length === 0) {
         return `Add your first person's birthday`

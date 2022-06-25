@@ -1,13 +1,14 @@
-import store from '../../store/store.js'
+import { useAppStore } from '@/store/app/app.store.js'
 import * as localStorageHelper from './localStorageHelper.js'
 
 export function getStateFromLocalStorage() {
   const importantPersons = localStorageHelper.getPersons()
   const groups = localStorageHelper.getGroups()
+  const appStore = useAppStore()
   if (importantPersons) {
-    store.commit('setAllPersons', JSON.parse(importantPersons))
+    appStore.setAllPersons(JSON.parse(importantPersons))
   }
   if (groups) {
-    store.commit('setAllGroups', JSON.parse(groups))
+    appStore.setAllGroups(JSON.parse(groups))
   }
 }

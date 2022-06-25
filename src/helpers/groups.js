@@ -1,41 +1,49 @@
 import * as db from './db'
 import * as localStorageHelper from '../services/localStorage/localStorageHelper.js'
+import { useAppStore } from '@/store/app/app.store.js'
+import { useUserStore } from '@/store/user/user.store.js'
 
-export function setAllGroups({ state, commit }, allGroups) {
-  commit('setAllGroups', allGroups)
-  updateDbGroups(state, commit)
+export function setAllGroups(allGroups) {
+  const appStore = useAppStore()
+  appStore.setAllGroups(allGroups)
+  updateDbGroups()
 }
 
-export function addGroup({ state, commit }, groupName) {
-  commit('addGroup', groupName)
-  updateDbGroups(state, commit)
+export function addGroup(groupName) {
+  const appStore = useAppStore()
+  appStore.addGroup(groupName)
+  updateDbGroups()
 }
 
-export function deleteGroup({ state, commit }, groupName) {
-  commit('deleteGroup', groupName)
-  updateDbGroups(state, commit)
+export function deleteGroup(groupName) {
+  const appStore = useAppStore()
+  appStore.deleteGroup(groupName)
+  updateDbGroups()
 }
 
-export function renameGroup({ state, commit }, oldName, newName) {
-  commit('renameGroup', {
+export function renameGroup(oldName, newName) {
+  const appStore = useAppStore()
+  appStore.renameGroup({
     oldName,
     newName,
   })
-  updateDbGroups(state, commit)
+  updateDbGroups()
 }
 
-function updateDbGroups(state, commit) {
-  if (state.user.user) {
-    commit('syncingDb', true)
-    db.setGroups(state.user.user.id, state.app.groups)
+function updateDbGroups() {
+  const userStore = useUserStore()
+  const appStore = useAppStore()
+  if (userStore.user) {
+    appStore.syncingDb(true)
+    db.setGroups(userStore.user.id, appStore.groups)
       .then(() => {
-        commit('syncingDb', false)
+        appStore.setSyncingDb(false)
       })
       .catch(err => {
         console.error('Sync groups into Firebase', err)
-        commit('syncingDb', false)
+        appStore.setSyncingDb(false)
       })
   } else {
-    localStorageHelper.setGroups(state.app.groups)
+    localStorageHelper.setGroups(appStore.groups)
   }
 }

@@ -18,8 +18,25 @@ export default defineConfig({
       // /!\ Don't remove that or users might never get new content!
       // Unless you want to replace that with a manual "Refresh" button.
       // -> https://github.com/antfu/vite-plugin-pwa
-      registerType: 'autoUpdate',
-      manifest: false,
+      includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
+      manifest: {
+        name: 'Ages & Birthdays',
+        short_name: 'Birthdays',
+        description: 'Finally a place to track and organize birthdays.',
+        theme_color: '#1976D2',
+        icons: [
+          {
+            src: 'img/icons/android-chrome-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: 'img/icons/android-chrome-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+        ],
+      },
     }),
 
     visualizer(),
@@ -36,5 +53,11 @@ export default defineConfig({
 
   build: {
     chunkSizeWarningLimit: 1000,
+  },
+
+  test: {
+    globals: true,
+    // environment: 'happy-dom', // Doesn't seem to work because of nanoid using crypto...
+    environment: 'jsdom',
   },
 })

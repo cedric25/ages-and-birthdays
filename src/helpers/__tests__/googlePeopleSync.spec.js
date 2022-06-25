@@ -1,37 +1,47 @@
+// npm t googlePeopleSync.spec
+
+import { vi } from 'vitest'
 import parseISO from 'date-fns/parseISO'
 import format from 'date-fns/format'
-import * as googlePeopleApi from '../../services/googlePeopleApi/googlePeopleApi.functions'
-import store from '../../store'
+import { setActivePinia, createPinia } from 'pinia'
+import { useAppStore } from '@/store/app/app.store.js'
+import * as googlePeopleApi from '@/services/googlePeopleApi/googlePeopleApi.functions.js'
 import {
   getConnectionsAndAddPersons,
   buildBirthdayFromConnection,
 } from '../googlePeopleSync'
 
-describe('getConnectionsAndAddPersons', () => {
+describe('getConnectionsAndAddPersons', function () {
+  beforeEach(function () {
+    setActivePinia(createPinia())
+  })
+
   it('should add one person', async () => {
-    expect(store.state.app.importantPersons).toEqual([])
-    jest
-      .spyOn(googlePeopleApi, 'getConnectionNamesAndBirthdays')
-      .mockResolvedValue({
-        result: {
-          connections: [
-            {
-              names: [
-                {
-                  displayName: 'Tommy',
-                },
-              ],
-              birthdays: [
-                {
-                  date: { year: 1990, month: 10, day: 1 },
-                },
-              ],
-            },
-          ],
-        },
-      })
+    const appStore = useAppStore()
+    expect(appStore.importantPersons).toEqual([])
+    vi.spyOn(
+      googlePeopleApi,
+      'getConnectionNamesAndBirthdays'
+    ).mockResolvedValue({
+      result: {
+        connections: [
+          {
+            names: [
+              {
+                displayName: 'Tommy',
+              },
+            ],
+            birthdays: [
+              {
+                date: { year: 1990, month: 10, day: 1 },
+              },
+            ],
+          },
+        ],
+      },
+    })
     await getConnectionsAndAddPersons()
-    expect(store.state.app.importantPersons).toMatchObject([
+    expect(appStore.importantPersons).toMatchObject([
       {
         id: expect.any(String),
         name: 'Tommy',

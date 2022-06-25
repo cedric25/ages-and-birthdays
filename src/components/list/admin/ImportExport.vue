@@ -1,12 +1,13 @@
 <template>
   <div>
-    <v-btn
+    <button
       v-if="importantPersons.length > 0"
+      type="button"
       @click="downloadJson"
       class="mr-4"
     >
       Download JSON
-    </v-btn>
+    </button>
 
     <label
       class="v-btn v-btn--contained theme--light v-size--default"
@@ -19,14 +20,15 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { findGroups } from '../../helpers/findGroups'
-import * as importantPersons from '../../helpers/importantPersons'
-import * as groups from '../../helpers/groups'
+import { mapState } from 'pinia'
+import { useAppStore } from '@/store/app/app.store.js'
+import { findGroups } from '@/helpers/findGroups.js'
+import * as importantPersons from '@/helpers/importantPersons.js'
+import * as groups from '@/helpers/groups.js'
 
 export default {
   computed: {
-    ...mapGetters(['importantPersons']),
+    ...mapState(useAppStore, ['importantPersons']),
   },
   methods: {
     downloadJson() {
@@ -56,9 +58,9 @@ export default {
       reader.onload = () => {
         try {
           const jsonPersons = JSON.parse(reader.result)
-          importantPersons.setAllPersons(this.$store, jsonPersons)
+          importantPersons.setAllPersons(jsonPersons)
           const allGroups = findGroups(jsonPersons)
-          groups.setAllGroups(this.$store, allGroups)
+          groups.setAllGroups(allGroups)
         } catch (err) {
           console.error('Invalid JSON file...')
         }
@@ -73,9 +75,5 @@ export default {
 <style scoped>
 input[type='file'] {
   display: none;
-}
-
-.btn {
-  cursor: pointer;
 }
 </style>

@@ -1,5 +1,6 @@
 <template>
   <div class="mt-0 md:mt-6">
+    <!-- ----- ADMIN ----- -->
     <div class="admin-actions mb-2 px-2" v-if="showAdminActions">
       <!--      <ImportExport />-->
 
@@ -7,6 +8,7 @@
         <ClearList />
       </div>
     </div>
+    <!-- ----- ADMIN ----- -->
 
     <div v-if="importantPersons.length > 0">
       <div class="order-and-total">
@@ -61,9 +63,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
-import { computeAge } from '../../helpers/computeAge'
+import { mapState } from 'pinia'
+import { useAppStore } from '@/store/app/app.store.js'
+import { computeAge } from '@/helpers/computeAge.js'
 import comparePersons from '../../helpers/comparePersons'
 import * as localStorageHelper from '../../services/localStorage/localStorageHelper.js'
 import * as importantPersons from '../../helpers/importantPersons'
@@ -80,7 +83,8 @@ export default {
     personNameToDelete: '',
   }),
   computed: {
-    ...mapGetters(['importantPersons', 'groups']),
+    ...mapState(useAppStore, ['importantPersons']),
+    ...mapState(useAppStore, { groups: 'sortedGroups' }),
     persons() {
       // Apply filters and sort persons from state
       let personsList = this.buildPersons(this.importantPersons)
@@ -175,7 +179,7 @@ export default {
       this.showConfirmDeleteModal++
     },
     confirmDeletePerson(personId) {
-      importantPersons.deletePerson(this.$store, personId)
+      importantPersons.deletePerson(personId)
     },
   },
 }

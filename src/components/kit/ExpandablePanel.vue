@@ -25,7 +25,8 @@
 <script>
 import { nanoid } from 'nanoid'
 import anime from 'animejs'
-import { mapGetters } from 'vuex'
+import { mapState } from 'pinia'
+import { useUserStore } from '@/store/user/user.store.js'
 
 export default {
   name: 'ExpandablePanel',
@@ -39,7 +40,7 @@ export default {
     isExpanded: false,
   }),
   computed: {
-    ...mapGetters(['loginTriedOrFinished']),
+    ...mapState(useUserStore, ['loginTriedOrFinished']),
     panelContentRef() {
       return `panel-content-${this._uid}`
     },
