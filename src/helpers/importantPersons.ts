@@ -58,7 +58,6 @@ async function updateDbPersons() {
   if (userStore.user) {
     appStore.setSyncingDb(true)
     try {
-      console.log('-> updateDbPersons', appStore.importantPersons)
       await db.setImportantPersons(userStore.user.id, appStore.importantPersons)
       appStore.setSyncingDb(false)
     } catch (err) {
