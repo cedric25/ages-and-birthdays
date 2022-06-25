@@ -52,7 +52,6 @@ export default {
   @apply bg-gray-400;
   @apply rounded-full;
   @apply outline-none;
-  @apply border border-solid border-gray-400;
 
   &.clickable {
     @apply cursor-pointer;
