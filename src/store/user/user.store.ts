@@ -1,18 +1,25 @@
+import type { User } from '@/@types/User'
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 import { onValue } from 'firebase/database'
 import { defineStore } from 'pinia'
-import * as db from '@/helpers/db'
-import { checkUserData } from '@/helpers/checkUserData.js'
-import { useAppStore } from '@/store/app/app.store.js'
+import * as db from '@/helpers/db.js'
+import { checkDbUserData } from '@/services/firebase/checkDbUserData'
+import { useAppStore } from '@/store/app/app.store'
+import type { Person } from '@/@types/Person'
+
+type State = {
+  user: User | null
+  loginTriedOrFinished: number
+}
 
 export const useUserStore = defineStore('user', {
-  state: () => ({
+  state: (): State => ({
     user: null,
     loginTriedOrFinished: 0,
   }),
   actions: {
     // ----- SETTERS -----
-    setUser(payload) {
+    setUser(payload: User | null) {
       this.user = payload
     },
     setLoginTriedOrFinished() {
@@ -20,37 +27,49 @@ export const useUserStore = defineStore('user', {
     },
     // ----- ACTIONS -----
     // = Don't directly mutate state, go through setters
-    autoSignIn(payload) {
+    autoSignIn(payload: {
+      uid: string
+      displayName: string
+      email: string
+      photoURL: string
+    }) {
       this.setUser({
         id: payload.uid,
         name: payload.displayName,
         email: payload.email,
         photoUrl: payload.photoURL,
       })
-      this.signinDone()
+      this.signInDone()
     },
     signUserInGoogle() {
       signInWithPopup(getAuth(), new GoogleAuthProvider())
         .then(result => {
-          const user = result.user
-          const userStore = useUserStore()
-          userStore.setUser({
+          const user = result.user as {
+            uid: string
+            displayName: string
+            email: string
+            photoURL?: string
+          }
+          this.setUser({
             id: user.uid,
             name: user.displayName,
             email: user.email,
-            photoUrl: user.photoURL,
+            photoUrl: user.photoURL || '',
           })
-          userStore.signinDone()
+          this.signInDone()
         })
         .catch(error => {
           console.log(error)
         })
     },
-    signinDone() {
+    signInDone() {
+      if (!this.user) {
+        return
+      }
       const appStore = useAppStore()
       appStore.setSyncingDb(true)
       db.readUserDataOnce(this.user.id)
-        .then(userDataSnapshot => {
+        .then((userDataSnapshot: any) => {
           const userData = userDataSnapshot.val()
           if (!userData) {
             const { importantPersons, groups } = appStore
@@ -61,11 +80,11 @@ export const useUserStore = defineStore('user', {
               })
               .catch(() => appStore.setSyncingDb(false))
           } else {
-            const validData = checkUserData(userData)
-            if (!validData) {
+            const isDbDataValid = checkDbUserData(userData)
+            if (!isDbDataValid) {
               appStore.setSyncingDb(false)
               throw new Error('There is data to be synced but invalid... :(')
-              // Keep local this...
+              // Keep local data...
             }
             // Override local state with what's in Firebase
             // TODO Message to ask if override okay?
@@ -75,7 +94,7 @@ export const useUserStore = defineStore('user', {
           }
           this.setLoginTriedOrFinished()
         })
-        .catch(err => {
+        .catch((err: any) => {
           appStore.setSyncingDb(false)
           console.error('Error...', err)
         })
@@ -83,13 +102,17 @@ export const useUserStore = defineStore('user', {
     signOut() {
       getAuth().signOut()
       this.setUser(null)
-      this.setAllPersons([])
-      this.setAllGroups(['Family', 'Friends'])
+      const appStore = useAppStore()
+      appStore.$reset()
     },
   },
 })
 
-function uploadLocalStateToDb(user, importantPersons, groups) {
+function uploadLocalStateToDb(
+  user: User,
+  importantPersons: Person[],
+  groups: string[]
+) {
   return db
     .setUserData(user.id, {
       user,
@@ -97,10 +120,10 @@ function uploadLocalStateToDb(user, importantPersons, groups) {
       groups,
     })
     .then(() => console.log('Firebase write all good'))
-    .catch(err => console.error('Firebase write failed...', err))
+    .catch((err: any) => console.error('Firebase write failed...', err))
 }
 
-function useDbState(userData) {
+function useDbState(userData: { importantPersons: any; groups: any }) {
   const personsState = []
   const appStore = useAppStore()
   if (userData.importantPersons) {
@@ -112,7 +135,7 @@ function useDbState(userData) {
   userData.groups && appStore.setAllGroups(userData.groups)
 }
 
-function watchForDbChanges(userId) {
+function watchForDbChanges(userId: string) {
   const MIN_LOADING_TIME = 250
 
   const appStore = useAppStore()

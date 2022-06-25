@@ -26,7 +26,7 @@
 import { nanoid } from 'nanoid'
 import anime from 'animejs'
 import { mapState } from 'pinia'
-import { useUserStore } from '@/store/user/user.store.js'
+import { useUserStore } from '@/store/user/user.store.ts'
 
 export default {
   name: 'ExpandablePanel',

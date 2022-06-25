@@ -7,8 +7,7 @@
     <button
       v-if="closable"
       type="button"
-      class="ml-2 inline-flex hover:text-gray-300"
-      style="margin-right: -5px"
+      class="ml-2 -mr-[5px] inline-flex h-[20px] items-center hover:text-gray-300"
       @click="$emit('close')"
     >
       <i class="fa fa-times-circle text-base" />
@@ -53,6 +52,7 @@ export default {
   @apply bg-gray-400;
   @apply rounded-full;
   @apply outline-none;
+  @apply border border-solid border-gray-400;
 
   &.clickable {
     @apply cursor-pointer;

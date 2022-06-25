@@ -14,16 +14,40 @@
       </Chip>
     </div>
 
-    <div v-if="isEditMode" class="mt-2 ml-2 pr-10 text-left">
+    <div v-if="isEditMode" class="pr-10 text-left">
       <Chip
         v-for="group in otherGroups"
         :key="group"
-        class="mr-2 mt-2"
+        class="mr-2"
         clickable
         @click.native="addToGroup(group)"
       >
-        {{ group }}
+        {{ group }} <i class="fa fa-plus ml-1 -mr-px text-xs" />
       </Chip>
+    </div>
+
+    <div
+      v-if="!isEditMode && (person.parentOne || person.parentTwo)"
+      class="text-center"
+    >
+      ({{ person.parentOne?.name ?? '?' }} +
+      {{ person.parentTwo?.name ?? '?' }})
+    </div>
+    <div v-else class="mt-2 mb-2 flex justify-center">
+      <div v-if="isEditMode" class="relative mx-auto mt-3">
+        <input
+          v-model="newParentOne.name"
+          placeholder="Parent 1..."
+          class="input mr-2 max-w-[100px] pl-3 text-center"
+          @keyup.enter="updatePerson"
+        />
+        <input
+          v-model="newParentTwo.name"
+          placeholder="Parent 2..."
+          class="input ml-2 max-w-[100px] pl-3 text-center"
+          @keyup.enter="updatePerson"
+        />
+      </div>
     </div>
 
     <input
@@ -32,7 +56,7 @@
       v-model="newName"
       name="name"
       placeholder="Name"
-      class="input mx-auto mt-4 block w-full text-center"
+      class="input mx-auto mt-4 block w-full max-w-[85%] text-center"
       :class="
         newName.length > 20
           ? 'text-base'
@@ -40,7 +64,6 @@
           ? 'text-lg'
           : 'text-xl'
       "
-      style="max-width: 85%"
       @keyup.enter="updatePerson"
       @keyup.esc="cancelEdit"
     />
@@ -56,7 +79,7 @@
       "
       @dblclick="switchToEditMode"
     >
-      {{ name }}
+      {{ person.name }}
       <span v-if="isBaby" class="baby-icon">👶</span>
     </h3>
 
@@ -71,11 +94,10 @@
           v-model="dob"
           name="dob"
           placeholder="DD/MM/YYYY"
-          class="input pl-3 text-center"
-          style="max-width: 130px"
+          class="input max-w-[130px] pl-3 text-center"
           :error="wrongDateEntered"
-          @keyup.enter="updatePerson()"
-          @keyup.esc="cancelEdit()"
+          @keyup.enter="updatePerson"
+          @keyup.esc="cancelEdit"
         />
         <div class="mt-1 text-center text-xs text-gray-400">DD/MM/YYYY</div>
       </div>
@@ -132,29 +154,50 @@
 import format from 'date-fns/format'
 import parse from 'date-fns/parse'
 import { mapState } from 'pinia'
-import { useAppStore } from '@/store/app/app.store.js'
+import { useAppStore } from '@/store/app/app.store.ts'
 import * as importantPersons from '@/helpers/importantPersons'
 import { containsYear } from '@/helpers/date'
 
 export default {
   props: {
-    id: { type: String, required: true },
-    name: { type: String, required: true },
-    birthday: { type: Date, required: true },
-    age: { type: Object, required: true },
-    daysUntilBirthday: { type: Number, required: true },
-    personGroups: { type: Array, required: false },
+    person: { type: Object, required: true },
   },
-  data: () => ({
+  data: vm => ({
     isEditMode: false,
     newName: '',
     dob: '',
     wrongDateEntered: false,
+    newParentOne: {
+      id: vm.person.parentOne?.id,
+      name: vm.person.parentOne?.name,
+    },
+    newParentTwo: {
+      id: vm.person.parentTwo?.id,
+      name: vm.person.parentTwo?.name,
+    },
   }),
   computed: {
     ...mapState(useAppStore, ['groups']),
+    birthday() {
+      return this.person.birthday
+    },
+    personGroups() {
+      return this.person.groups
+    },
+    age() {
+      return this.person.age
+    },
+    daysUntilBirthday() {
+      return this.person.daysUntilBirthday
+    },
+    isBirthdayToday() {
+      return this.daysUntilBirthday === 0
+    },
     hasGroups() {
       return this.personGroups && this.personGroups.length > 0
+    },
+    isYearKnown() {
+      return this.birthday.getFullYear() > 1910
     },
     readableBirthday() {
       if (!this.isYearKnown) {
@@ -196,12 +239,6 @@ export default {
       }
       return this.age.value + 1
     },
-    isYearKnown() {
-      return this.birthday.getFullYear() > 1910
-    },
-    isBirthdayToday() {
-      return this.daysUntilBirthday === 0
-    },
     textBeforeDays() {
       if (this.isBirthdayToday) {
         if (this.isYearKnown) {
@@ -221,7 +258,7 @@ export default {
     },
   },
   created() {
-    this.newName = this.name
+    this.newName = this.person.name
     if (this.isYearKnown) {
       this.dob = format(this.birthday, 'dd/MM/yyyy')
     } else {
@@ -242,40 +279,52 @@ export default {
       const newBirthdayDate = parse(this.dob, dateFormat, new Date(1901, 0, 1))
       if (!(newBirthdayDate instanceof Date) || isNaN(newBirthdayDate)) {
         this.wrongDateEntered = true
-      } else {
-        this.isEditMode = false
-        const newBirthday = new Date(
-          Date.UTC(
-            newBirthdayDate.getFullYear(),
-            newBirthdayDate.getMonth(),
-            newBirthdayDate.getDate()
-          )
-        )
-        importantPersons.updatePerson({
-          id: this.id,
-          name: this.newName,
-          birthday: newBirthday.toISOString(),
-        })
+        return
       }
+      this.isEditMode = false
+      const newBirthday = new Date(
+        Date.UTC(
+          newBirthdayDate.getFullYear(),
+          newBirthdayDate.getMonth(),
+          newBirthdayDate.getDate()
+        )
+      )
+      importantPersons.updatePerson({
+        id: this.person.id,
+        name: this.newName,
+        birthday: newBirthday.toISOString(),
+        ...(this.newParentOne.name && {
+          parentOne: {
+            ...(this.newParentOne.id && { id: this.newParentOne.id }),
+            name: this.newParentOne.name,
+          },
+        }),
+        ...(this.newParentTwo.name && {
+          parentTwo: {
+            ...(this.newParentTwo.id && { id: this.newParentTwo.id }),
+            name: this.newParentTwo.name,
+          },
+        }),
+      })
     },
     deletePerson() {
       this.$emit('wantToDelete', {
-        id: this.id,
-        name: this.name,
+        id: this.person.id,
+        name: this.person.name,
       })
     },
     cancelEdit() {
       this.isEditMode = false
-      this.newName = this.name
+      this.newName = this.person.name
     },
     isInGroup(group) {
       return this.personGroups && this.personGroups.includes(group)
     },
     addToGroup(group) {
-      importantPersons.addGroupToPerson(this.id, group)
+      importantPersons.addGroupToPerson(this.person.id, group)
     },
     removeFromGroup(group) {
-      importantPersons.removeGroupFromPerson(this.id, group)
+      importantPersons.removeGroupFromPerson(this.person.id, group)
     },
   },
 }

@@ -41,15 +41,7 @@
 
     <transition-group name="flip-list" tag="div" class="persons-grid">
       <div v-for="person in persons" :key="person.id" class="flip-list-item">
-        <OnePerson
-          :id="person.id"
-          :name="person.name"
-          :birthday="person.birthday"
-          :age="person.age"
-          :days-until-birthday="person.daysUntilBirthday"
-          :person-groups="person.groups"
-          @wantToDelete="askForConfirmation"
-        />
+        <OnePerson :person="person" @wantToDelete="askForConfirmation" />
       </div>
     </transition-group>
 
@@ -65,7 +57,7 @@
 <script>
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 import { mapState } from 'pinia'
-import { useAppStore } from '@/store/app/app.store.js'
+import { useAppStore } from '@/store/app/app.store.ts'
 import { computeAge } from '@/helpers/computeAge.js'
 import comparePersons from '../../helpers/comparePersons'
 import * as localStorageHelper from '../../services/localStorage/localStorageHelper.js'
@@ -117,6 +109,8 @@ export default {
             age: computeAge(new Date(), new Date(person.birthday)),
             daysUntilBirthday: this.daysUntilBirthday(person.birthday),
             groups: person.groups && person.groups.sort(),
+            ...(person.parentOne && { parentOne: person.parentOne }),
+            ...(person.parentTwo && { parentTwo: person.parentTwo }),
           }
         })
       )

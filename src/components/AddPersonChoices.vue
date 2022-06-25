@@ -29,7 +29,7 @@
 <script>
 import { mapState } from 'pinia'
 import { askForConsent } from '@/helpers/googlePeopleSync'
-import { useAppStore } from '@/store/app/app.store.js'
+import { useAppStore } from '@/store/app/app.store.ts'
 
 export default {
   name: 'AddPersonChoices',

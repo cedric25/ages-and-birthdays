@@ -1,7 +1,7 @@
 // npm t mutations-importantPersons
 
 import { createPinia, setActivePinia } from 'pinia'
-import { useAppStore } from '@/store/app/app.store.js'
+import { useAppStore } from '@/store/app/app.store.ts'
 
 beforeEach(function () {
   setActivePinia(createPinia())

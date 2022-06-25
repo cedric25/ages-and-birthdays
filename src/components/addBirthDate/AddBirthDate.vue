@@ -18,23 +18,45 @@
       </div>
     </div>
 
-    <div class="mb-2 flex flex-wrap justify-center">
+    <div class="mb-4 flex flex-wrap justify-center">
       <Chip
         v-for="group in groups"
         :key="group"
         :selected="isGroupSelected(group)"
         clickable
-        class="mr-2 mb-2"
+        class="mr-2"
         tabindex="0"
         @click.native="selectGroup(group)"
         @keyup.native.enter="selectGroup(group)"
         @keydown.native.space.prevent="selectGroup(group)"
         >{{ group }}</Chip
       >
-    </div>
-
-    <div class="mb-6">
-      <AddGroup />
+      <button
+        v-if="!showAddGroupInput"
+        class="ml-3 w-[28px] rounded-full bg-gray-100 hover:bg-gray-200"
+        @click.prevent="showAddGroup"
+      >
+        <i class="fa fa-plus text-gray-500" />
+      </button>
+      <div v-else class="ml-3">
+        <input
+          ref="group"
+          v-model="newGroupName"
+          name="group"
+          placeholder="My new group..."
+          class="input new-group-input mr-2 w-[150px] pt-0"
+          @keyup.enter="addGroup"
+          @keyup.esc="showAddGroupInput = false"
+        />
+        <button
+          type="button"
+          :disabled="!newGroupName"
+          class="btn btn-blue !py-1 !px-2"
+          @click.prevent="addGroup"
+        >
+          <i class="fa fa-plus text-xs" />
+        </button>
+      </div>
     </div>
 
     <div class="mb-6">
@@ -114,8 +136,9 @@
 <script>
 import { nanoid } from 'nanoid'
 import { mapState } from 'pinia'
-import { useAppStore } from '@/store/app/app.store.js'
-import * as importantPersons from '@/helpers/importantPersons.js'
+import { useAppStore } from '@/store/app/app.store.ts'
+import * as importantPersons from '@/helpers/importantPersons.ts'
+import * as groups from '@/helpers/groups.ts'
 
 export default {
   name: 'AddBirthDate',
@@ -145,7 +168,9 @@ export default {
     year2: '',
     selectedGroups: [],
     showConfirmation: false,
-    addedName: 'Tom',
+    addedName: '',
+    showAddGroupInput: false,
+    newGroupName: '',
   }),
   computed: {
     ...mapState(useAppStore, ['importantPersons']),
@@ -228,6 +253,24 @@ export default {
     },
     isGroupSelected(groupLabel) {
       return this.selectedGroups.includes(groupLabel)
+    },
+    showAddGroup() {
+      this.showAddGroupInput = true
+      setTimeout(() => this.$refs.group.focus(), 100)
+    },
+    addGroup() {
+      if (!this.newGroupName?.trim()) {
+        return
+      }
+      if (this.groups.indexOf(this.newGroupName) !== -1) {
+        console.log('This group name exists already...')
+        return
+      }
+      groups.addGroup(this.newGroupName)
+      this.showAddGroupInput = false
+      this.selectGroup(this.newGroupName)
+      this.newGroupName = ''
+      this.$refs.name.focus()
     },
   },
 }

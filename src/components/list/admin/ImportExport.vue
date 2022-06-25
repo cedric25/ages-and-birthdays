@@ -21,10 +21,10 @@
 
 <script>
 import { mapState } from 'pinia'
-import { useAppStore } from '@/store/app/app.store.js'
+import { useAppStore } from '@/store/app/app.store.ts'
 import { findGroups } from '@/helpers/findGroups.js'
-import * as importantPersons from '@/helpers/importantPersons.js'
-import * as groups from '@/helpers/groups.js'
+import * as importantPersons from '@/helpers/importantPersons.ts'
+import * as groups from '@/helpers/groups.ts'
 
 export default {
   computed: {

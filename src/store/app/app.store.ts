@@ -1,7 +1,18 @@
 import { defineStore } from 'pinia'
+import type { Person } from '@/@types/Person'
+import type { Parent } from '@/@types/Parent'
+
+type State = {
+  importantPersons: Person[]
+  groups: String[]
+  isSyncingDb: boolean
+  doingImportFromGoogle: boolean
+  isImportFromGoogleDone: boolean
+  totalConnections: number | null
+}
 
 export const useAppStore = defineStore('app', {
-  state: () => ({
+  state: (): State => ({
     importantPersons: [],
     groups: ['Family', 'Friends'],
     isSyncingDb: false,
@@ -18,48 +29,77 @@ export const useAppStore = defineStore('app', {
   },
   actions: {
     // ----- SETTERS -----
-    setSyncingDb(isSyncingDb) {
+    setSyncingDb(isSyncingDb: boolean) {
       this.isSyncingDb = isSyncingDb
     },
 
-    setDoingImportFromGoogle(isDoing) {
+    setDoingImportFromGoogle(isDoing: boolean) {
       this.doingImportFromGoogle = isDoing
     },
-    setImportFromGoogleDone(isDone) {
+    setImportFromGoogleDone(isDone: boolean) {
       this.isImportFromGoogleDone = isDone
     },
-    setTotalConnections(totalConnections) {
+    setTotalConnections(totalConnections: number) {
       this.totalConnections = totalConnections
     },
 
     // ------------------------- IMPORTANT PERSONS -------------------------
 
-    setAllPersons(allPersons) {
+    setAllPersons(allPersons: Person[]) {
       this.importantPersons = allPersons
     },
 
-    addNewImportantPerson(newPerson) {
+    addNewImportantPerson(newPerson: Person) {
       this.importantPersons.push(newPerson)
     },
 
-    updatePerson(newInfo) {
-      this.importantPersons.forEach((person, index) => {
-        if (person.id === newInfo.id) {
-          const updatedPerson = Object.assign(
-            {},
-            person,
-            { name: newInfo.name },
-            { birthday: newInfo.birthday }
-          )
-          this.importantPersons[index] = updatedPerson
-        }
+    updatePerson({
+      id,
+      name,
+      birthday,
+      parentOne,
+      parentTwo,
+      children,
+    }: {
+      id: string
+      name: string
+      birthday: Date
+      parentOne?: Parent
+      parentTwo?: Parent
+      children?: string[]
+    }) {
+      console.log('updatePerson, id:', id)
+      const personToUpdateIndex = this.importantPersons.findIndex(
+        person => person.id === id
+      )
+      if (personToUpdateIndex === -1) {
+        return
+      }
+      const person = this.importantPersons[personToUpdateIndex]
+      console.log('parentTwo', parentTwo)
+      const updatedPerson = Object.assign({}, person, {
+        name,
+        birthday,
+        ...(parentOne && { parentOne }),
+        ...(parentTwo && { parentTwo }),
+        ...(children && { children }),
       })
+      this.importantPersons[personToUpdateIndex] = updatedPerson
     },
 
-    addGroupToPerson({ personId, groupToAdd }) {
+    addGroupToPerson({
+      personId,
+      groupToAdd,
+    }: {
+      personId: string
+      groupToAdd: string
+    }) {
       const personToUpdate = this.importantPersons.find(
         person => person.id === personId
       )
+      if (!personToUpdate) {
+        return
+      }
 
       let newGroupsList = (personToUpdate.groups || []).concat([groupToAdd])
 
@@ -75,16 +115,25 @@ export const useAppStore = defineStore('app', {
       this.importantPersons = newPersonsList
     },
 
-    removeGroupFromPerson({ personId, groupToRemove }) {
+    removeGroupFromPerson({
+      personId,
+      groupToRemove,
+    }: {
+      personId: string
+      groupToRemove: string
+    }) {
       const personToUpdate = this.importantPersons.find(
         person => person.id === personId
       )
+      if (!personToUpdate) {
+        return
+      }
       personToUpdate.groups = personToUpdate.groups.filter(
         group => group !== groupToRemove
       )
     },
 
-    deletePerson(personId) {
+    deletePerson(personId: string) {
       this.importantPersons = this.importantPersons.filter(person => {
         return person.id !== personId
       })
@@ -96,11 +145,11 @@ export const useAppStore = defineStore('app', {
 
     // ------------------------- GROUPS -------------------------
 
-    setAllGroups(allGroups) {
+    setAllGroups(allGroups: string[]) {
       this.groups = allGroups
     },
 
-    addGroup(newGroupLabel) {
+    addGroup(newGroupLabel: string) {
       const groups = this.groups
       groups.push(newGroupLabel)
       const sortedGroups = groups.sort((groupOne, groupTwo) => {
@@ -109,7 +158,7 @@ export const useAppStore = defineStore('app', {
       this.groups = sortedGroups
     },
 
-    deleteGroup(groupToDelete) {
+    deleteGroup(groupToDelete: string) {
       // Remove group from all persons having it
       this.importantPersons.forEach(person => {
         if (person.groups && person.groups.includes(groupToDelete)) {
@@ -120,7 +169,7 @@ export const useAppStore = defineStore('app', {
       this.groups.splice(this.groups.indexOf(groupToDelete), 1)
     },
 
-    renameGroup({ oldName, newName }) {
+    renameGroup({ oldName, newName }: { oldName: string; newName: string }) {
       const currentGroups = this.groups
       currentGroups.splice(currentGroups.indexOf(oldName), 1)
       currentGroups.push(newName)

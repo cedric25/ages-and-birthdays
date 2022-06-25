@@ -22,7 +22,7 @@
               type="submit"
               class="mr-2 inline-flex items-center justify-center rounded-full hover:bg-gray-200"
               style="width: 29px; height: 29px"
-              @click="submitNewGroupName(group)"
+              @click.prevent="submitNewGroupName(group)"
             >
               <i class="fa fa-check" />
             </button>
@@ -34,7 +34,7 @@
           <button
             type="button"
             class="ml-1 hover:text-gray-300"
-            @click="beingEditedGroupIndex = index"
+            @click="editGroup(index, group)"
           >
             <i class="fa fa-pencil-alt" />
           </button>
@@ -48,7 +48,7 @@
 
 <script>
 import { mapState } from 'pinia'
-import { useAppStore } from '@/store/app/app.store.js'
+import { useAppStore } from '@/store/app/app.store.ts'
 import * as groups from '@/helpers/groups'
 
 export default {
@@ -69,22 +69,11 @@ export default {
   },
   methods: {
     deleteGroup(group) {
-      groups.deleteGroup(group.name)
+      groups.deleteGroup(group)
     },
-    editGroup(groupToEdit) {
-      this.groupsList = this.groupsList.map(group => {
-        if (group.name === groupToEdit.name) {
-          this.newGroupName = groupToEdit.name
-          return {
-            name: group.name,
-            isEditMode: true,
-          }
-        }
-        return {
-          name: group.name,
-          isEditMode: false,
-        }
-      })
+    editGroup(index, groupToEdit) {
+      this.beingEditedGroupIndex = index
+      this.newGroupName = groupToEdit
 
       this.$nextTick(() => {
         this.inputGroupName(
@@ -95,21 +84,11 @@ export default {
       })
     },
     submitNewGroupName(groupToEdit) {
-      console.log('submitNewGroupName')
       if (this.inputHasError) {
         return
       }
-
-      this.groupsList = this.groupsList.map(group => {
-        if (group.name === groupToEdit.name) {
-          return {
-            name: this.newGroupName,
-            isEditMode: false,
-          }
-        }
-        return group
-      })
-      groups.renameGroup(groupToEdit.name, this.newGroupName)
+      groups.renameGroup(groupToEdit, this.newGroupName)
+      this.beingEditedGroupIndex = null
     },
     inputGroupName($event, originalName) {
       const newName = $event.target.value

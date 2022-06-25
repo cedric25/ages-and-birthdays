@@ -14,7 +14,7 @@
 
 <script>
 import { mapState } from 'pinia'
-import { useUserStore } from '@/store/user/user.store.js'
+import { useUserStore } from '@/store/user/user.store.ts'
 
 export default {
   name: 'TopMenu',

@@ -7,7 +7,6 @@
         name="group"
         placeholder="Add new..."
         class="input new-group-input mr-2 pt-0"
-        :error="hasError"
       />
       <button
         type="submit"
@@ -27,8 +26,8 @@
 
 <script>
 import { mapState } from 'pinia'
-import { useAppStore } from '@/store/app/app.store.js'
-import * as groups from '@/helpers/groups.js'
+import { useAppStore } from '@/store/app/app.store.ts'
+import * as groups from '@/helpers/groups.ts'
 
 export default {
   name: 'AddGroup',

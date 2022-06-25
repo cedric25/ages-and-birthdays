@@ -1,7 +1,7 @@
 // npm t mutations-groups
 
 import { createPinia, setActivePinia } from 'pinia'
-import { useAppStore } from '@/store/app/app.store.js'
+import { useAppStore } from '@/store/app/app.store.ts'
 import { addGroup, deleteGroup } from '@/helpers/groups.js'
 
 beforeEach(function () {

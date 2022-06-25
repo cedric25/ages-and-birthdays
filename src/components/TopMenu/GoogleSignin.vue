@@ -28,7 +28,7 @@
           v-else
           class="flex h-full items-center justify-center rounded-full bg-blue-700 text-xl"
         >
-          {{ user.name.substr(0, 1) }}
+          {{ user.name.substring(0, 1) }}
         </div>
         <span class="tooltip-text"> Signout </span>
       </button>
@@ -38,7 +38,7 @@
 
 <script>
 import { mapState } from 'pinia'
-import { useUserStore } from '@/store/user/user.store.js'
+import { useUserStore } from '@/store/user/user.store.ts'
 
 export default {
   name: 'GoogleSignin',

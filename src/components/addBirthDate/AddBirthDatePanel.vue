@@ -12,8 +12,8 @@
 
 <script>
 import { mapState } from 'pinia'
-import { useUserStore } from '@/store/user/user.store.js'
-import { useAppStore } from '@/store/app/app.store.js'
+import { useUserStore } from '@/store/user/user.store.ts'
+import { useAppStore } from '@/store/app/app.store.ts'
 
 export default {
   name: 'AddBirthDatePanel',

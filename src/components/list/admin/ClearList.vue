@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { removeAllPersons } from '@/helpers/importantPersons.js'
+import { removeAllPersons } from '@/helpers/importantPersons.ts'
 
 export default {
   name: 'ClearList',

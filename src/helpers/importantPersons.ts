@@ -1,33 +1,34 @@
+import type { Person } from '@/@types/Person'
 import * as db from './db'
 import * as localStorageHelper from '@/services/localStorage/localStorageHelper.js'
-import { useAppStore } from '@/store/app/app.store.js'
-import { useUserStore } from '@/store/user/user.store.js'
+import { useAppStore } from '@/store/app/app.store'
+import { useUserStore } from '@/store/user/user.store'
 
-export function setAllPersons(allPersons) {
+export function setAllPersons(allPersons: Person[]) {
   const appStore = useAppStore()
   appStore.setAllPersons(allPersons)
   updateDbPersons()
 }
 
-export function addNewPerson(newPerson) {
+export function addNewPerson(newPerson: Person) {
   const appStore = useAppStore()
   appStore.addNewImportantPerson(newPerson)
   updateDbPersons()
 }
 
-export function updatePerson(updatedPerson) {
+export function updatePerson(updatedPerson: Person) {
   const appStore = useAppStore()
   appStore.updatePerson(updatedPerson)
   updateDbPersons()
 }
 
-export function deletePerson(personId) {
+export function deletePerson(personId: string) {
   const appStore = useAppStore()
   appStore.deletePerson(personId)
   updateDbPersons()
 }
 
-export function addGroupToPerson(personId, groupToAdd) {
+export function addGroupToPerson(personId: string, groupToAdd: string) {
   const appStore = useAppStore()
   appStore.addGroupToPerson({
     personId,
@@ -42,7 +43,7 @@ export function removeAllPersons() {
   updateDbPersons()
 }
 
-export function removeGroupFromPerson(personId, groupToRemove) {
+export function removeGroupFromPerson(personId: string, groupToRemove: string) {
   const appStore = useAppStore()
   appStore.removeGroupFromPerson({
     personId,
@@ -51,19 +52,19 @@ export function removeGroupFromPerson(personId, groupToRemove) {
   updateDbPersons()
 }
 
-function updateDbPersons() {
+async function updateDbPersons() {
   const userStore = useUserStore()
   const appStore = useAppStore()
   if (userStore.user) {
-    appStore.syncingDb(true)
-    db.setImportantPersons(userStore.user.id, appStore.importantPersons)
-      .then(() => {
-        appStore.syncingDb(false)
-      })
-      .catch(err => {
-        console.error('Sync importantPersons into Firebase', err)
-        appStore.syncingDb(false)
-      })
+    appStore.setSyncingDb(true)
+    try {
+      console.log('-> updateDbPersons', appStore.importantPersons)
+      await db.setImportantPersons(userStore.user.id, appStore.importantPersons)
+      appStore.setSyncingDb(false)
+    } catch (err) {
+      console.error('Sync importantPersons into Firebase', err)
+      appStore.setSyncingDb(false)
+    }
   } else {
     localStorageHelper.setPersons(appStore.importantPersons)
   }

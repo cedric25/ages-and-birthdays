@@ -2,7 +2,7 @@
 
 import { mount } from '@vue/test-utils'
 import { createTestingPinia } from '@pinia/testing'
-import { useAppStore } from '@/store/app/app.store.js'
+import { useAppStore } from '@/store/app/app.store.ts'
 import ImportantPersons from '../ImportantPersons.vue'
 
 describe('ImportantPersons component', () => {

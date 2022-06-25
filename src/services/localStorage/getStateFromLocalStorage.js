@@ -1,4 +1,4 @@
-import { useAppStore } from '@/store/app/app.store.js'
+import { useAppStore } from '@/store/app/app.store.ts'
 import * as localStorageHelper from './localStorageHelper.js'
 
 export function getStateFromLocalStorage() {

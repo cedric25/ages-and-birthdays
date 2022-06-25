@@ -16,7 +16,7 @@
 
 ### Keywords
 
-`Vue.js`, `vitejs`, `Firebase database`, `Firebase auth`, `tailwindcss`, `animejs`
+`Vue.js v3`, `pinia`, `vitejs`, `Firebase realtime database`, `Firebase auth`, `tailwindcss`, `animejs`, `vitest`
 
 ### Storage
 

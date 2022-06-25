@@ -4,7 +4,7 @@ import { vi } from 'vitest'
 import parseISO from 'date-fns/parseISO'
 import format from 'date-fns/format'
 import { setActivePinia, createPinia } from 'pinia'
-import { useAppStore } from '@/store/app/app.store.js'
+import { useAppStore } from '@/store/app/app.store.ts'
 import * as googlePeopleApi from '@/services/googlePeopleApi/googlePeopleApi.functions.js'
 import {
   getConnectionsAndAddPersons,

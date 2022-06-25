@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
-import { useUserStore } from '@/store/user/user.store.js'
+import { useUserStore } from '@/store/user/user.store.ts'
 import { getStateFromLocalStorage } from '@/services/localStorage/getStateFromLocalStorage.js'
 import firebaseConfig from '@/services/firebase/firebase-config'
 

@@ -13,7 +13,7 @@
 
 <script>
 import { mapState } from 'pinia'
-import { useAppStore } from '@/store/app/app.store.js'
+import { useAppStore } from '@/store/app/app.store.ts'
 
 export default {
   name: 'SyncLoader',

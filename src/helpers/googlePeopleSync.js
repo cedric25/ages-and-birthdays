@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid'
 import parse from 'date-fns/parse'
 import isValid from 'date-fns/isValid'
-import { useAppStore } from '@/store/app/app.store.js'
+import { useAppStore } from '@/store/app/app.store.ts'
 import {
   loadGoogleApiClient,
   initGoogleClient,
