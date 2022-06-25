@@ -126,7 +126,7 @@
         :disabled="!isFormValid"
         type="submit"
         class="btn btn-blue"
-        @click.prevent="addBirthDate()"
+        @click.prevent="addBirthDate"
       >
         Add
       </button>
