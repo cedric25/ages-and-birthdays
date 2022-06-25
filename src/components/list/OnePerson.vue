@@ -28,7 +28,7 @@
 
     <div
       v-if="!isEditMode && (person.parentOne || person.parentTwo)"
-      class="text-center"
+      class="text-center text-sm"
     >
       ({{ person.parentOne?.name ?? '?' }} +
       {{ person.parentTwo?.name ?? '?' }})
