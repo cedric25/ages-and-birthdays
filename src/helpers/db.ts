@@ -34,7 +34,11 @@ export function setUserData(
     user,
     importantPersons,
     groups,
-  }: { user: User; importantPersons: Person[]; groups: Group[] }
+  }: {
+    user: User & { createdAt: string }
+    importantPersons: Person[]
+    groups: Group[]
+  }
 ) {
   const db = getDatabase()
   return set(ref(db, `users/${userId}`), {

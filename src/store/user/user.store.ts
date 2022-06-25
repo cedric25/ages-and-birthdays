@@ -1,9 +1,10 @@
-import type { User } from '@/@types/User'
-import type { Person } from '@/@types/Person'
-import type { Group } from '@/@types/Group';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 import { onValue } from 'firebase/database'
 import { defineStore } from 'pinia'
+import type { User } from '@/@types/User'
+import type { Person } from '@/@types/Person'
+import type { Group } from '@/@types/Group'
+import format from 'date-fns/format'
 import * as db from '@/helpers/db'
 import { checkDbUserData } from '@/services/firebase/checkDbUserData'
 import { useAppStore } from '@/store/app/app.store'
@@ -42,35 +43,39 @@ export const useUserStore = defineStore('user', {
       })
       this.signInDone()
     },
-    signUserInGoogle() {
-      signInWithPopup(getAuth(), new GoogleAuthProvider())
-        .then(result => {
-          const user = result.user as {
-            uid: string
-            displayName: string
-            email: string
-            photoURL?: string
-          }
-          this.setUser({
-            id: user.uid,
-            name: user.displayName,
-            email: user.email,
-            photoUrl: user.photoURL || '',
-          })
-          this.signInDone()
+    async signUserInGoogle() {
+      try {
+        const result = await signInWithPopup(
+          getAuth(),
+          new GoogleAuthProvider()
+        )
+        const user = result.user as {
+          uid: string
+          displayName: string
+          email: string
+          photoURL?: string
+        }
+        this.setUser({
+          id: user.uid,
+          name: user.displayName,
+          email: user.email,
+          photoUrl: user.photoURL || '',
         })
-        .catch(error => {
-          console.log(error)
-        })
+        this.signInDone()
+      } catch (err) {
+        console.log(err)
+      }
     },
-    signInDone() {
+    async signInDone() {
       if (!this.user) {
         return
       }
       const appStore = useAppStore()
       appStore.setSyncingDb(true)
-      getUserData(this.user)
-      db.updateUserLastSeenAt(this.user.id)
+      try {
+        await getUserData(this.user)
+        db.updateUserLastSeenAt(this.user.id)
+      } catch {}
     },
     signOut() {
       getAuth().signOut()
@@ -81,57 +86,57 @@ export const useUserStore = defineStore('user', {
   },
 })
 
-function getUserData(user: User) {
+async function getUserData(user: User) {
   const appStore = useAppStore()
-  db.readUserDataOnce(user.id)
-    .then((userDataSnapshot: any) => {
-      const userData = userDataSnapshot.val()
-      if (!userData) {
-        const { importantPersons, groups } = appStore
-        uploadLocalStateToDb(user, importantPersons, groups)
-          .then(() => {
-            appStore.setSyncingDb(false)
-            watchForDbChanges(user.id)
-          })
-          .catch(() => appStore.setSyncingDb(false))
-      } else {
-        const isDbDataValid = checkDbUserData(userData)
-        if (!isDbDataValid) {
-          appStore.setSyncingDb(false)
-          throw new Error('There is data to be synced but invalid... :(')
-          // Keep local data...
-        }
-        // Override local state with what's in Firebase
-        // TODO Message to ask if override okay?
-        useDbState(userData)
+  try {
+    const userDataSnapshot = await db.readUserDataOnce(user.id)
+    const userData = userDataSnapshot.val()
+    if (!userData) {
+      const { importantPersons, groups } = appStore
+      await oneTimeLocalStateUploadToDb(user, importantPersons, groups)
+    } else {
+      const isDbDataValid = checkDbUserData(userData)
+      if (!isDbDataValid) {
         appStore.setSyncingDb(false)
-        watchForDbChanges(user.id)
+        throw new Error('There is data to be synced but invalid... :(')
+        // Keep local data...
       }
-      const userStore = useUserStore()
-      userStore.setLoginTriedOrFinished()
-    })
-    .catch((err: any) => {
-      appStore.setSyncingDb(false)
-      console.error('Error...', err)
-    })
+      // Override local state with what's in Firebase
+      // TODO Message to ask if override okay?
+      useStoreState(userData)
+    }
+    appStore.setSyncingDb(false)
+    watchForDbChanges(user.id)
+    const userStore = useUserStore()
+    userStore.setLoginTriedOrFinished()
+  } catch (err) {
+    appStore.setSyncingDb(false)
+    console.error('Error...', err)
+    throw err
+  }
 }
 
-function uploadLocalStateToDb(
+async function oneTimeLocalStateUploadToDb(
   user: User,
   importantPersons: Person[],
   groups: Group[]
 ) {
-  return db
-    .setUserData(user.id, {
-      user,
+  try {
+    await db.setUserData(user.id, {
+      user: {
+        ...user,
+        createdAt: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss:SSS'Z'"),
+      },
       importantPersons,
       groups,
     })
-    .then(() => console.log('Firebase write all good'))
-    .catch((err: any) => console.error('Firebase write failed...', err))
+  } catch (err) {
+    console.error('Firebase write failed...', err)
+    throw err
+  }
 }
 
-function useDbState(userData: { importantPersons: any; groups: any }) {
+function useStoreState(userData: { importantPersons: any; groups: any }) {
   const personsState = []
   const appStore = useAppStore()
   if (userData.importantPersons) {
