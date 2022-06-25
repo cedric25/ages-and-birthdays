@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="!user" class="tooltip">
-      <button type="button" class="flex" @click="googleSignin">
+      <button type="button" class="flex" @click="googleSignIn">
         <i
           class="fas text-3xl"
           :class="`fa-${smileType}`"
@@ -41,11 +41,11 @@ import { mapState } from 'pinia'
 import { useUserStore } from '@/store/user/user.store.ts'
 
 export default {
-  name: 'GoogleSignin',
+  name: 'GoogleSignIn',
   data: () => ({
     smileType: 'smile',
-    showSigninTooltip: false,
-    showSignoutTooltip: false,
+    showSignInTooltip: false,
+    showSignOutTooltip: false,
   }),
   computed: {
     ...mapState(useUserStore, ['user']),
@@ -59,15 +59,15 @@ export default {
     }, 20000)
   },
   methods: {
-    googleSignin() {
-      this.showSigninTooltip = false
-      this.showSignoutTooltip = false
+    googleSignIn() {
+      this.showSignInTooltip = false
+      this.showSignOutTooltip = false
       const userStore = useUserStore()
       userStore.signUserInGoogle()
     },
     signOut() {
-      this.showSigninTooltip = false
-      this.showSignoutTooltip = false
+      this.showSignInTooltip = false
+      this.showSignOutTooltip = false
       const userStore = useUserStore()
       userStore.signOut()
     },

@@ -6,7 +6,7 @@
       <router-link to="/about" class="top-menu-link" style="padding-top: 2px">
         ABOUT
       </router-link>
-      <GoogleSignin />
+      <GoogleSignIn />
       <SyncLoader v-if="user" />
     </div>
   </div>

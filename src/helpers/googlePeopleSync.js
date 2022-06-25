@@ -23,11 +23,11 @@ export async function askForConsent() {
   // Listen for sign-in state changes.
   window.gapi.auth2
     .getAuthInstance()
-    .isSignedIn.listen(updateSigninStatusCallback)
+    .isSignedIn.listen(updateSignInStatusCallback)
 
   // Handle the initial sign-in state.
   const isSignedIn = window.gapi.auth2.getAuthInstance().isSignedIn.get()
-  updateSigninStatusCallback(isSignedIn)
+  updateSignInStatusCallback(isSignedIn)
 
   // 3. Show consent popup
   if (!isSignedIn) {
@@ -36,10 +36,10 @@ export async function askForConsent() {
   }
 
   // 4. Get user answer and go get Google connections
-  // (See updateSigninStatusCallback())
+  // (See updateSignInStatusCallback())
 }
 
-async function updateSigninStatusCallback(isSignedIn) {
+async function updateSignInStatusCallback(isSignedIn) {
   if (isSignedIn) {
     console.log('4. Consent given, go find connections.')
     await getConnectionsAndAddPersons()
