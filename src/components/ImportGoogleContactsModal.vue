@@ -6,14 +6,14 @@
     @close="resetImportState"
   >
     <!--Title-->
-    <template v-slot:title>
+    <template #title>
       <template v-if="doingImportFromGoogle"> Syncing... </template>
       <template v-else-if="isImportFromGoogleDone"> Import done! </template>
       <template v-else> We'll need your consent </template>
     </template>
 
     <!--Content-->
-    <template v-slot:content>
+    <template #content>
       <div v-if="doingImportFromGoogle || isImportFromGoogleDone">
         <p>
           Looking for contacts with birthdays...
@@ -35,7 +35,7 @@
     </template>
 
     <!--Footer-->
-    <template v-slot:action>
+    <template #action>
       <button
         v-if="isImportFromGoogleDone"
         type="button"
@@ -67,6 +67,7 @@ export default {
   props: {
     showModal: { type: Number, default: 0 },
   },
+  emits: ['confirm'],
   data: () => ({
     hideModal: 0,
   }),
