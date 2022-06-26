@@ -1,30 +1,10 @@
 <template>
   <div class="one-person">
-    <div v-if="hasGroups" class="pr-8 text-left">
-      <Chip
-        v-for="group in personGroups"
-        :key="group"
-        class="mr-2 mb-2"
-        outlined
-        red
-        :closable="isEditMode"
-        @close="removeFromGroup(group)"
-      >
-        {{ group }}
-      </Chip>
-    </div>
-
-    <div v-if="isEditMode" class="pr-10 text-left">
-      <Chip
-        v-for="group in otherGroups"
-        :key="group"
-        class="mr-2 mt-1"
-        clickable
-        @click.native="addToGroup(group)"
-      >
-        {{ group }} <i class="fa fa-plus ml-1 -mr-px text-xs" />
-      </Chip>
-    </div>
+    <Groups
+      :person-id="person.id"
+      :person-groups="personGroups"
+      :is-edit-mode="isEditMode"
+    />
 
     <div
       v-if="!isEditMode && (person.parentOne || person.parentTwo)"
@@ -193,9 +173,6 @@ export default {
     isBirthdayToday() {
       return this.daysUntilBirthday === 0
     },
-    hasGroups() {
-      return this.personGroups && this.personGroups.length > 0
-    },
     isYearKnown() {
       return this.birthday.getFullYear() > 1910
     },
@@ -204,9 +181,6 @@ export default {
         return `${this.birthday.getDate()} ${format(this.birthday, 'MMM')}`
       }
       return format(this.birthday, 'd MMM yyyy')
-    },
-    otherGroups() {
-      return this.groups.filter(group => !this.isInGroup(group))
     },
     isBaby() {
       return (
@@ -316,15 +290,6 @@ export default {
     cancelEdit() {
       this.isEditMode = false
       this.newName = this.person.name
-    },
-    isInGroup(group) {
-      return this.personGroups && this.personGroups.includes(group)
-    },
-    addToGroup(group) {
-      importantPersons.addGroupToPerson(this.person.id, group)
-    },
-    removeFromGroup(group) {
-      importantPersons.removeGroupFromPerson(this.person.id, group)
     },
   },
 }
