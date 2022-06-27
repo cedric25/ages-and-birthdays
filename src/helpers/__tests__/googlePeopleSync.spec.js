@@ -107,7 +107,7 @@ describe('buildBirthdayFromConnection', function () {
           },
         ],
       })
-      expect(dayjs(peopleBirthday).format('DD/MM/YYYY')).toBe('24/10/1900')
+      expect(dayjs(peopleBirthday).format('DD/MM/YYYY')).toBe('24/10/1896')
     })
   })
 
@@ -120,7 +120,7 @@ describe('buildBirthdayFromConnection', function () {
           },
         ],
       })
-      expect(dayjs(peopleBirthday).format('DD/MM/YYYY')).toBe('24/10/1900')
+      expect(dayjs(peopleBirthday).format('DD/MM/YYYY')).toBe('24/10/1896')
     })
   })
 })

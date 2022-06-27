@@ -25,13 +25,6 @@ describe('PersonDobAndAge component', () => {
     })
   })
 
-  describe('readableBirthday', function () {
-    it('should return the correct readable birthday', function () {
-      // --- THEN
-      expect(wrapper.vm.readableBirthday).toEqual('25 Dec 1988')
-    })
-  })
-
   describe('ageValue', function () {
     it('should give 31y old', function () {
       // --- THEN

@@ -165,7 +165,7 @@ export function buildBirthdayFromConnection(
     return
   }
   if (date) {
-    const { year = 1900, month, day } = connection.birthdays[0].date
+    const { year = 1896, month, day } = connection.birthdays[0].date
     return new Date(Date.UTC(year, month - 1, day))
   }
   if (text) {
@@ -175,7 +175,7 @@ export function buildBirthdayFromConnection(
     }
     const secondTry = dayjs(text, 'MMMM D', true)
     if (secondTry.isValid()) {
-      return secondTry.year(1900).toDate()
+      return secondTry.year(1896).toDate()
     }
     throw new Error(`Could not build birthday from text "${text}"`)
   }

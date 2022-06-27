@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import { YEAR_FOR_NO_YEAR } from '@/constants/constants'
 
 export function computeAge(
   today: Date,
@@ -7,10 +8,12 @@ export function computeAge(
   value: number
   unit: 'years' | 'months' | null
 } | null {
-  if (dateOfBirth.getFullYear() === 1900) {
+  if (dateOfBirth.getFullYear() === YEAR_FOR_NO_YEAR) {
     return null
   }
-  const diffYears = dayjs(today).diff(dateOfBirth, 'years')
+  const diffYears = dayjs(today)
+    .startOf('day')
+    .diff(dayjs(dateOfBirth).startOf('day'), 'years')
   if (diffYears > 0) {
     return {
       value: diffYears,

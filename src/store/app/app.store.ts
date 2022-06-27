@@ -117,7 +117,7 @@ export const useAppStore = defineStore('app', {
       if (!personToUpdate) {
         return
       }
-      personToUpdate.groups = personToUpdate.groups.filter(
+      personToUpdate.groups = personToUpdate.groups?.filter(
         group => group !== groupToRemove
       )
 
@@ -132,6 +132,24 @@ export const useAppStore = defineStore('app', {
 
     removeAllPersons() {
       this.importantPersons = []
+    },
+
+    getKids(personName: string) {
+      const kids = []
+      for (const person of this.importantPersons) {
+        if (
+          person.parentOne === personName ||
+          person.parentTwo === personName
+        ) {
+          kids.push(person)
+        }
+      }
+      return kids.sort((kidOne, kidTwo) => {
+        if (kidOne.birthday.getTime() === kidTwo.birthday.getTime()) {
+          return kidOne.name.localeCompare(kidTwo.name)
+        }
+        return kidOne.birthday.getTime() < kidTwo.birthday.getTime() ? -1 : 1
+      })
     },
 
     // ------------------------- GROUPS -------------------------

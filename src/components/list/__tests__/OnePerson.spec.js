@@ -56,6 +56,10 @@ describe('OnePerson component - Less than 1y old', () => {
       personGroups: ['Friends'],
     }
     wrapper = mount(OnePerson, {
+      shallow: true,
+      global: {
+        plugins: [createTestingPinia()],
+      },
       props: { person },
     })
   })

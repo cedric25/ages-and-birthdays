@@ -12,7 +12,7 @@ describe('PersonDobAndAge component', () => {
       props: {
         personId: '234',
         birthday: new Date('2018-02-01'),
-        dob: '01/02:2018',
+        dob: '01/02/2018',
         isYearKnown: true,
         age: {
           value: 4,
@@ -22,13 +22,6 @@ describe('PersonDobAndAge component', () => {
         isEditMode: false,
         wrongDateEntered: false,
       },
-    })
-  })
-
-  describe('readableBirthday', function () {
-    it('should return the correct readable birthday', function () {
-      // --- THEN
-      expect(wrapper.vm.readableBirthday).toEqual('1 Feb 2018')
     })
   })
 

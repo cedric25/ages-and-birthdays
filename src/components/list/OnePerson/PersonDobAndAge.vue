@@ -28,7 +28,7 @@
           })
         "
       >
-        {{ readableBirthday }}
+        {{ getReadableBirthday(birthday) }}
       </Chip>
     </div>
     <div class="text-left" v-if="!isEditMode && isYearKnown" style="flex: 1">
@@ -49,8 +49,8 @@
 </template>
 
 <script setup lang="ts">
-import dayjs from 'dayjs'
 import { computed } from 'vue'
+import { getReadableBirthday } from '@/helpers/readableBirthday'
 
 const props = defineProps<{
   personId: string
@@ -68,13 +68,6 @@ defineEmits<{
   (e: 'switch-to-edit-mode', payload: { inputToFocus: 'personName' }): void
   (e: 'cancel-edit'): void
 }>()
-
-const readableBirthday = computed(() => {
-  if (!props.isYearKnown) {
-    return dayjs(props.birthday).format('D MMM')
-  }
-  return dayjs(props.birthday).format('D MMM YYYY')
-})
 
 const ageValue = computed(() => {
   if (!props.age) {

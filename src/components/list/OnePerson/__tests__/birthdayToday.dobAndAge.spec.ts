@@ -3,6 +3,7 @@
 import dayjs from 'dayjs'
 import { beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { YEAR_FOR_NO_YEAR } from '@/constants/constants'
 import PersonDobAndAge from '../PersonDobAndAge.vue'
 
 describe('PersonDobAndAge component - Birthday is today', () => {
@@ -46,7 +47,7 @@ describe('PersonDobAndAge component - Birthday today AND year unknown', () => {
     wrapper = mount(PersonDobAndAge, {
       props: {
         personId: '345',
-        birthday: new Date(new Date().setFullYear(1900)),
+        birthday: new Date(new Date().setFullYear(YEAR_FOR_NO_YEAR)),
         dob: dayjs().format('DD/MM'),
         isYearKnown: false,
         age: null,

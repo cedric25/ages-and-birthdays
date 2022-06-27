@@ -33,9 +33,9 @@ describe('computeAge()', () => {
     })
   })
 
-  describe('when year is 1900', () => {
+  describe('when year is 1896 (the fake year chosen to represent missing year)', () => {
     it('should answer null', () => {
-      const age = computeAge(new Date('2018-05-06'), new Date('1900-02-15'))
+      const age = computeAge(new Date('2018-05-06'), new Date('1896-02-15'))
       expect(age).toBe(null)
     })
   })

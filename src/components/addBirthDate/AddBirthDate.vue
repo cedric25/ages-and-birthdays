@@ -252,7 +252,7 @@ export default {
       return (
         (year1 && parseInt(`19${year1}`, 10)) ||
         (year2 && parseInt(`20${year2}`, 10)) ||
-        1900
+        1896
       )
     },
     resetForm() {

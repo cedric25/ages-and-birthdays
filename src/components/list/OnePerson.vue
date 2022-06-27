@@ -37,6 +37,8 @@
       @cancel-edit="cancelEdit"
     />
 
+    <PersonKids v-if="kids?.length" :kids="kids" />
+
     <template v-if="!isEditMode">
       <button type="button" class="edit-btn" @click="switchToEditMode">
         <i class="fa fa-edit" />
@@ -115,6 +117,10 @@ export default {
       return (
         this.isYearKnown && (this.age.unit === 'months' || this.age.value < 3)
       )
+    },
+    kids() {
+      const appStore = useAppStore()
+      return appStore.getKids(this.person.name)
     },
   },
   created() {
