@@ -30,19 +30,12 @@
       :birthday="person.birthday"
       :is-year-known="isYearKnown"
       :age="person.age"
+      :days-until-birthday="person.daysUntilBirthday"
       :is-edit-mode="isEditMode"
+      :wrong-date-entered="wrongDateEntered"
       @switch-to-edit-mode="switchToEditMode"
       @cancel-edit="cancelEdit"
     />
-
-    <div v-if="!isEditMode" class="mt-1 text-center">
-      <span> {{ textBeforeDays }} </span>&nbsp;<span v-if="!isBirthdayToday">
-        <strong>{{ daysUntilBirthday }}</strong> day{{
-          (daysUntilBirthday > 1 && 's') || ''
-        }}
-      </span>
-      <span v-else class="cake-icon"> 🎂 </span>
-    </div>
 
     <template v-if="!isEditMode">
       <button type="button" class="edit-btn" @click="switchToEditMode">
@@ -86,12 +79,14 @@
 <!--</script>-->
 
 <script>
-import format from 'date-fns/format'
-import parse from 'date-fns/parse'
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { mapState } from 'pinia'
 import { useAppStore } from '@/store/app/app.store.ts'
 import * as importantPersons from '@/helpers/importantPersons'
 import { containsYear } from '@/helpers/date'
+
+dayjs.extend(customParseFormat)
 
 export default {
   props: {
@@ -113,12 +108,6 @@ export default {
     age() {
       return this.person.age
     },
-    daysUntilBirthday() {
-      return this.person.daysUntilBirthday
-    },
-    isBirthdayToday() {
-      return this.daysUntilBirthday === 0
-    },
     isYearKnown() {
       return this.birthday.getFullYear() > 1910
     },
@@ -127,35 +116,12 @@ export default {
         this.isYearKnown && (this.age.unit === 'months' || this.age.value < 3)
       )
     },
-    nextAge() {
-      if (this.age.unit === 'months') {
-        return 1
-      }
-      return this.age.value + 1
-    },
-    textBeforeDays() {
-      if (this.isBirthdayToday) {
-        if (this.isYearKnown) {
-          return `Turning ${this.nextAge - 1} today!`
-        }
-        return 'Birthday today!'
-      }
-      if (this.isYearKnown) {
-        return `Will turn ${this.nextAge} in`
-      }
-      return `Birthday in`
-    },
   },
-  // watch: {
-  //   dob() {
-  //     this.wrongDateEntered = false
-  //   },
-  // },
   created() {
     if (this.isYearKnown) {
-      this.dob = format(this.birthday, 'dd/MM/yyyy')
+      this.dob = dayjs(this.birthday).format('DD/MM/YYYY')
     } else {
-      this.dob = `${this.birthday.getDate()}/${format(this.birthday, 'MM')}`
+      this.dob = dayjs(this.birthday).format('DD/MM')
     }
   },
   methods: {
@@ -169,29 +135,23 @@ export default {
       }
     },
     updatePerson() {
-      console.log(
-        '-> updatePerson',
-        this.newName,
-        this.dob,
-        this.newParentOne,
-        this.newParentTwo
-      )
       if (!this.newName?.trim()) return
-      let dateFormat = 'dd/MM/yyyy'
+      let dateFormat = 'DD/MM/YYYY'
       if (!containsYear(this.dob)) {
-        dateFormat = 'dd/MM'
+        dateFormat = 'DD/MM'
       }
-      const newBirthdayDate = parse(this.dob, dateFormat, new Date(1901, 0, 1))
-      if (!(newBirthdayDate instanceof Date) || isNaN(newBirthdayDate)) {
+      const newBirthdayDate = dayjs(this.dob, dateFormat)
+      if (!newBirthdayDate.isValid()) {
+        console.error(`Wrong date: ${this.dob}`)
         this.wrongDateEntered = true
         return
       }
       this.isEditMode = false
       const newBirthday = new Date(
         Date.UTC(
-          newBirthdayDate.getFullYear(),
-          newBirthdayDate.getMonth(),
-          newBirthdayDate.getDate()
+          newBirthdayDate.year(),
+          newBirthdayDate.month(),
+          newBirthdayDate.date()
         )
       )
       importantPersons.updatePerson(this.person.id, {
@@ -215,7 +175,6 @@ export default {
     },
     cancelEdit() {
       this.isEditMode = false
-      // this.newName = this.person.name
     },
   },
 }

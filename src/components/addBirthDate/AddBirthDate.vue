@@ -290,12 +290,11 @@ export default {
       setTimeout(() => this.$refs.group.focus(), 100)
     },
     addGroup() {
-      console.log('addGroup')
       if (!this.newGroupName?.trim()) {
         return
       }
       if (this.groups.indexOf(this.newGroupName) !== -1) {
-        console.log('This group name exists already...')
+        console.log('This group already exists...')
         return
       }
       groups.addGroup(this.newGroupName)

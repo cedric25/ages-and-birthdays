@@ -1,10 +1,10 @@
+import dayjs from 'dayjs'
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 import { onValue } from 'firebase/database'
 import { defineStore } from 'pinia'
 import type { User } from '@/@types/User'
 import type { Person } from '@/@types/Person'
 import type { Group } from '@/@types/Group'
-import format from 'date-fns/format'
 import * as db from '@/helpers/db'
 import { useAppStore } from '@/store/app/app.store'
 
@@ -115,7 +115,7 @@ async function oneTimeLocalStateUploadToDb(
     await db.setUserData(user.id, {
       user: {
         ...user,
-        createdAt: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss:SSS'Z'"),
+        createdAt: dayjs().toISOString(),
       },
       importantPersons,
       groups,
@@ -133,14 +133,12 @@ function watchForDbChanges(userId: string) {
 
   const importantPersonsRef = db.getImportantPersonsRef(userId)
   onValue(importantPersonsRef, personsSnapshot => {
-    console.log('-> onValue persons', personsSnapshot.val())
     appStore.setSyncingDb(true)
 
     if (!personsSnapshot.val()) {
       appStore.setAllPersons([])
     } else {
       const dbPersons = Object.values(personsSnapshot.val()) as Person[]
-      console.log('dbPersons', dbPersons)
       // Check that all persons got a birthday prop, otherwise it might be a local Firebase value...
       if (!checkDbPersons(dbPersons)) {
         return
@@ -162,7 +160,6 @@ function watchForDbChanges(userId: string) {
 
   const groupsRef = db.getGroupsRef(userId)
   onValue(groupsRef, groupsSnapshot => {
-    console.log('-> onValue groups')
     appStore.setSyncingDb(true)
     appStore.setAllGroups(groupsSnapshot.val() || [])
     setTimeout(() => {

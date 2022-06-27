@@ -1,8 +1,7 @@
 // npm t googlePeopleSync.spec
 
+import dayjs from 'dayjs'
 import { vi } from 'vitest'
-import parseISO from 'date-fns/parseISO'
-import format from 'date-fns/format'
 import { setActivePinia, createPinia } from 'pinia'
 import { useAppStore } from '@/store/app/app.store.ts'
 import * as googlePeopleApi from '@/services/googlePeopleApi/googlePeopleApi.functions.js'
@@ -16,7 +15,7 @@ describe('getConnectionsAndAddPersons', function () {
     setActivePinia(createPinia())
   })
 
-  it('should add one person', async () => {
+  it('should add one person', async function () {
     const appStore = useAppStore()
     expect(appStore.importantPersons).toEqual([])
     vi.spyOn(
@@ -45,7 +44,7 @@ describe('getConnectionsAndAddPersons', function () {
       {
         id: expect.any(String),
         name: 'Tommy',
-        birthday: parseISO('1990-10-01T00:00:00.000Z'),
+        birthday: dayjs('1990-10-01T00:00:00.000Z').toDate(),
         meta: {
           from: 'google',
         },
@@ -54,9 +53,9 @@ describe('getConnectionsAndAddPersons', function () {
   })
 })
 
-describe('buildBirthdayFromConnection', () => {
-  describe('When only the date object', () => {
-    it('should return correct date', () => {
+describe('buildBirthdayFromConnection', function () {
+  describe('When only the date object', function () {
+    it('should return correct date', function () {
       const peopleBirthday = buildBirthdayFromConnection({
         birthdays: [
           {
@@ -64,12 +63,12 @@ describe('buildBirthdayFromConnection', () => {
           },
         ],
       })
-      expect(format(peopleBirthday, 'dd/MM/yyyy')).toBe('01/10/1990')
+      expect(dayjs(peopleBirthday).format('DD/MM/YYYY')).toBe('01/10/1990')
     })
   })
 
-  describe('When only the text', () => {
-    it('should return correct date', () => {
+  describe('When only the text', function () {
+    it('should return correct date', function () {
       const peopleBirthday = buildBirthdayFromConnection({
         birthdays: [
           {
@@ -77,12 +76,12 @@ describe('buildBirthdayFromConnection', () => {
           },
         ],
       })
-      expect(format(peopleBirthday, 'dd/MM/yyyy')).toBe('28/01/1989')
+      expect(dayjs(peopleBirthday).format('DD/MM/YYYY')).toBe('28/01/1989')
     })
   })
 
-  describe('When both date object and text', () => {
-    it('should return correct date', () => {
+  describe('When both date object and text', function () {
+    it('should return correct date', function () {
       const peopleBirthday = buildBirthdayFromConnection({
         birthdays: [
           {
@@ -91,12 +90,12 @@ describe('buildBirthdayFromConnection', () => {
           },
         ],
       })
-      expect(format(peopleBirthday, 'dd/MM/yyyy')).toBe('29/03/1988')
+      expect(dayjs(peopleBirthday).format('DD/MM/YYYY')).toBe('29/03/1988')
     })
   })
 
-  describe('When no year', () => {
-    it('should return correct date with default year', () => {
+  describe('When no year', function () {
+    it('should return correct date with default year', function () {
       const peopleBirthday = buildBirthdayFromConnection({
         birthdays: [
           {
@@ -105,12 +104,12 @@ describe('buildBirthdayFromConnection', () => {
           },
         ],
       })
-      expect(format(peopleBirthday, 'dd/MM/yyyy')).toBe('24/10/1900')
+      expect(dayjs(peopleBirthday).format('DD/MM/YYYY')).toBe('24/10/1900')
     })
   })
 
-  describe('When no year and only text', () => {
-    it('should return correct date with default year', () => {
+  describe('When no year and only text', function () {
+    it('should return correct date with default year', function () {
       const peopleBirthday = buildBirthdayFromConnection({
         birthdays: [
           {
@@ -118,7 +117,7 @@ describe('buildBirthdayFromConnection', () => {
           },
         ],
       })
-      expect(format(peopleBirthday, 'dd/MM/yyyy')).toBe('24/10/1900')
+      expect(dayjs(peopleBirthday).format('DD/MM/YYYY')).toBe('24/10/1900')
     })
   })
 })

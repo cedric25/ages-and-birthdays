@@ -1,6 +1,5 @@
 import { nanoid } from 'nanoid'
-import parse from 'date-fns/parse'
-import isValid from 'date-fns/isValid'
+import dayjs from 'dayjs'
 import { useAppStore } from '@/store/app/app.store.ts'
 import {
   loadGoogleApiClient,
@@ -112,12 +111,12 @@ function randomIntFromInterval(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-function addFromGoogleConnection(connection) {
+async function addFromGoogleConnection(connection) {
   const displayName = connection.names[0].displayName
   let birthday
   try {
     birthday = buildBirthdayFromConnection(connection)
-    addNewPerson({
+    await addNewPerson({
       id: nanoid(),
       name: displayName,
       birthday,
@@ -137,13 +136,15 @@ export function buildBirthdayFromConnection(connection) {
     const { year = 1900, month, day } = connection.birthdays[0].date
     return new Date(Date.UTC(year, month - 1, day))
   }
+  console.log('buildBirthdayFromConnection > text', text)
   if (text) {
-    const firstTry = parse(text, 'MMMM do, yyyy', new Date(1900, 0, 1))
-    if (isValid(firstTry)) {
+    // const firstTry = parse(text, 'MMMM do, yyyy', new Date(1900, 0, 1))
+    const firstTry = dayjs(text, 'MMMM do, yyyy')
+    if (firstTry.isValid()) {
       return firstTry
     }
-    const secondTry = parse(text, 'MMMM d', new Date(1900, 0, 1))
-    if (isValid(secondTry)) {
+    const secondTry = dayjs(text, 'MMMM d')
+    if (secondTry.isValid()) {
       return secondTry
     }
     throw new Error(`Could not build birthday from text "${text}"`)

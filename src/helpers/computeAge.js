@@ -1,5 +1,4 @@
-import differenceInYears from 'date-fns/differenceInYears'
-import differenceInMonths from 'date-fns/differenceInMonths'
+import dayjs from 'dayjs'
 
 export function computeAge(today, dateOfBirth) {
   if (dateOfBirth.getFullYear() === 1900) {
@@ -8,14 +7,14 @@ export function computeAge(today, dateOfBirth) {
       unit: null,
     }
   }
-  const diffYears = differenceInYears(today, dateOfBirth)
+  const diffYears = dayjs().diff(dateOfBirth, 'years')
   if (diffYears > 0) {
     return {
       value: diffYears,
       unit: 'years',
     }
   }
-  const diffMonths = differenceInMonths(today, dateOfBirth)
+  const diffMonths = dayjs().diff(dateOfBirth, 'months')
   return {
     value: diffMonths,
     unit: 'months',

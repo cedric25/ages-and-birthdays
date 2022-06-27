@@ -9,6 +9,7 @@
         name="dob"
         placeholder="DD/MM/YYYY"
         class="input max-w-[130px] pl-3 text-center"
+        :class="wrongDateEntered && '!border-b-red-400'"
         @keyup.esc="$emit('cancel-edit')"
       />
       <div class="mt-1 text-center text-xs text-gray-400">DD/MM/YYYY</div>
@@ -36,11 +37,20 @@
       >
     </div>
   </div>
+
+  <div v-if="!isEditMode" class="mt-1 text-center">
+    <span> {{ textBeforeDays }} </span>&nbsp;<span v-if="!isBirthdayToday">
+      <strong>{{ daysUntilBirthday }}</strong> day{{
+        (daysUntilBirthday > 1 && 's') || ''
+      }}
+    </span>
+    <span v-else class="cake-icon"> 🎂 </span>
+  </div>
 </template>
 
 <script setup lang="ts">
+import dayjs from 'dayjs'
 import { computed } from 'vue'
-import format from 'date-fns/format'
 
 const props = defineProps<{
   personId: string
@@ -48,7 +58,9 @@ const props = defineProps<{
   dob: string
   isYearKnown: boolean
   age?: { unit: 'years' | 'months'; value: number }
+  daysUntilBirthday: number
   isEditMode: boolean
+  wrongDateEntered: boolean
 }>()
 
 defineEmits<{
@@ -59,9 +71,9 @@ defineEmits<{
 
 const readableBirthday = computed(() => {
   if (!props.isYearKnown) {
-    return `${props.birthday.getDate()} ${format(props.birthday, 'MMM')}`
+    return dayjs(props.birthday).format('D MMM')
   }
-  return format(props.birthday, 'd MMM yyyy')
+  return dayjs(props.birthday).format('D MMM YYYY')
 })
 
 const ageValue = computed(() => {
@@ -86,5 +98,32 @@ const ageValue = computed(() => {
     value: props.age.value,
     unit,
   }
+})
+
+const isBirthdayToday = computed(() => {
+  return props.daysUntilBirthday === 0
+})
+
+const nextAge = computed(() => {
+  if (!props.age) {
+    return null
+  }
+  if (props.age.unit === 'months') {
+    return 1
+  }
+  return props.age.value + 1
+})
+
+const textBeforeDays = computed(() => {
+  if (isBirthdayToday.value) {
+    if (nextAge.value) {
+      return `Turning ${nextAge.value - 1} today!`
+    }
+    return 'Birthday today!'
+  }
+  if (props.isYearKnown) {
+    return `Will turn ${nextAge.value} in`
+  }
+  return `Birthday in`
 })
 </script>
