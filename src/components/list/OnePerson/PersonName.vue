@@ -27,6 +27,7 @@
     {{ name }}
     <span v-if="isBaby" class="baby-icon">👶</span>
   </h3>
+  <div class="mt-1 text-center text-xs">{{ personId }}</div>
 </template>
 
 <script setup lang="ts">
