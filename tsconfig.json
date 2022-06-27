@@ -50,7 +50,10 @@
 
       // No `ScriptHost` because Vue 3 dropped support for IE
     ],
-    "types": [],
+
+    // To get TypeScript working with the global APIs, add vitest/globals to the types filed in your tsconfig.json
+    // https://vitest.dev/config/#globals
+    "types": ["vitest/globals"],
 
     "baseUrl": ".",
     "paths": {
