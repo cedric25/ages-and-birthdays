@@ -55,6 +55,9 @@
     // https://vitest.dev/config/#globals
     "types": ["vitest/globals"],
 
+    // Without this 'outDir', JS files will be generated next to their TS files #annoying
+    "outDir": "./built",
+
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]

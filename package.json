@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
+    "watch": "tsc -w",
     "build": "vite build",
     "test": "npm run test:unit",
     "test:unit": "vitest",
