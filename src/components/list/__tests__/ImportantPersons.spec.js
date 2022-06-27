@@ -7,7 +7,7 @@ import ImportantPersons from '../ImportantPersons.vue'
 
 describe('ImportantPersons component', () => {
   describe('nbPersonsWithinGroup()', () => {
-    test('nbPersonsWithinGroup()', () => {
+    it("should answer that 2 people are in the 'Friends' group", () => {
       // --- GIVEN
       const wrapper = mount(ImportantPersons, {
         shallow: true,

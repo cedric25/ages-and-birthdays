@@ -9,7 +9,7 @@
 
       <hr class="mt-6 mb-5" />
 
-      <important-persons />
+      <ImportantPersons />
     </div>
   </transition>
 </template>

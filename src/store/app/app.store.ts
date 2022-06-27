@@ -71,7 +71,6 @@ export const useAppStore = defineStore('app', {
         ...(parentTwo && { parentTwo }),
         ...(children && { children }),
       })
-      console.log('updatedPerson', updatedPerson)
       this.importantPersons[personToUpdateIndex] = updatedPerson
     },
 

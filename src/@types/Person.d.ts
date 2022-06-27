@@ -5,10 +5,13 @@ export type Person = {
   id: string
   name: string
   birthday: Date
-  groups: Group[]
+  groups?: Group[]
   parentOne?: Parent
   parentTwo?: Parent
   children?: Child[]
+  meta?: {
+    from: 'google'
+  }
 }
 
 export type PersonUpdateInput = {

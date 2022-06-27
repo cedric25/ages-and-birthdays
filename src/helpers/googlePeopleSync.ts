@@ -1,12 +1,28 @@
 import { nanoid } from 'nanoid'
 import dayjs from 'dayjs'
-import { useAppStore } from '@/store/app/app.store.ts'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+import { useAppStore } from '@/store/app/app.store'
 import {
   loadGoogleApiClient,
   initGoogleClient,
   getConnectionNamesAndBirthdays,
-} from '@/services/googlePeopleApi/googlePeopleApi.functions'
+} from '@/services/googlePeopleApi/googlePeopleApi.functions.js'
 import { addNewPerson } from './importantPersons'
+
+dayjs.extend(customParseFormat)
+
+type GoogleConnection = {
+  names: Array<{
+    displayName: string
+  }>
+  birthdays: any[]
+}
+
+declare global {
+  interface Window {
+    gapi: any
+  }
+}
 
 export async function askForConsent() {
   // 1. Load the JavaScript client library.
@@ -38,7 +54,7 @@ export async function askForConsent() {
   // (See updateSignInStatusCallback())
 }
 
-async function updateSignInStatusCallback(isSignedIn) {
+async function updateSignInStatusCallback(isSignedIn: boolean) {
   if (isSignedIn) {
     console.log('4. Consent given, go find connections.')
     await getConnectionsAndAddPersons()
@@ -47,7 +63,7 @@ async function updateSignInStatusCallback(isSignedIn) {
   }
 }
 
-export async function getConnectionsAndAddPersons(pageToken) {
+export async function getConnectionsAndAddPersons(pageToken?: string) {
   const appStore = useAppStore()
 
   // Reset any previous import state
@@ -73,30 +89,34 @@ export async function getConnectionsAndAddPersons(pageToken) {
   }
 }
 
-async function addPersonsFromConnections(googlePeopleResponse) {
+async function addPersonsFromConnections(googlePeopleResponse: any) {
   if (!googlePeopleResponse?.result?.connections) {
     throw new Error(
       `Invalid Google People API answer: ${googlePeopleResponse?.result}`
     )
   }
 
-  const addConnectionCallStack = []
+  const addConnectionCallStack: Array<{
+    addFromGoogleConnection: typeof addFromGoogleConnection
+    connection: GoogleConnection
+  }> = []
 
   googlePeopleResponse.result.connections
     .filter(
-      connection => !!connection.birthdays && connection.birthdays.length > 0
+      (connection: GoogleConnection) =>
+        !!connection.birthdays && connection.birthdays.length > 0
     )
-    .forEach(connection => {
+    .forEach((connection: GoogleConnection) => {
       addConnectionCallStack.push({ addFromGoogleConnection, connection })
     })
 
   // Add fake delay...
-  return new Promise(async resolve => {
+  return new Promise(async (resolve: Function) => {
     for (const {
       addFromGoogleConnection,
       connection,
     } of addConnectionCallStack) {
-      await new Promise(resolveOneCall => {
+      await new Promise((resolveOneCall: Function) => {
         setTimeout(() => {
           addFromGoogleConnection(connection)
           resolveOneCall()
@@ -107,45 +127,55 @@ async function addPersonsFromConnections(googlePeopleResponse) {
   })
 }
 
-function randomIntFromInterval(min, max) {
+function randomIntFromInterval(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-async function addFromGoogleConnection(connection) {
+async function addFromGoogleConnection(connection: GoogleConnection) {
   const displayName = connection.names[0].displayName
   let birthday
   try {
     birthday = buildBirthdayFromConnection(connection)
+    if (!birthday) {
+      return
+    }
+    const personId = nanoid()
     await addNewPerson({
-      id: nanoid(),
-      name: displayName,
-      birthday,
-      meta: {
-        from: 'google',
+      personId,
+      personInfo: {
+        id: personId,
+        name: displayName,
+        birthday,
+        meta: {
+          from: 'google',
+        },
       },
     })
-  } catch (err) {
+  } catch (err: any) {
     err.message = `${err.message} for "${displayName}"`
     console.error(err)
   }
 }
 
-export function buildBirthdayFromConnection(connection) {
+export function buildBirthdayFromConnection(
+  connection: GoogleConnection
+): Date | undefined {
   const { date, text } = connection.birthdays[0]
+  if (!date && !text) {
+    return
+  }
   if (date) {
     const { year = 1900, month, day } = connection.birthdays[0].date
     return new Date(Date.UTC(year, month - 1, day))
   }
-  console.log('buildBirthdayFromConnection > text', text)
   if (text) {
-    // const firstTry = parse(text, 'MMMM do, yyyy', new Date(1900, 0, 1))
-    const firstTry = dayjs(text, 'MMMM do, yyyy')
+    const firstTry = dayjs(text, 'MMMM D, YYYY')
     if (firstTry.isValid()) {
-      return firstTry
+      return firstTry.toDate()
     }
-    const secondTry = dayjs(text, 'MMMM d')
+    const secondTry = dayjs(text, 'MMMM D', true)
     if (secondTry.isValid()) {
-      return secondTry
+      return secondTry.year(1900).toDate()
     }
     throw new Error(`Could not build birthday from text "${text}"`)
   }

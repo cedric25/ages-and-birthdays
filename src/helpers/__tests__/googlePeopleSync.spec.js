@@ -1,6 +1,7 @@
 // npm t googlePeopleSync.spec
 
 import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import { vi } from 'vitest'
 import { setActivePinia, createPinia } from 'pinia'
 import { useAppStore } from '@/store/app/app.store.ts'
@@ -9,6 +10,8 @@ import {
   getConnectionsAndAddPersons,
   buildBirthdayFromConnection,
 } from '../googlePeopleSync'
+
+dayjs.extend(customParseFormat)
 
 describe('getConnectionsAndAddPersons', function () {
   beforeEach(function () {

@@ -11,7 +11,7 @@ beforeEach(function () {
 })
 
 describe('addNewImportantPerson()', () => {
-  test('it should add the person to the list', () => {
+  it('should add the person to the list', () => {
     const appStore = useAppStore()
     expect(appStore.importantPersons.length).toBe(0)
     appStore.addNewImportantPerson({
@@ -23,7 +23,7 @@ describe('addNewImportantPerson()', () => {
 })
 
 describe('updatePerson()', () => {
-  test('it should update the person', () => {
+  it('should update the person', () => {
     const appStore = useAppStore()
     appStore.importantPersons = [
       {
@@ -42,7 +42,7 @@ describe('updatePerson()', () => {
 
 describe('addGroupToPerson()', () => {
   describe("When adding the 'Family' group to the person", () => {
-    test('it should, well, add it to its list of groups', () => {
+    it('should, well, add it to its list of groups', () => {
       const appStore = useAppStore()
       appStore.importantPersons = [
         {
@@ -68,7 +68,7 @@ describe('addGroupToPerson()', () => {
 
 describe('removeGroupFromPerson()', () => {
   describe("When removing the 'Family' group from the person", () => {
-    test('it should, well, remove it from its list of groups', () => {
+    it('should, well, remove it from its list of groups', () => {
       const appStore = useAppStore()
       appStore.importantPersons = [
         {
@@ -94,7 +94,7 @@ describe('removeGroupFromPerson()', () => {
 
 describe('deletePerson()', () => {
   describe('When deleting the only person in the list', () => {
-    test('it should give an empty list at the end', () => {
+    it('should give an empty list at the end', () => {
       const appStore = useAppStore()
       appStore.importantPersons = [
         {
@@ -107,7 +107,7 @@ describe('deletePerson()', () => {
     })
   })
   describe('When giving a non-existing person ID', () => {
-    test('it should not change the list', () => {
+    it('should not change the list', () => {
       const appStore = useAppStore()
       appStore.importantPersons = [
         {
@@ -125,7 +125,7 @@ describe('deletePerson()', () => {
 
 describe('removeAllPersons()', () => {
   describe('When there is 2 persons in the list', () => {
-    test('it should give an empty list at the end', () => {
+    it('should give an empty list at the end', () => {
       const appStore = useAppStore()
       appStore.importantPersons = [
         {

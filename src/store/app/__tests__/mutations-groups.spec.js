@@ -13,7 +13,7 @@ beforeEach(function () {
 })
 
 describe('addGroup()', function () {
-  test('it should add the group to the list', function () {
+  it('should add the group to the list', function () {
     const appStore = useAppStore()
     expect(appStore.groups.length).toBe(2)
     addGroup('Work')
@@ -23,7 +23,7 @@ describe('addGroup()', function () {
 })
 
 describe('deleteGroup()', function () {
-  test('it should delete the group from the list', function () {
+  it('should delete the group from the list', function () {
     const appStore = useAppStore()
     expect(appStore.groups.length).toBe(2)
     deleteGroup('Family')
@@ -32,7 +32,7 @@ describe('deleteGroup()', function () {
   })
 
   describe('when 2 persons are associated to this group', function () {
-    test('it should remove the group label from these 2 persons and delete the group from the list', function () {
+    it('should remove the group label from these 2 persons and delete the group from the list', function () {
       const appStore = useAppStore()
       appStore.importantPersons = [
         {

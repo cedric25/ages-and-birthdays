@@ -57,7 +57,7 @@ const props = defineProps<{
   birthday: Date
   dob: string
   isYearKnown: boolean
-  age?: { unit: 'years' | 'months'; value: number }
+  age?: { unit: 'years' | 'months'; value: number } | null
   daysUntilBirthday: number
   isEditMode: boolean
   wrongDateEntered: boolean

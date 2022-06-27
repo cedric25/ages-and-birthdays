@@ -66,7 +66,7 @@
 import { mapState } from 'pinia'
 import { useAppStore } from '@/store/app/app.store.ts'
 import * as localStorageHelper from '@/services/localStorage/localStorageHelper.js'
-import { computeAge } from '@/helpers/computeAge.js'
+import { computeAge } from '@/helpers/computeAge.ts'
 import { daysUntilBirthday } from '@/helpers/daysUntilBirthday.ts'
 import { comparePersons } from '@/helpers/comparePersons.js'
 import * as importantPersons from '@/helpers/importantPersons.ts'
