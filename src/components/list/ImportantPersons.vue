@@ -40,7 +40,7 @@
     </div>
 
     <button
-      v-if="importantPersons.length === 0"
+      v-if="!isSyncingDb && importantPersons.length === 0"
       class="mt-6 w-[400px] rounded-xl border border-[3px] border-dashed bg-white px-2 py-10"
     >
       <span class="block text-3xl">🎂</span>
@@ -83,7 +83,7 @@ export default {
     personNameToDelete: '',
   }),
   computed: {
-    ...mapState(useAppStore, ['importantPersons']),
+    ...mapState(useAppStore, ['importantPersons', 'isSyncingDb']),
     ...mapState(useAppStore, { groups: 'sortedGroups' }),
     persons() {
       // Apply filters and sort persons from state
