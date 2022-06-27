@@ -134,6 +134,33 @@
   </form>
 </template>
 
+<!--<script setup lang="ts">-->
+<!--import { nanoid } from 'nanoid';-->
+<!--import * as importantPersons from '@/helpers/importantPersons';-->
+
+<!--function addBirthDate() {-->
+<!--  const year = this.getYear(this.year1, this.year2)-->
+<!--  const month = this.monthNo-->
+<!--  const day = parseInt(this.day, 10)-->
+<!--  const birthday = new Date(Date.UTC(year, month, day)).toISOString()-->
+<!--  const newPerson = {-->
+<!--    id: nanoid(),-->
+<!--    name: this.name,-->
+<!--    birthday,-->
+<!--    groups: this.selectedGroups,-->
+<!--  }-->
+<!--  importantPersons.addNewPerson(newPerson)-->
+<!--  this.addedName = this.name-->
+<!--  this.showConfirmation = true-->
+<!--  setTimeout(() => {-->
+<!--    document.getElementById('footertoast').click()-->
+<!--    setTimeout(() => (this.showConfirmation = false), 1000)-->
+<!--  }, 2000)-->
+<!--  this.resetForm()-->
+<!--  this.focusNameInput()-->
+<!--}-->
+<!--</script>-->
+
 <script>
 import { nanoid } from 'nanoid'
 import { mapState } from 'pinia'
@@ -201,14 +228,17 @@ export default {
       const year = this.getYear(this.year1, this.year2)
       const month = this.monthNo
       const day = parseInt(this.day, 10)
-      const birthday = new Date(Date.UTC(year, month, day)).toISOString()
+      const birthday = new Date(Date.UTC(year, month, day))
       const newPerson = {
         id: nanoid(),
         name: this.name,
         birthday,
         groups: this.selectedGroups,
       }
-      importantPersons.addNewPerson(newPerson)
+      importantPersons.addNewPerson({
+        personId: newPerson.id,
+        personInfo: newPerson,
+      })
       this.addedName = this.name
       this.showConfirmation = true
       setTimeout(() => {

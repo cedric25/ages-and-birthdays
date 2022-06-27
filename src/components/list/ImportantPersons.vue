@@ -63,15 +63,13 @@
 </template>
 
 <script>
-import differenceInCalendarDays from 'date-fns/differenceInCalendarDays'
 import { mapState } from 'pinia'
 import { useAppStore } from '@/store/app/app.store.ts'
+import * as localStorageHelper from '@/services/localStorage/localStorageHelper.js'
 import { computeAge } from '@/helpers/computeAge.js'
-import comparePersons from '../../helpers/comparePersons'
-import * as localStorageHelper from '../../services/localStorage/localStorageHelper.js'
-import * as importantPersons from '../../helpers/importantPersons'
-
-const today = new Date()
+import { daysUntilBirthday } from '@/helpers/daysUntilBirthday.ts'
+import { comparePersons } from '@/helpers/comparePersons.js'
+import * as importantPersons from '@/helpers/importantPersons.ts'
 
 export default {
   data: () => ({
@@ -85,18 +83,21 @@ export default {
   computed: {
     ...mapState(useAppStore, ['importantPersons', 'isSyncingDb']),
     ...mapState(useAppStore, { groups: 'sortedGroups' }),
+    personsList() {
+      return this.buildPersons(this.importantPersons)
+    },
     persons() {
-      // Apply filters and sort persons from state
-      let personsList = this.buildPersons(this.importantPersons)
-      if (this.selectedGroups.length > 0) {
-        personsList = personsList.filter(person => {
-          const commonGroups = this.selectedGroups.filter(group => {
-            return person.groups && person.groups.includes(group)
-          })
-          return commonGroups.length > 0
-        })
+      if (this.selectedGroups.length === 0) {
+        return this.sortPersons(this.personsList, this.selectedOrder)
       }
-      return this.sortPersons(personsList, this.selectedOrder)
+      // Apply filters
+      const filteredPersonsList = this.personsList.filter(person => {
+        const commonGroups = this.selectedGroups.filter(group => {
+          return person.groups && person.groups.includes(group)
+        })
+        return commonGroups.length > 0
+      })
+      return this.sortPersons(filteredPersonsList, this.selectedOrder)
     },
   },
   created() {
@@ -113,38 +114,15 @@ export default {
           return {
             id: person.id,
             name: person.name,
-            birthday: new Date(person.birthday),
-            age: computeAge(new Date(), new Date(person.birthday)),
-            daysUntilBirthday: this.daysUntilBirthday(person.birthday),
+            birthday: person.birthday,
+            age: computeAge(new Date(), person.birthday),
+            daysUntilBirthday: daysUntilBirthday(person.birthday),
             groups: person.groups && person.groups.sort(),
             ...(person.parentOne && { parentOne: person.parentOne }),
             ...(person.parentTwo && { parentTwo: person.parentTwo }),
           }
         })
       )
-    },
-    daysUntilBirthday(birthday) {
-      let nextBirthday
-      if (typeof birthday === 'string') {
-        nextBirthday = new Date(birthday)
-      } else {
-        nextBirthday = new Date(birthday.getTime())
-      }
-      nextBirthday.setFullYear(today.getFullYear())
-      if (
-        this.isDayMonthLater(
-          { day1: nextBirthday.getDate(), month1: nextBirthday.getMonth() },
-          { day2: today.getDate(), month2: today.getMonth() }
-        )
-      ) {
-        nextBirthday.setFullYear(today.getFullYear())
-        return differenceInCalendarDays(nextBirthday, today.getTime())
-      }
-      nextBirthday.setFullYear(today.getFullYear() + 1)
-      return differenceInCalendarDays(nextBirthday, today.getTime())
-    },
-    isDayMonthLater({ day1, month1 }, { day2, month2 }) {
-      return month1 > month2 || (month1 === month2 && day1 >= day2)
     },
     sortPersons(personsList, selectedOrder) {
       if (selectedOrder) {

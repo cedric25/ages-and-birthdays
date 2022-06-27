@@ -58,7 +58,7 @@ export default {
       reader.onload = () => {
         try {
           const jsonPersons = JSON.parse(reader.result)
-          importantPersons.setAllPersons(jsonPersons)
+          importantPersons.setAllDbPersons(jsonPersons)
           const allGroups = findGroups(jsonPersons)
           groups.setAllGroups(allGroups)
         } catch (err) {

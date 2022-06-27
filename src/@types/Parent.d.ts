@@ -1,4 +1,1 @@
-export type Parent = {
-  id?: string
-  name: string
-}
+export type Parent = string

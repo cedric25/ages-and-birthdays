@@ -57,3 +57,23 @@ export function getGroupsRef(userId: string) {
   const db = getDatabase()
   return ref(db, `users/${userId}/groups`)
 }
+
+// To add / update / remove a Firebase important person
+export function setNewImportantPerson(
+  userId: string,
+  personId: string,
+  personToAddOrUpdate: Person | null
+) {
+  const db = getDatabase()
+  if (!personToAddOrUpdate) {
+    return set(ref(db, `users/${userId}/importantPersons/${personId}`), null)
+  }
+  const newPersonForDb = {
+    ...personToAddOrUpdate,
+    birthday: personToAddOrUpdate.birthday.toISOString(),
+  }
+  return set(
+    ref(db, `users/${userId}/importantPersons/${personId}`),
+    newPersonForDb
+  )
+}

@@ -1,105 +1,39 @@
 <template>
-  <div class="one-person">
-    <Groups
+  <form class="one-person">
+    <PersonGroups
       :person-id="person.id"
-      :person-groups="personGroups"
+      :person-groups="person.groups"
       :is-edit-mode="isEditMode"
     />
 
-    <div
-      v-if="!isEditMode && (person.parentOne || person.parentTwo)"
-      class="-mb-2 text-center text-sm"
-    >
-      ({{ person.parentOne?.name ?? '?' }} +
-      {{ person.parentTwo?.name ?? '?' }})
-    </div>
-    <div v-else class="mt-2 mb-2 flex justify-center">
-      <div v-if="isEditMode" class="relative mx-auto mt-3">
-        <input
-          v-model="newParentOne.name"
-          placeholder="Parent 1..."
-          class="input mr-2 max-w-[100px] pl-3 text-center"
-          @keyup.enter="updatePerson"
-        />
-        <input
-          v-model="newParentTwo.name"
-          placeholder="Parent 2..."
-          class="input ml-2 max-w-[100px] pl-3 text-center"
-          @keyup.enter="updatePerson"
-        />
-      </div>
-    </div>
-
-    <input
-      v-if="isEditMode"
-      ref="name"
-      v-model="newName"
-      name="name"
-      placeholder="Name"
-      class="input mx-auto mt-4 block w-full max-w-[85%] text-center"
-      :class="
-        newName.length > 20
-          ? 'text-base'
-          : newName.length > 10
-          ? 'text-lg'
-          : 'text-xl'
-      "
-      @keyup.enter="updatePerson"
-      @keyup.esc="cancelEdit"
+    <PersonParents
+      :person-id="person.id"
+      v-model:parentOne="newParentOne"
+      v-model:parentTwo="newParentTwo"
+      :is-edit-mode="isEditMode"
     />
-    <h3
-      v-if="!isEditMode"
-      class="mt-3 text-center"
-      :class="
-        newName.length > 20
-          ? 'text-base'
-          : newName.length > 10
-          ? 'text-lg'
-          : 'text-xl'
-      "
-      @dblclick="switchToEditMode"
-    >
-      {{ person.name }}
-      <span v-if="isBaby" class="baby-icon">👶</span>
-    </h3>
 
-    <div class="mt-2 mb-2 flex justify-center">
-      <div v-if="isEditMode" class="relative mx-auto mt-3">
-        <i
-          class="fa fa-calendar-week absolute left-0 text-sm"
-          style="top: 4px"
-        />
-        <input
-          ref="dob"
-          v-model="dob"
-          name="dob"
-          placeholder="DD/MM/YYYY"
-          class="input max-w-[130px] pl-3 text-center"
-          :error="wrongDateEntered"
-          @keyup.enter="updatePerson"
-          @keyup.esc="cancelEdit"
-        />
-        <div class="mt-1 text-center text-xs text-gray-400">DD/MM/YYYY</div>
-      </div>
-      <div
-        v-if="!isEditMode"
-        class="flex-1"
-        :class="isYearKnown ? 'text-right' : 'text-center'"
-      >
-        <Chip
-          green
-          class="mr-1"
-          @dblclick="$event => switchToEditMode($event, 'dob')"
-        >
-          {{ readableBirthday }}
-        </Chip>
-      </div>
-      <div class="text-left" v-if="!isEditMode && isYearKnown" style="flex: 1">
-        <Chip light-blue class="ml-1">
-          {{ ageValue.value }}{{ ageValue.unit }}</Chip
-        >
-      </div>
-    </div>
+    <PersonName
+      ref="personName"
+      :person-id="person.id"
+      v-model:name="newName"
+      :is-baby="isBaby"
+      :is-edit-mode="isEditMode"
+      @switch-to-edit-mode="switchToEditMode"
+      @cancel-edit="cancelEdit"
+    />
+
+    <PersonDobAndAge
+      ref="personDobAndAge"
+      :person-id="person.id"
+      v-model:dob="dob"
+      :birthday="person.birthday"
+      :is-year-known="isYearKnown"
+      :age="person.age"
+      :is-edit-mode="isEditMode"
+      @switch-to-edit-mode="switchToEditMode"
+      @cancel-edit="cancelEdit"
+    />
 
     <div v-if="!isEditMode" class="mt-1 text-center">
       <span> {{ textBeforeDays }} </span>&nbsp;<span v-if="!isBirthdayToday">
@@ -111,24 +45,45 @@
     </div>
 
     <template v-if="!isEditMode">
-      <button class="edit-btn" @click="switchToEditMode">
+      <button type="button" class="edit-btn" @click="switchToEditMode">
         <i class="fa fa-edit" />
       </button>
-      <button class="delete-btn" @click="deletePerson">
+      <button type="button" class="delete-btn" @click="deletePerson">
         <i class="fa fa-trash" />
       </button>
     </template>
 
     <template v-if="isEditMode">
-      <button class="submit-btn" @click="updatePerson">
+      <button type="submit" class="submit-btn" @click.prevent="updatePerson">
         <i class="fa fa-check" />
       </button>
-      <button class="cancel-btn" @click="cancelEdit">
+      <button type="button" class="cancel-btn" @click="cancelEdit">
         <i class="fa fa-undo" />
       </button>
     </template>
-  </div>
+  </form>
 </template>
+
+<!--<script setup lang="ts">-->
+<!--import type { Group } from '@/@types/Group';-->
+<!--import type { Parent } from '@/@types/Parent';-->
+
+<!--defineProps<{-->
+<!--  person: {-->
+<!--    id: string-->
+<!--    name: string-->
+<!--    birthday: Date-->
+<!--    age: {-->
+<!--      value: number | null-->
+<!--      unit: 'years' | 'months' | null-->
+<!--    }-->
+<!--    daysUntilBirthday: number-->
+<!--    groups: Group[]-->
+<!--    parentOne?: Parent-->
+<!--    parentTwo?: Parent-->
+<!--  }-->
+<!--}>()-->
+<!--</script>-->
 
 <script>
 import format from 'date-fns/format'
@@ -144,25 +99,16 @@ export default {
   },
   data: vm => ({
     isEditMode: false,
-    newName: '',
+    newName: vm.person.name,
     dob: '',
+    newParentOne: vm.person.parentOne,
+    newParentTwo: vm.person.parentTwo,
     wrongDateEntered: false,
-    newParentOne: {
-      id: vm.person.parentOne?.id,
-      name: vm.person.parentOne?.name,
-    },
-    newParentTwo: {
-      id: vm.person.parentTwo?.id,
-      name: vm.person.parentTwo?.name,
-    },
   }),
   computed: {
     ...mapState(useAppStore, ['groups']),
     birthday() {
       return this.person.birthday
-    },
-    personGroups() {
-      return this.person.groups
     },
     age() {
       return this.person.age
@@ -176,36 +122,10 @@ export default {
     isYearKnown() {
       return this.birthday.getFullYear() > 1910
     },
-    readableBirthday() {
-      if (!this.isYearKnown) {
-        return `${this.birthday.getDate()} ${format(this.birthday, 'MMM')}`
-      }
-      return format(this.birthday, 'd MMM yyyy')
-    },
     isBaby() {
       return (
         this.isYearKnown && (this.age.unit === 'months' || this.age.value < 3)
       )
-    },
-    ageValue() {
-      let unit = 'y old'
-      if (this.age.unit === 'months') {
-        if (this.age.value === 0) {
-          return {
-            value: 'New born!',
-            unit: null,
-          }
-        }
-        if (this.age.value === 1) {
-          unit = ' month old'
-        } else {
-          unit = ' months old'
-        }
-      }
-      return {
-        value: this.age.value,
-        unit,
-      }
     },
     nextAge() {
       if (this.age.unit === 'months') {
@@ -226,13 +146,12 @@ export default {
       return `Birthday in`
     },
   },
-  watch: {
-    dob() {
-      this.wrongDateEntered = false
-    },
-  },
+  // watch: {
+  //   dob() {
+  //     this.wrongDateEntered = false
+  //   },
+  // },
   created() {
-    this.newName = this.person.name
     if (this.isYearKnown) {
       this.dob = format(this.birthday, 'dd/MM/yyyy')
     } else {
@@ -240,12 +159,24 @@ export default {
     }
   },
   methods: {
-    switchToEditMode($event, inputToFocusOn = 'name') {
+    // switchToEditMode({ inputToFocus }: { inputToFocus: 'personName' | 'personDob' }) {
+    switchToEditMode({ inputToFocus = 'personName' }) {
       this.isEditMode = true
-      this.$nextTick(() => this.$refs[inputToFocusOn].focus())
+      if (inputToFocus === 'personName') {
+        this.$nextTick(() => this.$refs.personName.$refs.nameInput.focus())
+      } else if (inputToFocus === 'personDob') {
+        this.$nextTick(() => this.$refs.personDobAndAge.$refs.dob.focus())
+      }
     },
     updatePerson() {
-      if (!this.newName) return
+      console.log(
+        '-> updatePerson',
+        this.newName,
+        this.dob,
+        this.newParentOne,
+        this.newParentTwo
+      )
+      if (!this.newName?.trim()) return
       let dateFormat = 'dd/MM/yyyy'
       if (!containsYear(this.dob)) {
         dateFormat = 'dd/MM'
@@ -263,21 +194,16 @@ export default {
           newBirthdayDate.getDate()
         )
       )
-      importantPersons.updatePerson({
+      importantPersons.updatePerson(this.person.id, {
         id: this.person.id,
         name: this.newName,
-        birthday: newBirthday.toISOString(),
-        ...(this.newParentOne.name && {
-          parentOne: {
-            ...(this.newParentOne.id && { id: this.newParentOne.id }),
-            name: this.newParentOne.name,
-          },
+        birthday: newBirthday,
+        groups: this.person.groups,
+        ...(this.newParentOne && {
+          parentOne: this.newParentOne,
         }),
-        ...(this.newParentTwo.name && {
-          parentTwo: {
-            ...(this.newParentTwo.id && { id: this.newParentTwo.id }),
-            name: this.newParentTwo.name,
-          },
+        ...(this.newParentTwo && {
+          parentTwo: this.newParentTwo,
         }),
       })
     },
@@ -289,7 +215,7 @@ export default {
     },
     cancelEdit() {
       this.isEditMode = false
-      this.newName = this.person.name
+      // this.newName = this.person.name
     },
   },
 }

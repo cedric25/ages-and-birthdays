@@ -31,8 +31,7 @@ describe('updatePerson()', () => {
         name: 'Bob',
       },
     ]
-    appStore.updatePerson({
-      id: '123',
+    appStore.updatePerson('123', {
       name: 'Bobby',
     })
     expect(appStore.importantPersons.length).toBe(1)

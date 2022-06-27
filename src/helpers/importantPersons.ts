@@ -4,51 +4,127 @@ import * as localStorageHelper from '@/services/localStorage/localStorageHelper.
 import { useAppStore } from '@/store/app/app.store'
 import { useUserStore } from '@/store/user/user.store'
 
-export function setAllPersons(allPersons: Person[]) {
+export async function addNewPerson({
+  personId,
+  personInfo,
+}: {
+  personId: string
+  personInfo: Person
+}) {
+  const appStore = useAppStore()
+  // 1- pinia store
+  appStore.addNewImportantPerson(personInfo)
+  const userStore = useUserStore()
+  if (userStore.user) {
+    appStore.setSyncingDb(true)
+    // 2-a) Firebase
+    await db.setNewImportantPerson(userStore.user.id, personId, personInfo)
+    appStore.setSyncingDb(false)
+    return
+  }
+  // 2-b) localStorage
+  updateLocalStorageDb()
+}
+
+export async function updatePerson(personId: string, personToUpdate: Person) {
+  const appStore = useAppStore()
+  // 1- pinia store
+  appStore.updatePerson(personId, personToUpdate)
+  const userStore = useUserStore()
+  if (userStore.user) {
+    appStore.setSyncingDb(true)
+    // 2-a) Firebase
+    await db.setNewImportantPerson(userStore.user.id, personId, personToUpdate)
+    appStore.setSyncingDb(false)
+    return
+  }
+  // 2-b) localStorage
+  updateLocalStorageDb()
+}
+
+export async function deletePerson(personId: string) {
+  const appStore = useAppStore()
+  // 1- pinia store
+  appStore.deletePerson(personId)
+  const userStore = useUserStore()
+  if (userStore.user) {
+    appStore.setSyncingDb(true)
+    // 2-a) Firebase
+    await db.setNewImportantPerson(userStore.user.id, personId, null)
+    appStore.setSyncingDb(false)
+    return
+  }
+  // 2-b) localStorage
+  updateLocalStorageDb()
+}
+
+export async function addGroupToPerson(personId: string, groupToAdd: string) {
+  const appStore = useAppStore()
+  // 1- pinia store
+  const updatedPerson = appStore.addGroupToPerson({
+    personId,
+    groupToAdd,
+  })
+  if (!updatedPerson) {
+    return
+  }
+  const userStore = useUserStore()
+  if (userStore.user) {
+    appStore.setSyncingDb(true)
+    // 2-a) Firebase
+    await db.setNewImportantPerson(userStore.user.id, personId, updatedPerson)
+    appStore.setSyncingDb(false)
+    return
+  }
+  // 2-b) localStorage
+  updateLocalStorageDb()
+}
+
+export async function removeGroupFromPerson(
+  personId: string,
+  groupToRemove: string
+) {
+  const appStore = useAppStore()
+  // 1- pinia store
+  const updatedPerson = appStore.removeGroupFromPerson({
+    personId,
+    groupToRemove,
+  })
+  if (!updatedPerson) {
+    return
+  }
+  const userStore = useUserStore()
+  if (userStore.user) {
+    appStore.setSyncingDb(true)
+    // 2-a) Firebase
+    await db.setNewImportantPerson(userStore.user.id, personId, updatedPerson)
+    appStore.setSyncingDb(false)
+    return
+  }
+  // 2-b) localStorage
+  updateLocalStorageDb()
+}
+
+function updateLocalStorageDb() {
+  const appStore = useAppStore()
+  localStorageHelper.setPersons(appStore.importantPersons)
+}
+
+/**
+ * ----- ADMIN -----
+ */
+
+// Import from JSON
+export function setAllDbPersons(allPersons: Person[]) {
   const appStore = useAppStore()
   appStore.setAllPersons(allPersons)
   updateDbPersons()
 }
 
-export function addNewPerson(newPerson: Person) {
-  const appStore = useAppStore()
-  appStore.addNewImportantPerson(newPerson)
-  updateDbPersons()
-}
-
-export function updatePerson(updatedPerson: Person) {
-  const appStore = useAppStore()
-  appStore.updatePerson(updatedPerson)
-  updateDbPersons()
-}
-
-export function deletePerson(personId: string) {
-  const appStore = useAppStore()
-  appStore.deletePerson(personId)
-  updateDbPersons()
-}
-
-export function addGroupToPerson(personId: string, groupToAdd: string) {
-  const appStore = useAppStore()
-  appStore.addGroupToPerson({
-    personId,
-    groupToAdd,
-  })
-  updateDbPersons()
-}
-
+// Clear all list
 export function removeAllPersons() {
   const appStore = useAppStore()
   appStore.removeAllPersons()
-  updateDbPersons()
-}
-
-export function removeGroupFromPerson(personId: string, groupToRemove: string) {
-  const appStore = useAppStore()
-  appStore.removeGroupFromPerson({
-    personId,
-    groupToRemove,
-  })
   updateDbPersons()
 }
 
@@ -65,6 +141,6 @@ async function updateDbPersons() {
       appStore.setSyncingDb(false)
     }
   } else {
-    localStorageHelper.setPersons(appStore.importantPersons)
+    updateLocalStorageDb()
   }
 }

@@ -5,7 +5,7 @@ export function computeAge(today, dateOfBirth) {
   if (dateOfBirth.getFullYear() === 1900) {
     return {
       value: null,
-      unit: '',
+      unit: null,
     }
   }
   const diffYears = differenceInYears(today, dateOfBirth)

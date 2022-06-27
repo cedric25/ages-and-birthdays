@@ -1,4 +1,4 @@
-export default function comparePersons(personOne, personTwo, sortingAttribute) {
+export function comparePersons(personOne, personTwo, sortingAttribute) {
   const personOneValue = personOne[sortingAttribute]
   const personTwoValue = personTwo[sortingAttribute]
   if (sortingAttribute === 'name') {

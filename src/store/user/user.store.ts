@@ -6,7 +6,6 @@ import type { Person } from '@/@types/Person'
 import type { Group } from '@/@types/Group'
 import format from 'date-fns/format'
 import * as db from '@/helpers/db'
-import { checkDbUserData } from '@/services/firebase/checkDbUserData'
 import { useAppStore } from '@/store/app/app.store'
 
 type State = {
@@ -94,18 +93,9 @@ async function getUserData(user: User) {
     if (!userData) {
       const { importantPersons, groups } = appStore
       await oneTimeLocalStateUploadToDb(user, importantPersons, groups)
-    } else {
-      const isDbDataValid = checkDbUserData(userData)
-      if (!isDbDataValid) {
-        appStore.setSyncingDb(false)
-        throw new Error('There is data to be synced but invalid... :(')
-        // Keep local data...
-      }
-      // Override local state with what's in Firebase
-      // TODO Message to ask if override okay?
-      useStoreState(userData)
+      appStore.setSyncingDb(false)
+      return
     }
-    appStore.setSyncingDb(false)
     watchForDbChanges(user.id)
     const userStore = useUserStore()
     userStore.setLoginTriedOrFinished()
@@ -136,18 +126,6 @@ async function oneTimeLocalStateUploadToDb(
   }
 }
 
-function useStoreState(userData: { importantPersons: any; groups: any }) {
-  const personsState = []
-  const appStore = useAppStore()
-  if (userData.importantPersons) {
-    for (const personKey of Object.keys(userData.importantPersons)) {
-      personsState.push(userData.importantPersons[personKey])
-    }
-  }
-  userData.importantPersons && appStore.setAllPersons(personsState)
-  userData.groups && appStore.setAllGroups(userData.groups)
-}
-
 function watchForDbChanges(userId: string) {
   const MIN_LOADING_TIME = 250
 
@@ -155,18 +133,26 @@ function watchForDbChanges(userId: string) {
 
   const importantPersonsRef = db.getImportantPersonsRef(userId)
   onValue(importantPersonsRef, personsSnapshot => {
+    console.log('-> onValue persons', personsSnapshot.val())
     appStore.setSyncingDb(true)
 
     if (!personsSnapshot.val()) {
       appStore.setAllPersons([])
     } else {
+      const dbPersons = Object.values(personsSnapshot.val()) as Person[]
+      console.log('dbPersons', dbPersons)
       // Check that all persons got a birthday prop, otherwise it might be a local Firebase value...
-      const allPersonsFine = personsSnapshot
-        .val()
-        .every(person => !!person.birthday)
-      if (allPersonsFine) {
-        appStore.setAllPersons(personsSnapshot.val())
+      if (!checkDbPersons(dbPersons)) {
+        return
       }
+      const persons: Person[] = []
+      for (const person of dbPersons) {
+        persons.push({
+          ...person,
+          birthday: new Date(person.birthday),
+        })
+      }
+      appStore.setAllPersons(persons)
     }
 
     setTimeout(() => {
@@ -176,10 +162,22 @@ function watchForDbChanges(userId: string) {
 
   const groupsRef = db.getGroupsRef(userId)
   onValue(groupsRef, groupsSnapshot => {
+    console.log('-> onValue groups')
     appStore.setSyncingDb(true)
     appStore.setAllGroups(groupsSnapshot.val() || [])
     setTimeout(() => {
       appStore.setSyncingDb(false)
     }, MIN_LOADING_TIME)
   })
+}
+
+function checkDbPersons(dbPersons: Person[]): boolean {
+  let isDbDataValid = true
+  for (const dbPerson of dbPersons) {
+    if (!dbPerson.birthday) {
+      console.error(`⚠️ ${dbPerson.name} does NOT have a birthday!`)
+      isDbDataValid = false
+    }
+  }
+  return isDbDataValid
 }
