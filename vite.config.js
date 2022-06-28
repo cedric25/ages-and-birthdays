@@ -18,6 +18,7 @@ export default defineConfig({
       // /!\ Don't remove that or users might never get new content!
       // Unless you want to replace that with a manual "Refresh" button.
       // -> https://github.com/antfu/vite-plugin-pwa
+      registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
       manifest: {
         name: 'Ages & Birthdays',
