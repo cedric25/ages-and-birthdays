@@ -1,7 +1,7 @@
 <template>
   <div class="background-image">
-    <div class="mx-auto flex h-full max-w-4xl flex-col justify-center">
-      <h2 class="text-5xl">Thanks for visiting!</h2>
+    <div class="mx-auto flex h-full max-w-4xl flex-col justify-center px-4">
+      <h2 class="text-4xl md:text-5xl">Thanks for visiting!</h2>
 
       <hr class="my-4 border-gray-500" />
 
