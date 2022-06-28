@@ -25,3 +25,5 @@ src/services/googlePeopleApi/mocks
 
 # rollup-plugin-visualizer generated file
 stats.html
+
+/admin-scripts
