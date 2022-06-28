@@ -5,7 +5,7 @@
       :added-name="addedName"
     />
 
-    <div class="mb-6 flex space-x-8">
+    <div class="mb-4 flex space-x-8">
       <label> Name: </label>
       <div>
         <input
@@ -24,7 +24,7 @@
         :key="group"
         :selected="isGroupSelected(group)"
         clickable
-        class="mr-2"
+        class="mr-2 mt-2"
         tabindex="0"
         @click.native="selectGroup(group)"
         @keyup.native.enter="selectGroup(group)"
@@ -34,7 +34,7 @@
       <button
         v-if="!showAddGroupInput"
         type="button"
-        class="ml-3 w-[28px] rounded-full bg-gray-100 hover:bg-gray-200"
+        class="ml-3 mt-2 w-[28px] rounded-full bg-gray-100 hover:bg-gray-200"
         @click.prevent="showAddGroup"
       >
         <i class="fa fa-plus text-gray-500" />
