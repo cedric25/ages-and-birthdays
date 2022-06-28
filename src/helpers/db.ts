@@ -71,6 +71,7 @@ export function setNewImportantPerson(
   const newPersonForDb = {
     ...personToAddOrUpdate,
     birthday: personToAddOrUpdate.birthday.toISOString(),
+    groups: personToAddOrUpdate.groups || null, // Firebase doesn't like undefined?...
   }
   return set(
     ref(db, `users/${userId}/importantPersons/${personId}`),
