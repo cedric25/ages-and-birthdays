@@ -3,7 +3,7 @@
     <div v-if="isEditMode" class="relative mx-auto mt-3">
       <i class="fa fa-calendar-week absolute left-0 text-sm" style="top: 4px" />
       <input
-        ref="dob"
+        ref="dobInput"
         :value="dob"
         @input="$emit('update:dob', $event.target.value)"
         name="dob"

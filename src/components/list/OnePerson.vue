@@ -137,7 +137,7 @@ export default {
       if (inputToFocus === 'personName') {
         this.$nextTick(() => this.$refs.personName.$refs.nameInput.focus())
       } else if (inputToFocus === 'personDob') {
-        this.$nextTick(() => this.$refs.personDobAndAge.$refs.dob.focus())
+        this.$nextTick(() => this.$refs.personDobAndAge.$refs.dobInput.focus())
       }
     },
     updatePerson() {
