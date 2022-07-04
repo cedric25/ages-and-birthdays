@@ -1,0 +1,33 @@
+On part de ça en bdd :
+  '1989-07-22'
+
+On veut un PlainDate :
+  Temporal.PlainDate.from('1989-07-22')
+
+Pour pouvoir la formatter avec Intl en :
+  07/22/1989
+et :
+  July 22nd, 2022
+
+->
+const dateFormatterForDisplay = new Intl.DateTimeFormat(clientLocale, {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric',
+})
+
+dateFormatterForDisplay.format(
+  Temporal.PlainDate.from('1989-07-22')
+)
+
+Tada! 🎉
+
+---
+
+On stocke en bdd (Firebase ou localStorage) des string :
+ - 1992-07-22
+ - 07-22
+ - (later maybe) 1992-07
+
+On communique entre components avec ces strings.
+On parsera ces String en Temporal.PlainDate ou Temporal.PlainMonthDate au besoin.

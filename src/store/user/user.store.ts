@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import { Temporal } from '@js-temporal/polyfill'
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 import { onValue } from 'firebase/database'
 import { defineStore } from 'pinia'
@@ -115,7 +116,8 @@ async function oneTimeLocalStateUploadToDb(
     await db.setUserData(user.id, {
       user: {
         ...user,
-        createdAt: dayjs().toISOString(),
+        createdAt: Temporal.Now.instant().toString(), // '2022-07-04T13:08:19.245976206Z'
+        timezoneAtCreation: Intl.DateTimeFormat().resolvedOptions().timeZone, // 'Europe/Paris'
       },
       importantPersons,
       groups,
@@ -147,9 +149,12 @@ function watchForDbChanges(userId: string) {
       for (const person of dbPersons) {
         persons.push({
           ...person,
-          birthday: new Date(person.birthday),
+          // TEMP (before having '1992-07-22' or '07-22' in DB
+          // Convert UTC ISO date strings to easier date strings
+          birthday: parseDateOfBirth(person.birthday),
         })
       }
+      console.log('--- Firebase persons', persons)
       appStore.setAllPersons(persons)
     }
 
@@ -177,4 +182,14 @@ function checkDbPersons(dbPersons: Person[]): boolean {
     }
   }
   return isDbDataValid
+}
+
+// Ex: '2022-07-04T13:08:19.245976206Z'
+function parseDateOfBirth(utcIsoDateString: string) {
+  console.log('utcIsoDateString', utcIsoDateString)
+  const date = new Date(utcIsoDateString)
+  if (date.getFullYear() === 1896) {
+    return dayjs(utcIsoDateString).format('MM-DD')
+  }
+  return dayjs(utcIsoDateString).format('YYYY-MM-DD')
 }

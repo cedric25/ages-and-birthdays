@@ -4,7 +4,7 @@ import type { Parent } from '@/@types/Parent'
 export type Person = {
   id: string
   name: string
-  birthday: Date
+  birthday: Temporal.PlainDate | Temporal.PlainMonthDay
   groups?: Group[]
   parentOne?: Parent
   parentTwo?: Parent

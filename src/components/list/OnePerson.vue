@@ -81,14 +81,13 @@
 <!--</script>-->
 
 <script>
-import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
+import { Temporal } from '@js-temporal/polyfill'
 import { mapState } from 'pinia'
 import { useAppStore } from '@/store/app/app.store.ts'
 import * as importantPersons from '@/helpers/importantPersons'
-import { containsYear } from '@/helpers/date'
-
-dayjs.extend(customParseFormat)
+import { isBaby } from '@/helpers/isBaby.ts'
+import { formatDateForInput } from '@/helpers/dateFormatters.ts'
+import { checkEnteredDate } from '@/helpers/checkEnteredDate.ts'
 
 export default {
   props: {
@@ -105,18 +104,18 @@ export default {
   computed: {
     ...mapState(useAppStore, ['groups']),
     birthday() {
+      // Temporal.PlainDate | Temporal.PlainMonthDay
+      // '1989-07-22' or '07-22' (July 22nd)
       return this.person.birthday
     },
     age() {
       return this.person.age
     },
     isYearKnown() {
-      return this.birthday.getFullYear() > 1910
+      return this.birthday instanceof Temporal.PlainDate
     },
     isBaby() {
-      return (
-        this.isYearKnown && (this.age.unit === 'months' || this.age.value < 3)
-      )
+      return this.isYearKnown && isBaby(this.age)
     },
     kids() {
       const appStore = useAppStore()
@@ -124,11 +123,7 @@ export default {
     },
   },
   created() {
-    if (this.isYearKnown) {
-      this.dob = dayjs(this.birthday).format('DD/MM/YYYY')
-    } else {
-      this.dob = dayjs(this.birthday).format('DD/MM')
-    }
+    this.dob = formatDateForInput(this.birthday)
   },
   methods: {
     // switchToEditMode({ inputToFocus }: { inputToFocus: 'personName' | 'personDob' }) {
@@ -142,24 +137,13 @@ export default {
     },
     updatePerson() {
       if (!this.newName?.trim()) return
-      let dateFormat = 'DD/MM/YYYY'
-      if (!containsYear(this.dob)) {
-        dateFormat = 'DD/MM'
-      }
-      const newBirthdayDate = dayjs(this.dob, dateFormat)
-      if (!newBirthdayDate.isValid()) {
+      const newBirthday = checkEnteredDate(this.dob)
+      if (!newBirthday) {
         console.error(`Wrong date: ${this.dob}`)
         this.wrongDateEntered = true
         return
       }
       this.isEditMode = false
-      const newBirthday = new Date(
-        Date.UTC(
-          newBirthdayDate.year(),
-          newBirthdayDate.month(),
-          newBirthdayDate.date()
-        )
-      )
       importantPersons.updatePerson(this.person.id, {
         id: this.person.id,
         name: this.newName,

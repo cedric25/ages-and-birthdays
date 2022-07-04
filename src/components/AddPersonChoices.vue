@@ -28,7 +28,7 @@
 
 <script>
 import { mapState } from 'pinia'
-import { askForConsent } from '@/helpers/googlePeopleSync'
+import { askForConsent } from '@/helpers/googlePeopleSync.ts'
 import { useAppStore } from '@/store/app/app.store.ts'
 
 export default {

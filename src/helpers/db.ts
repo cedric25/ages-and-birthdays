@@ -35,7 +35,7 @@ export function setUserData(
     importantPersons,
     groups,
   }: {
-    user: User & { createdAt: string }
+    user: User & { createdAt: string; timezoneAtCreation: string }
     importantPersons: Person[]
     groups: Group[]
   }

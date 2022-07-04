@@ -5,7 +5,7 @@
       class="grid grid-cols-3 border-t px-3 py-1 text-sm"
     >
       <div>👶&nbsp; {{ kid.name }}</div>
-      <div>{{ getReadableBirthday(kid.birthday) }}</div>
+      <div>{{ formatDateForDisplay(kid.birthday) }}</div>
       <div>{{ getReadableAge(kid.birthday) }}</div>
     </div>
   </div>
@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import type { Person } from '@/@types/Person'
-import { getReadableBirthday } from '@/helpers/readableBirthday'
+import { formatDateForDisplay } from '@/helpers/dateFormatters'
 import { getReadableAge } from '@/helpers/readableAge'
 
 defineProps<{
