@@ -154,7 +154,6 @@ function watchForDbChanges(userId: string) {
           birthday: parseDateOfBirth(person.birthday),
         })
       }
-      console.log('--- Firebase persons', persons)
       appStore.setAllPersons(persons)
     }
 
@@ -186,7 +185,6 @@ function checkDbPersons(dbPersons: Person[]): boolean {
 
 // Ex: '2022-07-04T13:08:19.245976206Z'
 function parseDateOfBirth(utcIsoDateString: string) {
-  console.log('utcIsoDateString', utcIsoDateString)
   const date = new Date(utcIsoDateString)
   if (date.getFullYear() === 1896) {
     return dayjs(utcIsoDateString).format('MM-DD')
