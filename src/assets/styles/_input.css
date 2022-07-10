@@ -1,7 +1,7 @@
 .input {
   @apply border-b border-solid;
   border-color: rgba(0, 0, 0, 0.42);
-  @apply outline-none mb-0 rounded-none px-1;
+  @apply mb-0 rounded-none px-1 outline-none;
 }
 .input:focus {
   @apply border-b-2 border-blue-500;
