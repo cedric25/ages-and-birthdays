@@ -180,6 +180,11 @@ export default {
       })
     },
     cancelEdit() {
+      this.newParentOne = this.person.parentOne
+      this.newParentTwo = this.person.parentTwo
+      this.newName = this.person.name
+      this.dob = formatDateForInput(this.birthday)
+      this.wrongDateEntered = false
       this.isEditMode = false
     },
   },
