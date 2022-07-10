@@ -1,0 +1,41 @@
+name: main-ci
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  TZ: Europe/Paris
+
+jobs:
+  client:
+    name: 'Client lint & tests'
+    runs-on: ubuntu-latest
+    container: node:16
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint with Prettier
+        run: npm run prettier
+
+      - name: Lint with ESLint
+        run: npm run eslint
+
+      - name: Run tests
+        run: npm run test:unit
+
+      - name: Run compressed-size-action
+        uses: preactjs/compressed-size-action@v2
+        with:
+          cwd: packages/client
+          strip-hash: "\\b\\w{8}\\."
