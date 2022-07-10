@@ -1,18 +1,16 @@
 <template>
   <div class="mt-2 mb-2 flex justify-center">
     <div v-if="isEditMode" class="relative mx-auto mt-3">
-      <i class="fa fa-calendar-week absolute left-0 text-sm" style="top: 4px" />
       <input
         ref="dobInput"
+        type="date"
         :value="dob"
         @input="$emit('update:dob', $event.target.value)"
         name="dob"
-        placeholder="DD/MM/YYYY"
         class="input max-w-[130px] pl-3 text-center"
         :class="wrongDateEntered && '!border-b-red-400'"
         @keyup.esc="$emit('cancel-edit')"
       />
-      <div class="mt-1 text-center text-xs text-gray-400">DD/MM/YYYY</div>
     </div>
     <div
       v-if="!isEditMode"
@@ -28,7 +26,7 @@
           })
         "
       >
-        {{ getReadableBirthday(birthday) }}
+        {{ formatDateForDisplay(birthday) }}
       </Chip>
     </div>
     <div class="text-left" v-if="!isEditMode && isYearKnown" style="flex: 1">
@@ -50,11 +48,12 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { getReadableBirthday } from '@/helpers/readableBirthday'
+import type { DateOfBirth } from '@/@types/DateOfBirth'
+import { formatDateForDisplay } from '@/helpers/dateFormatters'
 
 const props = defineProps<{
   personId: string
-  birthday: Date
+  birthday: DateOfBirth
   dob: string
   isYearKnown: boolean
   age?: { unit: 'years' | 'months'; value: number } | null

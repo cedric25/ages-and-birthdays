@@ -13,6 +13,7 @@ export default defineConfig({
     vue(),
     Components({
       dirs: ['src/components'],
+      dts: true,
     }),
     VitePWA({
       // /!\ Don't remove that or users might never get new content!
@@ -60,5 +61,6 @@ export default defineConfig({
     globals: true,
     // environment: 'happy-dom', // Doesn't seem to work because of nanoid using crypto...
     environment: 'jsdom',
+    setupFiles: ['./test/unit/setup.ts'],
   },
 })

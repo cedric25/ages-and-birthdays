@@ -1,28 +1,33 @@
-import dayjs from 'dayjs'
-import { YEAR_FOR_NO_YEAR } from '@/constants/constants'
+import { Temporal } from '@js-temporal/polyfill'
+import type { Person } from '@/@types/Person'
 
 export function computeAge(
   today: Date,
-  dateOfBirth: Date
+  dateOfBirth: Person['birthday']
 ): {
   value: number
   unit: 'years' | 'months' | null
 } | null {
-  if (dateOfBirth.getFullYear() === YEAR_FOR_NO_YEAR) {
+  if (!(dateOfBirth instanceof Temporal.PlainDate)) {
     return null
   }
-  const diffYears = dayjs(today)
-    .startOf('day')
-    .diff(dayjs(dateOfBirth).startOf('day'), 'years')
-  if (diffYears > 0) {
+
+  const todayPlainDate = today
+    .toTemporalInstant()
+    .toZonedDateTimeISO(Temporal.Now.timeZone())
+    .toPlainDate()
+  const diff = dateOfBirth.until(todayPlainDate, {
+    largestUnit: 'year',
+  })
+
+  if (diff.years === 0) {
     return {
-      value: diffYears,
-      unit: 'years',
+      value: diff.months,
+      unit: 'months',
     }
   }
-  const diffMonths = dayjs(today).diff(dateOfBirth, 'months')
   return {
-    value: diffMonths,
-    unit: 'months',
+    value: diff.years,
+    unit: 'years',
   }
 }

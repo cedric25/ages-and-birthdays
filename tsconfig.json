@@ -61,6 +61,10 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+
+    // For unplugin-vue-components?
+    // https://github.com/antfu/unplugin-vue-components#typescript
+    "includes": ["components.d.ts"]
   }
 }
