@@ -3,10 +3,10 @@ name: main-ci
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
 env:
   TZ: Europe/Paris
