@@ -29,5 +29,4 @@ On stocke en bdd (Firebase ou localStorage) des string :
  - 07-22
  - (later maybe) 1992-07
 
-On communique entre components avec ces strings.
-On parsera ces String en Temporal.PlainDate ou Temporal.PlainMonthDate au besoin.
+On viendra parser ces strings en PlainDate ou PlainMonthDay dès que possible.

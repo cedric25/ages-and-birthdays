@@ -1,19 +1,18 @@
 import { Temporal } from '@js-temporal/polyfill'
 
-export function checkEnteredDate(enteredDate: string): string | false {
-  console.log('enteredDate', enteredDate)
+export function parseEnteredDate(
+  enteredDate: string
+): Temporal.PlainDate | Temporal.PlainMonthDay | false {
   if (!enteredDate.trim()) {
     return false
   }
   try {
     // 1992-07-22
-    Temporal.PlainDate.from(enteredDate)
-    return enteredDate
+    return Temporal.PlainDate.from(enteredDate)
   } catch {}
   try {
     // 07-22
-    Temporal.PlainMonthDay.from(enteredDate)
-    return enteredDate
+    return Temporal.PlainMonthDay.from(enteredDate)
   } catch {}
   // try {
   //   // 1992-07

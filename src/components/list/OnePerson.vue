@@ -87,7 +87,7 @@ import { useAppStore } from '@/store/app/app.store.ts'
 import * as importantPersons from '@/helpers/importantPersons'
 import { isBaby } from '@/helpers/isBaby.ts'
 import { formatDateForInput } from '@/helpers/dateFormatters.ts'
-import { checkEnteredDate } from '@/helpers/checkEnteredDate.ts'
+import { parseEnteredDate } from '@/helpers/parseEnteredDate.ts'
 
 export default {
   props: {
@@ -137,7 +137,7 @@ export default {
     },
     updatePerson() {
       if (!this.newName?.trim()) return
-      const newBirthday = checkEnteredDate(this.dob)
+      const newBirthday = parseEnteredDate(this.dob)
       if (!newBirthday) {
         console.error(`Wrong date: ${this.dob}`)
         this.wrongDateEntered = true
